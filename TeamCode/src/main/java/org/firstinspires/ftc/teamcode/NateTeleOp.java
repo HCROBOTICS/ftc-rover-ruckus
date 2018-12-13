@@ -38,18 +38,6 @@ public class NateTeleOp extends OpMode {
 
     NateHardware robot = new NateHardware();
 
-    double          lf_speed     = 0;
-    double          rf_speed     = 0;
-    double          lb_speed     = 0;
-    double          rb_speed     = 0;
-    public static final double ARM_UP_POWER    =  1 ;
-    double          lf_desired   = 0;
-    double          rf_desired   = 0;
-    double          lb_desired   = 0;
-    double          rb_desired   = 0;
-
-    //final double WHEEL_MAX_SPEED = 0.5;
-
     @Override
     public void init() {
         /**
@@ -74,36 +62,22 @@ public class NateTeleOp extends OpMode {
             telemetry.addData("Drive Mode", "JOHN");
         }
 
+        robot.elevator.setModeDebug(true);
+        robot.elevator.elevate(gamepad1.right_stick_y);
+        if (gamepad1.start) robot.elevator.zero();
+
         telemetry.update();
     }
 
     @Override
-    public void start() {}
+    public void start() { robot.elevator.setModeDebug(false); }
 
     /* Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP */
     @Override
     public void loop() {
         // Instead of eight lines of ugly code, we can move the robot with one using the OmniWheels class.
         robot.omniWheels.go(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
-
-        robot.shoulder.setPower(ARM_UP_POWER * gamepad2.right_stick_y);
-        robot.elbow.setPower(ARM_UP_POWER * gamepad2.left_stick_y);
-
-        if (gamepad2.left_bumper) {
-            robot.grabber.left.setPosition(NateGrabber.LEFT_OPEN);
-        } else if (gamepad2.left_trigger > 0) {
-            robot.grabber.left.setPosition(NateGrabber.LEFT_CLOSED);
-        }
-        if (gamepad2.right_bumper) {
-            robot.grabber.right.setPosition(NateGrabber.RIGHT_OPEN);
-        } else if (gamepad2.right_trigger > 0) {
-            robot.grabber.right.setPosition(NateGrabber.RIGHT_CLOSED);
-        }
-        if (gamepad2.a) {
-            robot.grabber.middle.setPosition(NateGrabber.MIDDLE_OPEN);
-        } else if (gamepad2.y) {
-            robot.grabber.middle.setPosition(NateGrabber.MIDDLE_CLOSED);
-        }
+        robot.elevator.elevate(gamepad1.right_stick_y);
     }
 
     /* Code to run ONCE after the driver hits STOP */

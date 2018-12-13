@@ -35,6 +35,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="Sklyer TeleOp", group="Skyler")
+
+
 public class SkylerTeleOp extends OpMode {
 
     SkylerHardware robot = new SkylerHardware();
@@ -78,17 +80,32 @@ public class SkylerTeleOp extends OpMode {
             telemetry.addData("Drive Mode", "JOHN");
         }
 
+        robot.elevator.setModeDebug(true);
+        robot.elevator.elevate(-gamepad1.right_stick_y);
+        if (gamepad1.start) robot.elevator.zero();
+
         telemetry.update();
     }
     
     @Override
-    public void start() {}
+    public void start() { robot.elevator.setModeDebug(false); }
 
     /* Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP */
     @Override
     public void loop() {
-        // Instead of eight lines of ugly code, we can move the robot with one using the OmniWheels class.
         robot.omniWheels.go(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
+        robot.elevator.elevate(-gamepad1.right_stick_y);
+        telemetry.addData("Elevator Pos", robot.elevator.getElevatorPosition());
+        telemetry.addData("Desired Pos",robot.elevator.getDesiredPosition());
+        telemetry.addData("Distance",robot.elevator.getDistance());
+
+        if (gamepad1.right_bumper) { telemetry.addData("Lift", "up"); robot.lift.setPower(0.5); }
+        else if (gamepad1.left_bumper) { telemetry.addData("Lift", "down"); robot.lift.setPower(-0.5); }
+        else robot.lift.setPower(0);
+
+        if (gamepad1.left_trigger != 0) robot.picker.setPower(-0.5 * gamepad1.left_trigger);
+        else if (gamepad1.right_trigger != 0) robot.picker.setPower(0.5 * gamepad1.right_trigger);
+        else robot.picker.setPower(0);
 
         /*
         if (gamepad2.a) robot.sweeper.setPower(-0.5);

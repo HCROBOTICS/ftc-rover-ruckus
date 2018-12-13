@@ -42,14 +42,16 @@ public class SkylerHardware {
     public DcMotor rf = null; // Right Front wheel
     public DcMotor lb = null; // Left Rear wheel
     public DcMotor rb = null; // Right Rear wheel
-    public DcMotor elevator = null; // kind of implemented
+    public DcMotor motorElevator = null; // kind of implemented
     public DcMotor lift = null; // working on it
+    public DcMotor picker = null;
     public DcMotor slide = null; // unimplemented
     public DcMotor flipper = null; // working on it
     public Servo dumper = null; // working on it
     public CRServo sweeper = null; // working on it
     
     public OmniWheels omniWheels;
+    public LinearActuator elevator;
 
     public static final double MID_SERVO       =  0.5 ;
     public static final double ARM_UP_POWER    =  0.45 ;
@@ -68,15 +70,19 @@ public class SkylerHardware {
         rf = hwMap.dcMotor.get("rf");
         lb = hwMap.dcMotor.get("lb");
         rb = hwMap.dcMotor.get("rb");
-        elevator = hwMap.dcMotor.get("elevator");
+        motorElevator = hwMap.dcMotor.get("elevator");
+        lift = hwMap.dcMotor.get("lift");
+        picker = hwMap.dcMotor.get("picker");
         //flipper = hwMap.dcMotor.get("flipper");
         //sweeper = hwMap.crservo.get("sweeper");
         //dumper = hwMap.servo.get("dumper");
-        //lift = hwMap.dcMotor.get("lift");
         lf.setDirection(DcMotor.Direction.REVERSE);
         rf.setDirection(DcMotor.Direction.FORWARD);
         lb.setDirection(DcMotor.Direction.REVERSE);
         rb.setDirection(DcMotor.Direction.FORWARD);
+        lift.setDirection(DcMotor.Direction.FORWARD);
+        picker.setDirection(DcMotor.Direction.FORWARD);
+        motorElevator.setDirection(DcMotor.Direction.FORWARD);
         // These lines would make the drive motors stop abruptly whenever the driver lets go of the joystick. We're fine without them.
         //lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //rf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -87,12 +93,20 @@ public class SkylerHardware {
         rf.setPower(0);
         lb.setPower(0);
         rb.setPower(0);
+        lift.setPower(0);
+        picker.setPower(0);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        picker.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         // Set all motors to run without encoders.
         lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        // Initialize the "drivers" for our hardware.
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        picker.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         omniWheels = new OmniWheels(lf, rf, lb, rb, OmniWheels.DriveMode.STRAFE);
+        elevator = new LinearActuator(motorElevator);
+        elevator.init();
     }
 }

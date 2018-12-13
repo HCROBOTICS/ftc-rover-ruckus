@@ -15,6 +15,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  */
 
 public class OmniWheels {
+    /*
+     * The two drivemodes can be used to configure the way you control the driving of the robot. STRAFE is the default.
+     * JOHN is a custom one made for John's use, because he preferred his own controls.*/
     enum DriveMode {STRAFE, JOHN}
 
     private DcMotor lf = null;

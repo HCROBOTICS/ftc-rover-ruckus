@@ -35,13 +35,19 @@ public class SkylerElevator {
         return motor.getCurrentPosition();
     }
 
+    public double lower() {
+        return elevate(-1);
+    }
+
     private double rampSpeed(double speed) {
         boolean isSpeedNegative = false;
         if (speed < 0) { isSpeedNegative = true; speed = -speed; }
         int distance = Math.abs(desiredPosition - motor.getCurrentPosition());
-        speed *= Math.cbrt(distance / 1000); // The cube root (cbrt) function gives us a nice curve
-        if (speed > 1) speed = 1;
+        if (distance > 5000) speed = 1;
+        else if (distance > 2500) speed = 0.5;
+        else if (distance > 1000) speed = 0.25;
+        else speed = 0;
         if (isSpeedNegative) speed = -speed;
-        return speed * 0.5;
+        return speed;
     }
 }
