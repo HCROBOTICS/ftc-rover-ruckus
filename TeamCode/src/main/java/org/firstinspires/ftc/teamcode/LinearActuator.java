@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class LinearActuator {
     private DcMotor motor;
     private int desiredPosition = 0;
-    private int distance = 1001; // We initialize this to 1000 so that the autonomous will not think that it's at position before it actually is.
+    private int distance = 1001; // We initialize this to 1001 so that the autonomous will not think that it's at position before it actually is.
 
     private boolean modeDebug;
 
@@ -13,7 +13,7 @@ public class LinearActuator {
         modeDebug = mode;
     }
 
-    private int upPosition = 16500;
+    private int upPosition = 0;
     private int downPosition = 0;
 
     public int getUpPosition() {
@@ -61,6 +61,7 @@ public class LinearActuator {
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
+    /* Zeroing a LinearActuator is like zeroing a scale; the encoder will be reset and its current position will be its new home. */
     public void zero() {
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -73,6 +74,10 @@ public class LinearActuator {
             desiredPosition = downPosition;
         motor.setPower(rampSpeed(speed));
         return speed;
+    }
+
+    public void stop() {
+        motor.setPower(0);
     }
 
     private double rampSpeed(double speed) {

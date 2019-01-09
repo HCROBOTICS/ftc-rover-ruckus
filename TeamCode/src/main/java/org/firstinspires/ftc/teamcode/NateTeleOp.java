@@ -30,12 +30,10 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name="Nate TeleOp", group="Nate")
 public class NateTeleOp extends OpMode {
-
     NateHardware robot = new NateHardware();
 
     @Override
@@ -49,6 +47,7 @@ public class NateTeleOp extends OpMode {
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Ready.");
         telemetry.addData("Driver", "Please select a drive mode. Defaulting to STRAFE.");
+        robot.omniWheels.setMode(OmniWheels.DriveMode.STRAFE);
     }
 
     /* Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY */
@@ -63,7 +62,10 @@ public class NateTeleOp extends OpMode {
         }
 
         robot.elevator.setModeDebug(true);
-        robot.elevator.elevate(gamepad1.right_stick_y);
+        robot.elevator.elevate(-gamepad1.right_stick_y);
+        telemetry.addData("Elevator Pos", robot.elevator.getElevatorPosition());
+        telemetry.addData("Desired Pos", robot.elevator.getDesiredPosition());
+        telemetry.addData("Distance", robot.elevator.getDistance());
         if (gamepad1.start) robot.elevator.zero();
 
         telemetry.update();
@@ -75,14 +77,15 @@ public class NateTeleOp extends OpMode {
     /* Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP */
     @Override
     public void loop() {
-        // Instead of eight lines of ugly code, we can move the robot with one using the OmniWheels class.
-        robot.omniWheels.go(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
+        robot.omniWheels.goByDriver(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
         robot.elevator.elevate(gamepad1.right_stick_y);
+        telemetry.addData("Elevator Pos", robot.elevator.getElevatorPosition());
+        telemetry.addData("Desired Pos", robot.elevator.getDesiredPosition());
+        telemetry.addData("Distance", robot.elevator.getDistance());
+        telemetry.update();
     }
 
     /* Code to run ONCE after the driver hits STOP */
     @Override
-    public void stop() {
-        robot.stop();
-    }
+    public void stop() { robot.stop(); }
 }

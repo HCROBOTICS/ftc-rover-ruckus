@@ -73,18 +73,13 @@ public class NateHardware {
         lb = hwMap.dcMotor.get("lb");
         rb = hwMap.dcMotor.get("rb");
         motorElevator = hwMap.dcMotor.get("elevator");
-        //shoulder = hwMap.dcMotor.get("shoulder");
-        //elbow = hwMap.dcMotor.get("elbow");
-        //lServo = hwMap.servo.get("left servo");
-        //rServo = hwMap.servo.get("right servo");
-        //midServo = hwMap.servo.get("mid servo");
+
         lf.setDirection(DcMotor.Direction.REVERSE);
         rf.setDirection(DcMotor.Direction.FORWARD);
-        lb.setDirection(DcMotor.Direction.FORWARD);
-        rb.setDirection(DcMotor.Direction.REVERSE);
-        motorElevator.setDirection(DcMotor.Direction.REVERSE);
-        //shoulder.setDirection(DcMotor.Direction.FORWARD);
-        //elbow.setDirection(DcMotor.Direction.FORWARD);
+        lb.setDirection(DcMotor.Direction.REVERSE);
+        rb.setDirection(DcMotor.Direction.FORWARD);
+        motorElevator.setDirection(DcMotor.Direction.FORWARD);
+
         // Set all motors to zero power
         lf.setPower(0);
         rf.setPower(0);
@@ -92,25 +87,21 @@ public class NateHardware {
         rb.setPower(0);
         motorElevator.setPower(0);
 
-        //shoulder.setPower(0);
-        //elbow.setPower(0);
         // Set all motors to run without encoders.
         lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorElevator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //elbow.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER)
-        // Initialize the omni-wheels "driver".
-        omniWheels = new OmniWheels(lf, rf, lb, rb, OmniWheels.DriveMode.JOHN);
-        elevator = new LinearActuator(motorElevator, 17000, 0);
-        elevator.init();
-        //grabber = new NateGrabber(lServo, rServo, midServo);
-        //grabber.init();
 
+        // Initialize the omni-wheels "driver".
+        omniWheels = new OmniWheels(lf, rf, lb, rb);
+        elevator = new LinearActuator(motorElevator, -39500, 0);
+        elevator.init();
     }
 
     public void stop() {
-        //grabber.stop();
+        omniWheels.stop();
+        elevator.stop();
     }
 }

@@ -30,31 +30,11 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="Sklyer TeleOp", group="Skyler")
-
-
 public class SkylerTeleOp extends OpMode {
-
     SkylerHardware robot = new SkylerHardware();
-    
-    double          lf_speed     = 0;
-    double          rf_speed     = 0;
-    double          lb_speed     = 0;
-    double          rb_speed     = 0;
-    
-    double          lf_desired   = 0;
-    double          rf_desired   = 0;
-    double          lb_desired   = 0;
-    double          rb_desired   = 0;
-    
-    final double WHEEL_MAX_SPEED = 0.5;
-
-    boolean turnSweeper = false;
-    boolean wasAJustPressed = true;
 
     @Override
     public void init() {
@@ -67,6 +47,7 @@ public class SkylerTeleOp extends OpMode {
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Robot", "Ready.");
         telemetry.addData("Driver", "Please select a drive mode. Defaulting to STRAFE.");
+        robot.omniWheels.setMode(OmniWheels.DriveMode.STRAFE);
     }
 
     /* Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY */
@@ -82,47 +63,29 @@ public class SkylerTeleOp extends OpMode {
 
         robot.elevator.setModeDebug(true);
         robot.elevator.elevate(-gamepad1.right_stick_y);
+        telemetry.addData("Elevator Pos", robot.elevator.getElevatorPosition());
+        telemetry.addData("Desired Pos", robot.elevator.getDesiredPosition());
+        telemetry.addData("Distance", robot.elevator.getDistance());
         if (gamepad1.start) robot.elevator.zero();
 
         telemetry.update();
     }
-    
+
     @Override
     public void start() { robot.elevator.setModeDebug(false); }
 
     /* Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP */
     @Override
     public void loop() {
-        robot.omniWheels.go(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
-        robot.elevator.elevate(-gamepad1.right_stick_y);
+        robot.omniWheels.goByDriver(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
+        robot.elevator.elevate(gamepad1.right_stick_y);
         telemetry.addData("Elevator Pos", robot.elevator.getElevatorPosition());
-        telemetry.addData("Desired Pos",robot.elevator.getDesiredPosition());
-        telemetry.addData("Distance",robot.elevator.getDistance());
-
-        if (gamepad1.right_bumper) { telemetry.addData("Lift", "up"); robot.lift.setPower(0.5); }
-        else if (gamepad1.left_bumper) { telemetry.addData("Lift", "down"); robot.lift.setPower(-0.5); }
-        else robot.lift.setPower(0);
-
-        if (gamepad1.left_trigger != 0) robot.picker.setPower(-0.5 * gamepad1.left_trigger);
-        else if (gamepad1.right_trigger != 0) robot.picker.setPower(0.5 * gamepad1.right_trigger);
-        else robot.picker.setPower(0);
-
-        /*
-        if (gamepad2.a) robot.sweeper.setPower(-0.5);
-        else if (gamepad2.b) robot.sweeper.setPower(0);
-
-        if (gamepad2.left_trigger > 0) robot.flipper.setPower(0.5 * gamepad2.left_trigger);
-        else if (gamepad2.right_trigger > 0) robot.flipper.setPower(0.5 * -gamepad2.right_trigger);
-
-        if (gamepad2.left_bumper) robot.dumper.setPosition(0.9);
-        else if (gamepad2.right_bumper) robot.dumper.setPosition(0.1);
-
-        if (gamepad2.x) robot.lift.setPower(0.35);
-        else if (gamepad2.y) robot.lift.setPower(-0.35);
-        else robot.lift.setPower(0); */
+        telemetry.addData("Desired Pos", robot.elevator.getDesiredPosition());
+        telemetry.addData("Distance", robot.elevator.getDistance());
+        telemetry.update();
     }
     
     /* Code to run ONCE after the driver hits STOP */
     @Override
-    public void stop() {}
+    public void stop() { robot.stop(); }
 }
