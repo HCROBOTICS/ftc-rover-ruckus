@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.hardware.NateHardware;
+
 import static org.firstinspires.ftc.teamcode.NateAutoDepot.Task.*;
 
 @Autonomous(name="Nate Autonomous Depot", group ="Nate")

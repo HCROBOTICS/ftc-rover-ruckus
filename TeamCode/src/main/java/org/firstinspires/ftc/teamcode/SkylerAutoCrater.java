@@ -3,18 +3,21 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import static org.firstinspires.ftc.teamcode.SkylerAutoCrater.Task.*;
+import org.firstinspires.ftc.teamcode.autonomous.Auto;
+import org.firstinspires.ftc.teamcode.autonomous.Task;
+import org.firstinspires.ftc.teamcode.hardware.SkylerHardware;
+
+import static org.firstinspires.ftc.teamcode.autonomous.Task.*;
 
 @Autonomous(name="Skyler Autonomous Crater", group ="Skyler")
-public class SkylerAutoCrater extends LinearOpMode {
+public class SkylerAutoCrater extends Auto {
     SkylerHardware robot = new SkylerHardware();
-
-    enum Task {LOWER, UNLATCH, TURN_TOWARDS_MINERALS, END}
-    Task task;
 
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
+
+        Task task;
         task = LOWER;
 
         telemetry.addData("Robot", "Ready");
@@ -22,10 +25,11 @@ public class SkylerAutoCrater extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
+            telemetry.addData("Robot", task.status);
             switch (task) {
                 case LOWER: lower(); break;
-                //case UNLATCH: unlatch(); break;
-                //case TURN_TOWARDS_MINERALS: turnTowardsMinerals(); break;
+                case UNLATCH: unlatch(); break;
+                case TURN_TOWARDS_MINERALS: turnTowardsMinerals(); break;
                 default: break;
             }
 
@@ -38,13 +42,14 @@ public class SkylerAutoCrater extends LinearOpMode {
     }
 
     void lower() {
-        while (robot.elevator.getDistance() > 1000) {
+        if (robot.elevator.getDistance() > 1000) {
             robot.elevator.elevate(1);
             telemetry.addData("Robot","Lowering");
             telemetry.addData("Distance",robot.elevator.getDistance() - 1000);
+        } else {
+            robot.elevator.elevate(0);
+            task = Task.TURN_TOWARDS_MINERALS;
         }
-        robot.elevator.elevate(0);
-        task = Task.TURN_TOWARDS_MINERALS;
     }
 
     void unlatch() {
@@ -62,7 +67,7 @@ public class SkylerAutoCrater extends LinearOpMode {
         telemetry.update();
         robot.omniWheels.reset();
         //turn once unlatched
-        while (robot.lf.getCurrentPosition() < 1100) {robot.omniWheels.rotate(-0.25);}
+        while (robot.lf.getCurrentPosition() < 2200) {robot.omniWheels.rotate(-0.25);}
         robot.omniWheels.stop();
         sleep(500);
         //drive forward

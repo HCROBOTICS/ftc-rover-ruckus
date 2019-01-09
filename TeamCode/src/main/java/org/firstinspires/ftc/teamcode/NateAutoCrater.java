@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.hardware.NateHardware;
+
 import static org.firstinspires.ftc.teamcode.NateAutoCrater.Task.*;
 
 @Autonomous(name="Nate Autonomous Crater", group ="Nate")
@@ -72,7 +74,7 @@ public class NateAutoCrater extends LinearOpMode {
         sleep(500);
         //drive back
         robot.omniWheels.goByDriver(0,.5,0);
-        sleep(100);
+        sleep(200);
         robot.omniWheels.stop();
         sleep(500);
         //left turn #1

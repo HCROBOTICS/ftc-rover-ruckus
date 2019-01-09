@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -37,7 +37,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class SkylerHardware {
+import org.firstinspires.ftc.teamcode.LinearActuator;
+import org.firstinspires.ftc.teamcode.OmniWheels;
+
+public class SkylerHardware extends Hardware {
     public DcMotor lf = null; // Left Front wheel
     public DcMotor rf = null; // Right Front wheel
     public DcMotor lb = null; // Left Rear wheel
@@ -45,6 +48,7 @@ public class SkylerHardware {
     public DcMotor motorElevator = null; // kind of implemented
     public DcMotor slide = null;
     public DcMotor slideLift = null;
+    public DcMotor sweeper = null;
     
     public OmniWheels omniWheels;
     public LinearActuator elevator;
@@ -66,6 +70,7 @@ public class SkylerHardware {
         motorElevator = hwMap.dcMotor.get("elevator");
         slide = hwMap.dcMotor.get("slide");
         slideLift = hwMap.dcMotor.get("slide lift");
+        sweeper = hwMap.dcMotor.get("sweeper");
         lf.setDirection(DcMotor.Direction.REVERSE);
         rf.setDirection(DcMotor.Direction.FORWARD);
         lb.setDirection(DcMotor.Direction.REVERSE);
