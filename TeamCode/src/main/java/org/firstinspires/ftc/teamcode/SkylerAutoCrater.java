@@ -42,7 +42,7 @@ public class SkylerAutoCrater extends Auto {
     }
 
     void lower() {
-        if (robot.elevator.getDistance() > 1000) {
+        if (robot.elevator.getDistance() > 1100) {
             robot.elevator.elevate(1);
             telemetry.addData("Robot","Lowering");
             telemetry.addData("Distance",robot.elevator.getDistance() - 1000);
@@ -67,6 +67,9 @@ public class SkylerAutoCrater extends Auto {
         telemetry.update();
         robot.omniWheels.reset();
         //turn once unlatched
+
+//the number 2200 doesn't seem quite right but if it does the do then we'll let the do do the do
+
         while (robot.lf.getCurrentPosition() < 2200) {robot.omniWheels.rotate(-0.25);}
         robot.omniWheels.stop();
         sleep(500);
@@ -77,7 +80,7 @@ public class SkylerAutoCrater extends Auto {
         sleep(500);
         //drive back
         robot.omniWheels.goByDriver(0,.5,0);
-        sleep(100);
+        sleep(250);
         robot.omniWheels.stop();
         sleep(500);
         //left turn #1
