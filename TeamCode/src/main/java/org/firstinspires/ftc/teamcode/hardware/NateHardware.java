@@ -39,15 +39,16 @@ import org.firstinspires.ftc.teamcode.LinearActuator;
 import org.firstinspires.ftc.teamcode.OmniWheels;
 
 public class NateHardware {
-    public static final double MID_SERVO       =  0.4 ;
-    public static final double ARM_UP_POWER    =  1 ;
-    public static final double ARM_DOWN_POWER  = -1 ;
+    public static final double SERVO_DROP_POSITION = 0;
+    public static final double SERVO_HOLD_POSITION = 1;
+
 
     public DcMotor lf = null; // Left Front wheel
     public DcMotor rf = null; // Right Front wheel
     public DcMotor lb = null; // Left Rear wheel
     public DcMotor rb = null; // Right Rear wheel
     public OmniWheels omniWheels = null;
+    public Servo teamPiece = null;
 
     /* These are for moving the arm. */
     //public DcMotor shoulder = null; // The one on the robot that connects the arm to the body
@@ -74,13 +75,14 @@ public class NateHardware {
         lb = hwMap.dcMotor.get("lb");
         rb = hwMap.dcMotor.get("rb");
         motorElevator = hwMap.dcMotor.get("elevator");
+        teamPiece = hwMap.servo.get("teamPiece");
 
         lf.setDirection(DcMotor.Direction.REVERSE);
         rf.setDirection(DcMotor.Direction.FORWARD);
         lb.setDirection(DcMotor.Direction.REVERSE);
         rb.setDirection(DcMotor.Direction.FORWARD);
         motorElevator.setDirection(DcMotor.Direction.FORWARD);
-
+        teamPiece.setPosition(0 );
         // Set all motors to zero power
         lf.setPower(0);
         rf.setPower(0);

@@ -34,9 +34,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.hardware.NateHardware;
 
+
 @TeleOp(name="Nate TeleOp", group="Nate")
 public class NateTeleOp extends OpMode {
     NateHardware robot = new NateHardware();
+
+    public static final double SERVO_DROP_POSITION = 0;
+    public static final double SERVO_HOLD_POSITION = 1;
 
     @Override
     public void init() {
@@ -61,6 +65,12 @@ public class NateTeleOp extends OpMode {
         } else if (gamepad1.b) {
             robot.omniWheels.mode = OmniWheels.DriveMode.JOHN;
             telemetry.addData("Drive Mode", "JOHN");
+        }
+
+        if (gamepad1.x) {
+            robot.teamPiece.setPosition(SERVO_DROP_POSITION);
+        } else if (gamepad1.y) {
+            robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
         }
 
         robot.elevator.setModeDebug(true);
