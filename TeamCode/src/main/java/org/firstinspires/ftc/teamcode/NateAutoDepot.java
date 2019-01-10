@@ -72,7 +72,8 @@ public class NateAutoDepot extends LinearOpMode {
         robot.omniWheels.goByDriver(0,-0.5,0);
         sleep(1100);
         robot.omniWheels.stop();
-        sleep(500);
+        sleep(500 );
+        //drop team piece
         robot.teamPiece.setPosition(SERVO_DROP_POSITION);
         sleep(500);
         //turn so back faces

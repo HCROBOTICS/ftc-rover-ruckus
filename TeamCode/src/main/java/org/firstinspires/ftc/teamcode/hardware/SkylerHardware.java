@@ -49,7 +49,8 @@ public class SkylerHardware extends Hardware {
     public DcMotor slide = null;
     public DcMotor slideLift = null;
     public DcMotor sweeper = null;
-    
+    public Servo teamPiece = null;
+
     public OmniWheels omniWheels;
     public LinearActuator elevator;
 
@@ -71,11 +72,13 @@ public class SkylerHardware extends Hardware {
         slide = hwMap.dcMotor.get("slide");
         slideLift = hwMap.dcMotor.get("slide lift");
         sweeper = hwMap.dcMotor.get("sweeper");
+        teamPiece = hwMap.servo.get("teamPiece");
         lf.setDirection(DcMotor.Direction.REVERSE);
         rf.setDirection(DcMotor.Direction.FORWARD);
         lb.setDirection(DcMotor.Direction.REVERSE);
         rb.setDirection(DcMotor.Direction.FORWARD);
         motorElevator.setDirection(DcMotor.Direction.REVERSE);
+        teamPiece.setPosition(0);
 
         // These lines would make the drive motors stop abruptly whenever the driver lets go of the joystick. We're fine without them.
         //lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

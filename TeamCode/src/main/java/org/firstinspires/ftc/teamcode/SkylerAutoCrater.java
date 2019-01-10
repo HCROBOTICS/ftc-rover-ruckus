@@ -12,7 +12,8 @@ import static org.firstinspires.ftc.teamcode.autonomous.Task.*;
 @Autonomous(name="Skyler Autonomous Crater", group ="Skyler")
 public class SkylerAutoCrater extends Auto {
     SkylerHardware robot = new SkylerHardware();
-
+    public static final double SERVO_DROP_POSITION = 0;
+    public static final double SERVO_HOLD_POSITION = 1;
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
@@ -103,7 +104,9 @@ public class SkylerAutoCrater extends Auto {
         sleep(1000);
         robot.omniWheels.stop();
         sleep (500);
-// Drop Team Piece Code Goes Here
+        //drop team piece
+        robot.teamPiece.setPosition(SERVO_DROP_POSITION);
+        sleep(500);
         //drive backwards to crater
         robot.omniWheels.goByDriver(0,0.5,0);
         sleep (1700);
