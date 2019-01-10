@@ -67,11 +67,7 @@ public class NateTeleOp extends OpMode {
             telemetry.addData("Drive Mode", "JOHN");
         }
 
-        if (gamepad1.x) {
-            robot.teamPiece.setPosition(SERVO_DROP_POSITION);
-        } else if (gamepad1.y) {
-            robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
-        }
+        
 
         robot.elevator.setModeDebug(true);
         robot.elevator.elevate(-gamepad1.right_stick_y);
