@@ -13,7 +13,8 @@ public class NateAutoDepot extends LinearOpMode {
 
     enum Task {LOWER, UNLATCH, TURN_TOWARDS_MINERALS, END}
     Task task;
-
+    public static final double SERVO_DROP_POSITION = 0;
+    public static final double SERVO_HOLD_POSITION = 1;
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
@@ -71,7 +72,8 @@ public class NateAutoDepot extends LinearOpMode {
         robot.omniWheels.goByDriver(0,-0.5,0);
         sleep(1100);
         robot.omniWheels.stop();
-        //drop team piece code goes here
+        sleep(500);
+        robot.teamPiece.setPosition(SERVO_DROP_POSITION);
         sleep(500);
         //turn so back faces
         robot.omniWheels.goByDriver(0,0,0.5);

@@ -67,7 +67,7 @@ public class NateTeleOp extends OpMode {
             telemetry.addData("Drive Mode", "JOHN");
         }
 
-        
+
 
         robot.elevator.setModeDebug(true);
         robot.elevator.elevate(-gamepad1.right_stick_y);
