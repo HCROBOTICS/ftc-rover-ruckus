@@ -51,7 +51,7 @@ public class SkylerAutoCrater extends Auto {
             task = Task.TURN_TOWARDS_MINERALS;
         }
     }
-
+    // sleep(milliseconds: 500) is approximately equal to a 90 degree turn
     void unlatch() {
         telemetry.addData("Robot", "Unlatching");
         telemetry.update();
@@ -103,7 +103,7 @@ public class SkylerAutoCrater extends Auto {
         sleep(1000);
         robot.omniWheels.stop();
         sleep (500);
-        //Drop Team Piece Code Goes Here
+// Drop Team Piece Code Goes Here
         //drive backwards to crater
         robot.omniWheels.goByDriver(0,0.5,0);
         sleep (1700);
