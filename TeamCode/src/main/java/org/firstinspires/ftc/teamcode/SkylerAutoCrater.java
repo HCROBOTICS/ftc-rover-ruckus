@@ -12,8 +12,10 @@ import static org.firstinspires.ftc.teamcode.autonomous.Task.*;
 @Autonomous(name="Skyler Autonomous Crater", group ="Skyler")
 public class SkylerAutoCrater extends Auto {
     SkylerHardware robot = new SkylerHardware();
+
     public static final double SERVO_DROP_POSITION = 0;
     public static final double SERVO_HOLD_POSITION = 1;
+
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);

@@ -11,10 +11,12 @@ import static org.firstinspires.ftc.teamcode.NateAutoDepot.Task.*;
 public class NateAutoDepot extends LinearOpMode {
     NateHardware robot = new NateHardware();
 
-    enum Task {LOWER, UNLATCH, TURN_TOWARDS_MINERALS, END}
-    Task task;
     public static final double SERVO_DROP_POSITION = 0;
     public static final double SERVO_HOLD_POSITION = 1;
+
+    enum Task {LOWER, UNLATCH, TURN_TOWARDS_MINERALS, END}
+    Task task;
+
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
