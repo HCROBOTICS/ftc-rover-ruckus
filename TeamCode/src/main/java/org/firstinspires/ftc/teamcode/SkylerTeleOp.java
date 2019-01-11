@@ -34,7 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.hardware.SkylerHardware;
 
-@TeleOp(name="Sklyer TeleOp", group="Skyler")
+@TeleOp(name="Skyler TeleOp", group="Skyler")
 public class SkylerTeleOp extends OpMode {
     SkylerHardware robot = new SkylerHardware();
 
