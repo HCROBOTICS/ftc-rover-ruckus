@@ -15,6 +15,7 @@ public class SkylerAutoCrater extends Auto {
 
     public static final double SERVO_DROP_POSITION = 0;
     public static final double SERVO_HOLD_POSITION = 1;
+    public static final int SLEEP_BETWEEN_TASKS = 500;
 
     @Override
     public void runOpMode() {
@@ -61,7 +62,7 @@ public class SkylerAutoCrater extends Auto {
         robot.omniWheels.goByDriver(0, -0.5, 0);
         sleep(125);
         robot.omniWheels.stop();
-        sleep(500);
+        sleep(SLEEP_BETWEEN_TASKS);
         task = TURN_TOWARDS_MINERALS;
     }
 
@@ -75,32 +76,32 @@ public class SkylerAutoCrater extends Auto {
 
         while (robot.lf.getCurrentPosition() < 2200) {robot.omniWheels.rotate(-0.25);}
         robot.omniWheels.stop();
-        sleep(500);
+        sleep(SLEEP_BETWEEN_TASKS);
         //drive forward
         robot.omniWheels.goByDriver(0,-0.5,0);
         sleep(500);
         robot.omniWheels.stop();
-        sleep(500);
+        sleep(SLEEP_BETWEEN_TASKS);
         //drive back
         robot.omniWheels.goByDriver(0,.5,0);
         sleep(250);
         robot.omniWheels.stop();
-        sleep(500);
+        sleep(SLEEP_BETWEEN_TASKS);
         //left turn #1
         robot.omniWheels.goByDriver(0,0,-0.5);
         sleep(500);
         robot.omniWheels.stop();
-        sleep(500);
+        sleep(SLEEP_BETWEEN_TASKS);
         //drive forward a bit
         robot.omniWheels.goByDriver(0,-0.5,0);
         sleep(700);
         robot.omniWheels.stop();
-        sleep(500);
+        sleep(SLEEP_BETWEEN_TASKS);
         //left turn #2
         robot.omniWheels.goByDriver(0,0,-0.5);
         sleep(150);
         robot.omniWheels.stop();
-        sleep(500);
+        sleep(SLEEP_BETWEEN_TASKS);
         //drive forward to depot
         robot.omniWheels.goByDriver(0,-0.5,0);
         sleep(1000);
