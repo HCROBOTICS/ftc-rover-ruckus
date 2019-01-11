@@ -99,10 +99,10 @@ public class NateAutoCrater extends LinearOpMode {
         robot.omniWheels.goByDriver(0,-0.5,0);
         sleep(1000);
         robot.omniWheels.stop();
-        sleep (500);
         //drop team piece
         robot.teamPiece.setPosition(SERVO_DROP_POSITION);
-        sleep(500);
+        sleep(1000);
+        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
         //drive backwards to crater
         robot.omniWheels.goByDriver(0,0.5,0);
         sleep (1700);

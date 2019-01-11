@@ -72,10 +72,10 @@ public class NateAutoDepot extends LinearOpMode {
         robot.omniWheels.goByDriver(0,-0.5,0);
         sleep(1100);
         robot.omniWheels.stop();
-        sleep(500 );
         //drop team piece
         robot.teamPiece.setPosition(SERVO_DROP_POSITION);
-        sleep(500);
+        sleep(1000);
+        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
         //turn so back faces
         robot.omniWheels.goByDriver(0,0,0.5);
         sleep(300);
@@ -86,16 +86,6 @@ public class NateAutoDepot extends LinearOpMode {
         sleep(2100);
         robot.omniWheels.stop();
 
-        /*
-        robot.omniWheels.goByDriver(0,.5,0);
-        //the number below should be equal to the number in the sleep function 5 lines above it
-        sleep(1100);
-        robot.omniWheels.stop();
-        sleep(500);
-        robot.omniWheels.goByDriver(0,0,-.5);
-        sleep(350);
-        robot.omniWheels.stop();
-        */
         task = END;
     }
 }

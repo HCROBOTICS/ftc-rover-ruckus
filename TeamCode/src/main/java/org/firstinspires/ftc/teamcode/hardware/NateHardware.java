@@ -39,8 +39,7 @@ import org.firstinspires.ftc.teamcode.LinearActuator;
 import org.firstinspires.ftc.teamcode.OmniWheels;
 
 public class NateHardware {
-    public static final double SERVO_DROP_POSITION = 0;
-    public static final double SERVO_HOLD_POSITION = 1;
+
 
 
     public DcMotor lf = null; // Left Front wheel
@@ -82,7 +81,7 @@ public class NateHardware {
         lb.setDirection(DcMotor.Direction.REVERSE);
         rb.setDirection(DcMotor.Direction.FORWARD);
         motorElevator.setDirection(DcMotor.Direction.FORWARD);
-        teamPiece.setPosition(0 );
+        teamPiece.setPosition(0);
         // Set all motors to zero power
         lf.setPower(0);
         rf.setPower(0);
