@@ -40,7 +40,7 @@ import org.firstinspires.ftc.teamcode.OmniWheels;
 
 public class NateHardware {
 
-
+    public static final double SERVO_HOLD_POSITION = 1;
 
     public DcMotor lf = null; // Left Front wheel
     public DcMotor rf = null; // Right Front wheel
@@ -48,14 +48,6 @@ public class NateHardware {
     public DcMotor rb = null; // Right Rear wheel
     public OmniWheels omniWheels = null;
     public Servo teamPiece = null;
-
-    /* These are for moving the arm. */
-    //public DcMotor shoulder = null; // The one on the robot that connects the arm to the body
-    //public DcMotor elbow = null; // The one in the middle of the arm
-    //public NateGrabber grabber = null;
-    //public Servo lServo = null;
-    //public Servo rServo = null;
-    //public Servo midServo = null;
 
     public DcMotor motorElevator = null;
     public LinearActuator elevator = null;
@@ -81,7 +73,15 @@ public class NateHardware {
         lb.setDirection(DcMotor.Direction.REVERSE);
         rb.setDirection(DcMotor.Direction.FORWARD);
         motorElevator.setDirection(DcMotor.Direction.FORWARD);
-        teamPiece.setPosition(0);
+        teamPiece.setPosition(SERVO_HOLD_POSITION);
+
+        // make the motors stop abruptly when joystick is released
+        //lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //rf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //lb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
         // Set all motors to zero power
         lf.setPower(0);
         rf.setPower(0);

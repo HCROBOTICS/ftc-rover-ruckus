@@ -41,6 +41,9 @@ import org.firstinspires.ftc.teamcode.LinearActuator;
 import org.firstinspires.ftc.teamcode.OmniWheels;
 
 public class SkylerHardware extends Hardware {
+
+    public static final double SERVO_HOLD_POSITION = 1;
+
     public DcMotor lf = null; // Left Front wheel
     public DcMotor rf = null; // Right Front wheel
     public DcMotor lb = null; // Left Rear wheel
@@ -73,14 +76,15 @@ public class SkylerHardware extends Hardware {
         slideLift = hwMap.dcMotor.get("slide lift");
         sweeper = hwMap.dcMotor.get("sweeper");
         teamPiece = hwMap.servo.get("teamPiece");
+
         lf.setDirection(DcMotor.Direction.REVERSE);
         rf.setDirection(DcMotor.Direction.FORWARD);
         lb.setDirection(DcMotor.Direction.REVERSE);
         rb.setDirection(DcMotor.Direction.FORWARD);
         motorElevator.setDirection(DcMotor.Direction.REVERSE);
-        teamPiece.setPosition(0);
+        teamPiece.setPosition(SERVO_HOLD_POSITION);
 
-        // These lines would make the drive motors stop abruptly whenever the driver lets go of the joystick. We're fine without them.
+        // Make the motors stop abruptly when joystick is released
         //lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //rf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //lb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -94,8 +98,9 @@ public class SkylerHardware extends Hardware {
         motorElevator.setPower(0);
         slide.setPower(0);
         slideLift.setPower(0);
+        sweeper.setPower(0);
 
-        // Set all motors to run without encoders.
+        // Set all motors to run with/without encoders.
         lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -112,5 +117,6 @@ public class SkylerHardware extends Hardware {
         elevator.stop();
         slide.setPower(0);
         slideLift.setPower(0);
+        sweeper.setPower(0);
     }
 }

@@ -74,20 +74,41 @@ public class SkylerTeleOp extends OpMode {
     }
 
     @Override
-    public void start() { robot.elevator.setModeDebug(false); }
+    public void start() {
+        robot.elevator.setModeDebug(false);
+    }
 
     /* Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP */
     @Override
     public void loop() {
         robot.omniWheels.goByDriver(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
+
         robot.elevator.elevate(gamepad1.right_stick_y);
+
         telemetry.addData("Elevator Pos", robot.elevator.getElevatorPosition());
         telemetry.addData("Desired Pos", robot.elevator.getDesiredPosition());
         telemetry.addData("Distance", robot.elevator.getDistance());
         telemetry.update();
+
+        robot.slide.setPower(gamepad1.right_trigger - gamepad1.left_trigger);
+
+        if (gamepad1.right_bumper) {
+            robot.slideLift.setPower(1);
+        } else if (gamepad1.left_bumper) {
+            robot.slideLift.setPower(-1);
+        }
+
+        if (gamepad1.a) {
+            robot.sweeper.setPower(1);
+        } else if (gamepad1.y) {
+            robot.sweeper.setPower(-1);
+        }
     }
-    
+
     /* Code to run ONCE after the driver hits STOP */
     @Override
-    public void stop() { robot.stop(); }
+    public void stop() {
+        robot.stop();
+    }
+
 }

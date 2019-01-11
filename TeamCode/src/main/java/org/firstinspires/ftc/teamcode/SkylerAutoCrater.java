@@ -67,13 +67,11 @@ public class SkylerAutoCrater extends Auto {
     }
 
     void turnTowardsMinerals() {
+
         telemetry.addData("Robot", "Doing the rest");
         telemetry.update();
         robot.omniWheels.reset();
         //turn once unlatched
-
-//the number 2200 doesn't seem quite right but if it does the do then we'll let the do do the do
-
         while (robot.lf.getCurrentPosition() < 2200) {robot.omniWheels.rotate(-0.25);}
         robot.omniWheels.stop();
         sleep(SLEEP_BETWEEN_TASKS);
