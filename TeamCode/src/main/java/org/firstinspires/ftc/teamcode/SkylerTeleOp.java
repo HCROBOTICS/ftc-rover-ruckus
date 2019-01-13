@@ -96,12 +96,16 @@ public class SkylerTeleOp extends OpMode {
             robot.slideLift.setPower(1);
         } else if (gamepad1.left_bumper) {
             robot.slideLift.setPower(-1);
+        } else {
+            robot.slide.setPower(0);
         }
 
         if (gamepad1.a) {
             robot.sweeper.setPower(1);
         } else if (gamepad1.y) {
             robot.sweeper.setPower(-1);
+        } else {
+           robot.sweeper.setPower(0);
         }
     }
 
@@ -110,5 +114,4 @@ public class SkylerTeleOp extends OpMode {
     public void stop() {
         robot.stop();
     }
-
 }
