@@ -39,12 +39,9 @@ import org.firstinspires.ftc.teamcode.hardware.NateHardware;
 public class NateTeleOp extends OpMode {
     NateHardware robot = new NateHardware();
 
-    public static final double SERVO_DROP_POSITION = 0;
-    public static final double SERVO_HOLD_POSITION = 1;
-
     @Override
     public void init() {
-        /**
+        /*
          * Initialize the hardware variables.
          * The init() method of the hardware class does all the work here.
          */
