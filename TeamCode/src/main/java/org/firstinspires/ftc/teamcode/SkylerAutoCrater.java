@@ -13,12 +13,11 @@ import static org.firstinspires.ftc.teamcode.autonomous.Task.*;
 public class SkylerAutoCrater extends Auto {
     SkylerHardware robot = new SkylerHardware();
 
+    Task task = LOWER;
+
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
-
-        Task task;
-        task = LOWER;
 
         telemetry.addData("Robot", "Ready");
         telemetry.update();
@@ -32,7 +31,6 @@ public class SkylerAutoCrater extends Auto {
                 case TURN_TOWARDS_MINERALS: turnTowardsMinerals(); break;
                 default: break;
             }
-
             telemetry.update();
         }
 
@@ -44,62 +42,75 @@ public class SkylerAutoCrater extends Auto {
     void lower() {
         if (robot.elevator.getDistance() > 1000) {
             robot.elevator.elevate(1);
-            telemetry.addData("Robot","Lowering");
             telemetry.addData("Distance",robot.elevator.getDistance() - 1000);
         } else {
             robot.elevator.elevate(0);
-            task = Task.TURN_TOWARDS_MINERALS;
+            task = Task.UNLATCH;
         }
     }
 
     void unlatch() {
-        telemetry.addData("Robot", "Unlatching");
         telemetry.update();
+        waitForAPress();
         robot.omniWheels.goByDriver(0, -0.5, 0);
         sleep(125);
+        waitForAPress();
         robot.omniWheels.stop();
-        sleep(500);
+         sleep(500);
+        waitForAPress();
         task = TURN_TOWARDS_MINERALS;
+    }
+
+    void waitForAPress() {
+        while (!gamepad1.a);
     }
 
     void turnTowardsMinerals() {
         telemetry.addData("Robot", "Doing the rest");
         telemetry.update();
         robot.omniWheels.reset();
+        waitForAPress();
         //turn once unlatched
         while (robot.lf.getCurrentPosition() < 2200) {robot.omniWheels.rotate(-0.25);}
         robot.omniWheels.stop();
         sleep(500);
+        waitForAPress();
         //drive forward
         robot.omniWheels.goByDriver(0,-0.5,0);
         sleep(500);
         robot.omniWheels.stop();
         sleep(500);
+        waitForAPress();
         //drive back
         robot.omniWheels.goByDriver(0,.5,0);
         sleep(100);
         robot.omniWheels.stop();
         sleep(500);
+        waitForAPress();
         //left turn #1
         robot.omniWheels.goByDriver(0,0,-0.5);
         sleep(500);
         robot.omniWheels.stop();
         sleep(500);
+        waitForAPress();
         //drive forward a bit
         robot.omniWheels.goByDriver(0,-0.5,0);
         sleep(700);
         robot.omniWheels.stop();
         sleep(500);
+        waitForAPress();
         //left turn #2
         robot.omniWheels.goByDriver(0,0,-0.5);
         sleep(150);
         robot.omniWheels.stop();
         sleep(500);
+        waitForAPress();
         //drive forward to depot
         robot.omniWheels.goByDriver(0,-0.5,0);
         sleep(1000);
         robot.omniWheels.stop();
         sleep (500);
+        waitForAPress();
         //Drop Team Piece Code Goes Here
         //drive backwards to crater
         robot.omniWheels.goByDriver(0,0.5,0);

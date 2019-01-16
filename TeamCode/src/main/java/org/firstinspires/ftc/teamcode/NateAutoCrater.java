@@ -74,12 +74,12 @@ public class NateAutoCrater extends LinearOpMode {
         sleep(500);
         //drive back
         robot.omniWheels.goByDriver(0,.5,0);
-        sleep(200);
+        sleep(300);
         robot.omniWheels.stop();
         sleep(500);
         //left turn #1
         robot.omniWheels.goByDriver(0,0,-0.5);
-        sleep(500);
+        sleep(450);
         robot.omniWheels.stop();
         sleep(500);
         //drive forward a bit

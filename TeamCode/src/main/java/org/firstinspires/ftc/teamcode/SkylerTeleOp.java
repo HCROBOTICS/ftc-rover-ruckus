@@ -38,6 +38,19 @@ import org.firstinspires.ftc.teamcode.hardware.SkylerHardware;
 public class SkylerTeleOp extends OpMode {
     SkylerHardware robot = new SkylerHardware();
 
+    private boolean isSweeperRunning;
+    private boolean isAPressed;
+
+    private void toggleSweeper() {
+        if (isSweeperRunning) {
+            robot.sweeper.setPower(0);
+            isSweeperRunning = false;
+        } else {
+            robot.sweeper.setPower(0.5);
+            isSweeperRunning = true;
+        }
+    }
+
     @Override
     public void init() {
         /**
@@ -81,6 +94,13 @@ public class SkylerTeleOp extends OpMode {
     public void loop() {
         robot.omniWheels.goByDriver(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
         robot.elevator.elevate(gamepad1.right_stick_y);
+        if (gamepad1.a) {
+            if (!isAPressed) {
+                isAPressed = true;
+                toggleSweeper();
+            }
+        } else isAPressed = false;
+        if (gamepad1.right_trigger > 0);
         telemetry.addData("Elevator Pos", robot.elevator.getElevatorPosition());
         telemetry.addData("Desired Pos", robot.elevator.getDesiredPosition());
         telemetry.addData("Distance", robot.elevator.getDistance());
