@@ -75,7 +75,7 @@ public class SkylerHardware extends Hardware {
         slide = hwMap.dcMotor.get("slide");
         slideLift = hwMap.dcMotor.get("slide lift");
         sweeper = hwMap.dcMotor.get("sweeper");
-        teamPiece = hwMap.servo.get("teamPiece");
+        teamPiece = hwMap.servo.get("team piece");
 
         lf.setDirection(DcMotor.Direction.REVERSE);
         rf.setDirection(DcMotor.Direction.FORWARD);

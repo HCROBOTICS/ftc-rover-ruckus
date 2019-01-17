@@ -40,13 +40,14 @@ public class SkylerTeleOp extends OpMode {
 
     private boolean isSweeperRunning;
     private boolean isAPressed;
+    private boolean isBPressed;
 
-    private void toggleSweeper() {
+    private void toggleSweeper(double power) {
         if (isSweeperRunning) {
             robot.sweeper.setPower(0);
             isSweeperRunning = false;
         } else {
-            robot.sweeper.setPower(0.5);
+            robot.sweeper.setPower(power);
             isSweeperRunning = true;
         }
     }
@@ -97,10 +98,23 @@ public class SkylerTeleOp extends OpMode {
         if (gamepad1.a) {
             if (!isAPressed) {
                 isAPressed = true;
-                toggleSweeper();
+                toggleSweeper(0.5);
             }
-        } else isAPressed = false;
-        if (gamepad1.right_trigger > 0);
+        } else if (gamepad1.b) {
+            if (!isBPressed) {
+                isBPressed = true;
+                toggleSweeper(-0.5);
+            }
+        } else {
+            isAPressed = false;
+            isBPressed = false;
+        }
+        if (gamepad1.right_trigger > 0) robot.slideLift.setPower(gamepad1.right_trigger);
+        else if (gamepad1.left_trigger > 0) robot.slideLift.setPower(-gamepad1.left_trigger);
+        else robot.slideLift.setPower(0);
+        if (gamepad1.right_bumper) robot.slide.setPower(1);
+        else if (gamepad1.left_bumper) robot.slide.setPower(-1);
+        else robot.slide.setPower(0);
         telemetry.addData("Elevator Pos", robot.elevator.getElevatorPosition());
         telemetry.addData("Desired Pos", robot.elevator.getDesiredPosition());
         telemetry.addData("Distance", robot.elevator.getDistance());

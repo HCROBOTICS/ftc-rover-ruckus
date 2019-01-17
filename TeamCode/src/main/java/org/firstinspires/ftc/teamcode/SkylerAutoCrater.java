@@ -54,7 +54,6 @@ public class SkylerAutoCrater extends Auto {
         waitForAPress();
         robot.omniWheels.goByDriver(0, -0.5, 0);
         sleep(125);
-        waitForAPress();
         robot.omniWheels.stop();
          sleep(500);
         waitForAPress();
