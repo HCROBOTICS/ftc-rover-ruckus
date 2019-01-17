@@ -34,13 +34,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.hardware.NateHardware;
 
+
 @TeleOp(name="Nate TeleOp", group="Nate")
 public class NateTeleOp extends OpMode {
     NateHardware robot = new NateHardware();
 
     @Override
     public void init() {
-        /**
+        /*
          * Initialize the hardware variables.
          * The init() method of the hardware class does all the work here.
          */
@@ -62,6 +63,8 @@ public class NateTeleOp extends OpMode {
             robot.omniWheels.mode = OmniWheels.DriveMode.JOHN;
             telemetry.addData("Drive Mode", "JOHN");
         }
+
+
 
         robot.elevator.setModeDebug(true);
         robot.elevator.elevate(-gamepad1.right_stick_y);

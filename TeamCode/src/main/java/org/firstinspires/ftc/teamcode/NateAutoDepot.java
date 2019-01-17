@@ -11,6 +11,10 @@ import static org.firstinspires.ftc.teamcode.NateAutoDepot.Task.*;
 public class NateAutoDepot extends LinearOpMode {
     NateHardware robot = new NateHardware();
 
+    public static final double SERVO_DROP_POSITION = 0;
+    public static final double SERVO_HOLD_POSITION = 1;
+    public static final int SLEEP_BETWEEN_TASKS = 500;
+
     enum Task {LOWER, UNLATCH, TURN_TOWARDS_MINERALS, END}
     Task task;
 
@@ -55,7 +59,7 @@ public class NateAutoDepot extends LinearOpMode {
         robot.omniWheels.goByDriver(0, -0.5, 0);
         sleep(125);
         robot.omniWheels.stop();
-        sleep(500);
+        sleep(SLEEP_BETWEEN_TASKS);
         task = TURN_TOWARDS_MINERALS;
     }
 
@@ -66,33 +70,25 @@ public class NateAutoDepot extends LinearOpMode {
         //turn once unlatched
         while (robot.lf.getCurrentPosition() < 1100) {robot.omniWheels.rotate(-0.25);}
         robot.omniWheels.stop();
-        sleep(500);
+        sleep(SLEEP_BETWEEN_TASKS);
         //drive forward
         robot.omniWheels.goByDriver(0,-0.5,0);
         sleep(1100);
         robot.omniWheels.stop();
-        //drop team piece code goes here
-        sleep(500);
+        //drop team piece
+        robot.teamPiece.setPosition(SERVO_DROP_POSITION);
+        sleep(1000);
+        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
         //turn so back faces
         robot.omniWheels.goByDriver(0,0,0.5);
         sleep(300);
         robot.omniWheels.stop();
-        sleep(500);
+        sleep(SLEEP_BETWEEN_TASKS);
         //drive backward
         robot.omniWheels.goByDriver(0,0.5,0);
         sleep(2100);
         robot.omniWheels.stop();
 
-        /*
-        robot.omniWheels.goByDriver(0,.5,0);
-        //the number below should be equal to the number in the sleep function 5 lines above it
-        sleep(1100);
-        robot.omniWheels.stop();
-        sleep(500);
-        robot.omniWheels.goByDriver(0,0,-.5);
-        sleep(350);
-        robot.omniWheels.stop();
-        */
         task = END;
     }
 }
