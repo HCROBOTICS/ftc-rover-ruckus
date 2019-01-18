@@ -109,12 +109,22 @@ public class SkylerTeleOp extends OpMode {
             isAPressed = false;
             isBPressed = false;
         }
-        if (gamepad1.right_trigger > 0) robot.slideLift.setPower(gamepad1.right_trigger);
-        else if (gamepad1.left_trigger > 0) robot.slideLift.setPower(-gamepad1.left_trigger);
-        else robot.slideLift.setPower(0);
-        if (gamepad1.right_bumper) robot.slide.setPower(1);
-        else if (gamepad1.left_bumper) robot.slide.setPower(-1);
-        else robot.slide.setPower(0);
+
+
+        if (gamepad1.right_trigger > 0)
+            robot.slideLift.setPower(gamepad1.right_trigger);
+        else if (gamepad1.left_trigger > 0)
+            robot.slideLift.setPower(-gamepad1.left_trigger);
+        else
+            robot.slideLift.setPower(0);
+
+        if (gamepad1.right_bumper)
+            robot.slide.setPower(1);
+        else if (gamepad1.left_bumper)
+            robot.slide.setPower(-1);
+        else
+            robot.slide.setPower(0);
+
         telemetry.addData("Elevator Pos", robot.elevator.getElevatorPosition());
         telemetry.addData("Desired Pos", robot.elevator.getDesiredPosition());
         telemetry.addData("Distance", robot.elevator.getDistance());
