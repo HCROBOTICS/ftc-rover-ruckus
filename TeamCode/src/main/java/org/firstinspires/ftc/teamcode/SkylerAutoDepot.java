@@ -13,6 +13,7 @@ public class SkylerAutoDepot extends LinearOpMode {
 
     public static final double SERVO_DROP_POSITION = 1;
     public static final double SERVO_HOLD_POSITION = 0;
+//probs can increase int SLEEP_BETWEEN_TASKS: more time to stop and wait between each action means more precise maneuvers.
     public static final int SLEEP_BETWEEN_TASKS = 500;
 
     enum Task {LOWER, UNLATCH, TURN_TOWARDS_MINERALS, END}

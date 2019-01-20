@@ -67,6 +67,19 @@ public class NateTeleOp extends OpMode {
             telemetry.addData("Drive Mode", "JOHN");
         }
 
+        /*
+        may switch to this for elevator
+
+        if (gamepad1.right_trigger > 0) {
+               robot.elevator.elevate(gamepad1.right_trigger);
+        } else if (gamepad1.left_trigger) {
+                robot.elevator.elevate(-gamepad1.left_trigger);
+        } else {
+                scream at john cause its late and he's half asleep
+        }
+
+        or something like this that actually makes the triggers control the elevator
+         */
 
 
         robot.elevator.setModeDebug(true);
@@ -85,8 +98,10 @@ public class NateTeleOp extends OpMode {
     /* Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP */
     @Override
     public void loop() {
+
         robot.omniWheels.goByDriver(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
         robot.elevator.elevate(gamepad1.right_stick_y);
+
         telemetry.addData("Elevator Pos", robot.elevator.getElevatorPosition());
         telemetry.addData("Desired Pos", robot.elevator.getDesiredPosition());
         telemetry.addData("Distance", robot.elevator.getDistance());
@@ -94,7 +109,7 @@ public class NateTeleOp extends OpMode {
 
         if (gamepad1.y) {
             robot.teamPiece.setPosition(SERVO_DROP_POSITION);
-        } else if (gamepad1.a) {
+        } else {
             robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
         }
     }

@@ -57,7 +57,7 @@ public class SkylerTeleOp extends OpMode {
 
     @Override
     public void init() {
-        /**
+        /*
          * Initialize the hardware variables.
          * The init() method of the hardware class does all the work here.
          */
@@ -138,7 +138,7 @@ public class SkylerTeleOp extends OpMode {
 
         if (gamepad1.y) {
             robot.teamPiece.setPosition(SERVO_DROP_POSITION);
-        } else if (gamepad1.x) {
+        } else {
             robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
         }
 
