@@ -39,6 +39,9 @@ import org.firstinspires.ftc.teamcode.hardware.NateHardware;
 public class NateTeleOp extends OpMode {
     NateHardware robot = new NateHardware();
 
+    public static final double SERVO_DROP_POSITION = .7;
+    public static final double SERVO_HOLD_POSITION = 0;
+
     @Override
     public void init() {
         /*
@@ -46,7 +49,7 @@ public class NateTeleOp extends OpMode {
          * The init() method of the hardware class does all the work here.
          */
         robot.init(hardwareMap);
-
+        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Ready.");
         telemetry.addData("Driver", "Please select a drive mode. Defaulting to STRAFE.");
@@ -88,6 +91,12 @@ public class NateTeleOp extends OpMode {
         telemetry.addData("Desired Pos", robot.elevator.getDesiredPosition());
         telemetry.addData("Distance", robot.elevator.getDistance());
         telemetry.update();
+
+        if (gamepad1.y) {
+            robot.teamPiece.setPosition(SERVO_DROP_POSITION);
+        } else if (gamepad1.a) {
+            robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
+        }
     }
 
     /* Code to run ONCE after the driver hits STOP */

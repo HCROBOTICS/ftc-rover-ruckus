@@ -11,8 +11,8 @@ import static org.firstinspires.ftc.teamcode.SkylerAutoDepot.Task.*;
 public class SkylerAutoDepot extends LinearOpMode {
     SkylerHardware robot = new SkylerHardware();
 
-    public static final double SERVO_DROP_POSITION = 0;
-    public static final double SERVO_HOLD_POSITION = 1;
+    public static final double SERVO_DROP_POSITION = 1;
+    public static final double SERVO_HOLD_POSITION = 0;
     public static final int SLEEP_BETWEEN_TASKS = 500;
 
     enum Task {LOWER, UNLATCH, TURN_TOWARDS_MINERALS, END}
@@ -22,6 +22,8 @@ public class SkylerAutoDepot extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
         task = LOWER;
+
+        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
 
         telemetry.addData("Robot", "Ready");
         telemetry.update();
@@ -77,8 +79,7 @@ public class SkylerAutoDepot extends LinearOpMode {
         robot.omniWheels.stop();
         //drop team piece
         robot.teamPiece.setPosition(SERVO_DROP_POSITION);
-        sleep(1000);
-        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
+        sleep(SLEEP_BETWEEN_TASKS);
         //turn so back faces
         robot.omniWheels.goByDriver(0,0,0.5);
         sleep(300);

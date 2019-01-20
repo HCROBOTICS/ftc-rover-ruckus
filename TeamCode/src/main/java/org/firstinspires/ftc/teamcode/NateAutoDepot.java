@@ -11,8 +11,8 @@ import static org.firstinspires.ftc.teamcode.NateAutoDepot.Task.*;
 public class NateAutoDepot extends LinearOpMode {
     NateHardware robot = new NateHardware();
 
-    public static final double SERVO_DROP_POSITION = 0;
-    public static final double SERVO_HOLD_POSITION = 1;
+    public static final double SERVO_DROP_POSITION = .7;
+    public static final double SERVO_HOLD_POSITION = 0;
     public static final int SLEEP_BETWEEN_TASKS = 500;
 
     enum Task {LOWER, UNLATCH, TURN_TOWARDS_MINERALS, END}
@@ -22,7 +22,7 @@ public class NateAutoDepot extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
         task = LOWER;
-
+        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
         telemetry.addData("Robot", "Ready");
         telemetry.update();
         waitForStart();
@@ -73,15 +73,14 @@ public class NateAutoDepot extends LinearOpMode {
         sleep(SLEEP_BETWEEN_TASKS);
         //drive forward
         robot.omniWheels.goByDriver(0,-0.5,0);
-        sleep(1100);
+        sleep(1200);
         robot.omniWheels.stop();
         //drop team piece
         robot.teamPiece.setPosition(SERVO_DROP_POSITION);
-        sleep(1000);
-        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
+        sleep(SLEEP_BETWEEN_TASKS);
         //turn so back faces
         robot.omniWheels.goByDriver(0,0,0.5);
-        sleep(300);
+        sleep(200);
         robot.omniWheels.stop();
         sleep(SLEEP_BETWEEN_TASKS);
         //drive backward
