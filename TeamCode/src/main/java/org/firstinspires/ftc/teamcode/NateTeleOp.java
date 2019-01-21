@@ -67,24 +67,6 @@ public class NateTeleOp extends OpMode {
             telemetry.addData("Drive Mode", "JOHN");
         }
 
-        /*
-        may switch to this for elevator
-
-        if (gamepad1.right_trigger > 0) {
-               robot.elevator.elevate(gamepad1.right_trigger);
-        } else if (gamepad1.left_trigger > 0) {
-                robot.elevator.elevate(-gamepad1.left_trigger);
-        } else {
-                telemetry.addData(hey john what r u doing its like 10:30pm)
-        }
-
-        or something like this that actually makes the triggers control the elevator
-
-        like:
-
-        robot.elevator.setPower(gamepad1.right_trigger - gamepad1.left_trigger);
-         */
-
 
         robot.elevator.setModeDebug(true);
         robot.elevator.elevate(-gamepad1.right_stick_y);
@@ -105,6 +87,23 @@ public class NateTeleOp extends OpMode {
 
         robot.omniWheels.goByDriver(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
         robot.elevator.elevate(gamepad1.right_stick_y);
+/*
+        may switch to this for elevator
+
+        if (gamepad1.right_trigger > 0) {
+               robot.elevator.elevate(gamepad1.right_trigger);
+        } else if (gamepad1.left_trigger > 0) {
+                robot.elevator.elevate(-gamepad1.left_trigger);
+        } else {
+                telemetry.addData(hey john what r u doing its like 10:30pm)
+        }
+
+        or something like this that actually makes the triggers control the elevator
+
+        like:
+
+        robot.elevator.setPower(gamepad1.right_trigger - gamepad1.left_trigger);
+         */
 
         telemetry.addData("Elevator Pos", robot.elevator.getElevatorPosition());
         telemetry.addData("Desired Pos", robot.elevator.getDesiredPosition());
