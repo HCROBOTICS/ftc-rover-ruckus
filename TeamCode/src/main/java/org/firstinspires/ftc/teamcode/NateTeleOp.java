@@ -72,13 +72,17 @@ public class NateTeleOp extends OpMode {
 
         if (gamepad1.right_trigger > 0) {
                robot.elevator.elevate(gamepad1.right_trigger);
-        } else if (gamepad1.left_trigger) {
+        } else if (gamepad1.left_trigger > 0) {
                 robot.elevator.elevate(-gamepad1.left_trigger);
         } else {
-                scream at john cause its late and he's half asleep
+                telemetry.addData(hey john what r u doing its like 10:30pm)
         }
 
         or something like this that actually makes the triggers control the elevator
+
+        like:
+
+        robot.elevator.setPower(gamepad1.right_trigger - gamepad1.left_trigger);
          */
 
 
