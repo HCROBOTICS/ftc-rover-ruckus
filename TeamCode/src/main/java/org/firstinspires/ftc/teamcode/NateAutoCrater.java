@@ -88,12 +88,12 @@ public class NateAutoCrater extends LinearOpMode {
         sleep(SLEEP_BETWEEN_TASKS);
         //drive forward a bit
         robot.omniWheels.goByDriver(0,-0.5,0);
-        sleep(700);
+        sleep(900);
         robot.omniWheels.stop();
         sleep(SLEEP_BETWEEN_TASKS);
         //left turn #2
         robot.omniWheels.goByDriver(0,0,-0.5);
-        sleep(150);
+        sleep(400);
         robot.omniWheels.stop();
         sleep(SLEEP_BETWEEN_TASKS);
         //drive forward to depot
@@ -102,8 +102,7 @@ public class NateAutoCrater extends LinearOpMode {
         robot.omniWheels.stop();
         //drop team piece
         robot.teamPiece.setPosition(SERVO_DROP_POSITION);
-        sleep(1000);
-        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
+        sleep(SLEEP_BETWEEN_TASKS);
         //drive backwards to crater
         robot.omniWheels.goByDriver(0,0.5,0);
         sleep (1700);

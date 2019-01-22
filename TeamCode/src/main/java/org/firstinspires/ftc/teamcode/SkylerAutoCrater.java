@@ -13,8 +13,8 @@ import static org.firstinspires.ftc.teamcode.autonomous.Task.*;
 public class SkylerAutoCrater extends Auto {
     SkylerHardware robot = new SkylerHardware();
 
-    public static final double SERVO_DROP_POSITION = 0;
-    public static final double SERVO_HOLD_POSITION = 1;
+    public static final double SERVO_DROP_POSITION = 1;
+    public static final double SERVO_HOLD_POSITION = 0;
     public static final int SLEEP_BETWEEN_TASKS = 500;
 
     Task task = LOWER;
@@ -57,72 +57,71 @@ public class SkylerAutoCrater extends Auto {
 
     void unlatch() {
         telemetry.update();
-        waitForAPress();
         robot.omniWheels.goByDriver(0, -0.5, 0);
         sleep(125);
         robot.omniWheels.stop();
         sleep(SLEEP_BETWEEN_TASKS);
-            //waitForAPress();
         task = TURN_TOWARDS_MINERALS;
     }
 
-    void waitForAPress() {
-        while (!gamepad1.a);
-    }
+
 
     void turnTowardsMinerals() {
         telemetry.addData("Robot", "Doing the rest");
         telemetry.update();
         robot.omniWheels.reset();
-            //waitForAPress();
+
         //turn once unlatched
         while (robot.lf.getCurrentPosition() < 2200) {robot.omniWheels.rotate(-0.25);}
         robot.omniWheels.stop();
         sleep(SLEEP_BETWEEN_TASKS);
-            //waitForAPress();
+
         //drive forward
         robot.omniWheels.goByDriver(0,-0.5,0);
         sleep(700);
         robot.omniWheels.stop();
         sleep(SLEEP_BETWEEN_TASKS);
-            //waitForAPress();
+
         //drive back
         robot.omniWheels.goByDriver(0,.5,0);
         sleep(300);
         robot.omniWheels.stop();
         sleep(SLEEP_BETWEEN_TASKS);
-            //waitForAPress();
+
         //left turn #1
         robot.omniWheels.goByDriver(0,0,0.5);
-        sleep(700);
+        sleep(500);
         robot.omniWheels.stop();
         sleep(SLEEP_BETWEEN_TASKS);
-            //waitForAPress();
+
         //drive forward a bit
-        robot.omniWheels.goByDriver(0,-0.5,0);
-        sleep(800);
-        robot.omniWheels.stop();
-        sleep(SLEEP_BETWEEN_TASKS);
-            //waitForAPress();
-        //left turn #2
-        robot.omniWheels.goByDriver(0,0,0.5);
-        sleep(300);
-        robot.omniWheels.stop();
-        sleep(SLEEP_BETWEEN_TASKS);
-            //waitForAPress();
-        //drive forward to depot
         robot.omniWheels.goByDriver(0,-0.5,0);
         sleep(1000);
         robot.omniWheels.stop();
-        sleep (SLEEP_BETWEEN_TASKS);
-            //waitForAPress();
-        robot.teamPiece.setPosition(SERVO_DROP_POSITION);
         sleep(SLEEP_BETWEEN_TASKS);
+
+        //left turn #2
+        robot.omniWheels.goByDriver(0,0,0.5);
+        sleep(500);
+        robot.omniWheels.stop();
+        sleep(SLEEP_BETWEEN_TASKS);
+
+        //drive forward to depot
+        robot.omniWheels.goByDriver(0,-0.5,0);
+        sleep(1500);
+        robot.omniWheels.stop();
+        sleep (SLEEP_BETWEEN_TASKS);
+
+        //drop team piece
+        robot.sweeper.setPower(.5);
+        sleep(SLEEP_BETWEEN_TASKS);
+        robot.sweeper.setPower(0);
+
         //drive backwards to crater
         robot.omniWheels.goByDriver(0,0.5,0);
-        sleep (1700);
+        sleep (2000);
         robot.omniWheels.stop();
 
         task = END;
-    }
+            }
 }

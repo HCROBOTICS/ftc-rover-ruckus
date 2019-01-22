@@ -53,7 +53,7 @@ public class SkylerAutoDepot extends LinearOpMode {
             telemetry.addData("Distance",robot.elevator.getDistance() - 1000);
         }
         robot.elevator.elevate(0);
-        task = Task.TURN_TOWARDS_MINERALS;
+        task = Task.UNLATCH;
     }
 
     void unlatch() {
@@ -70,25 +70,31 @@ public class SkylerAutoDepot extends LinearOpMode {
         telemetry.addData("Robot", "Turning towards the Minerals");
         telemetry.update();
         robot.omniWheels.reset();
+
         //turn once unlatched
-        while (robot.lf.getCurrentPosition() < 1100) {robot.omniWheels.rotate(-0.25);}
+        while (robot.lf.getCurrentPosition() < 2200) {robot.omniWheels.rotate(-0.25);}
         robot.omniWheels.stop();
         sleep(SLEEP_BETWEEN_TASKS);
+
         //drive forward
         robot.omniWheels.goByDriver(0,-0.5,0);
-        sleep(1100);
+        sleep(2200);
         robot.omniWheels.stop();
+
         //drop team piece
-        robot.teamPiece.setPosition(SERVO_DROP_POSITION);
+        robot.sweeper.setPower(.5);
         sleep(SLEEP_BETWEEN_TASKS);
+        robot.sweeper.setPower(0);
+
         //turn so back faces
-        robot.omniWheels.goByDriver(0,0,0.5);
-        sleep(300);
+        robot.omniWheels.goByDriver(0,0,-0.5);
+        sleep(600);
         robot.omniWheels.stop();
         sleep(SLEEP_BETWEEN_TASKS);
+
         //drive backward
         robot.omniWheels.goByDriver(0,0.5,0);
-        sleep(2100);
+        sleep(3000);
         robot.omniWheels.stop();
 
         task = END;

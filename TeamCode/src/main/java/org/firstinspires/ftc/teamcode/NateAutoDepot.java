@@ -80,12 +80,12 @@ public class NateAutoDepot extends LinearOpMode {
         sleep(SLEEP_BETWEEN_TASKS);
         //turn so back faces
         robot.omniWheels.goByDriver(0,0,0.5);
-        sleep(200);
+        sleep(350);
         robot.omniWheels.stop();
         sleep(SLEEP_BETWEEN_TASKS);
         //drive backward
         robot.omniWheels.goByDriver(0,0.5,0);
-        sleep(2100);
+        sleep(2300);
         robot.omniWheels.stop();
 
         task = END;

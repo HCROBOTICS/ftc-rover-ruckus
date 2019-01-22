@@ -136,9 +136,9 @@ public class SkylerTeleOp extends OpMode {
             robot.slide.setPower(0);
         }
 
-        if (gamepad1.y) {
+        if (gamepad1.x) {
             robot.teamPiece.setPosition(SERVO_DROP_POSITION);
-        } else {
+        } else if (gamepad1.y) {
             robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
         }
 
