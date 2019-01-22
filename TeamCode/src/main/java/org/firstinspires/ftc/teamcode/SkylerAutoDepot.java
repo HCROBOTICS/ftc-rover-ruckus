@@ -13,8 +13,16 @@ public class SkylerAutoDepot extends LinearOpMode {
 
     public static final double SERVO_DROP_POSITION = 1;
     public static final double SERVO_HOLD_POSITION = 0;
-//probs can increase int SLEEP_BETWEEN_TASKS: more time to stop and wait between each action means more precise maneuvers.
-    public static final int SLEEP_BETWEEN_TASKS = 500;
+
+/*  ATTN: JOEY
+ * SLEEP_BETWEEN_TASKS can and should be increased. More time to
+ * stop and wait between each action means more precise maneuvers.
+ * Too much time though can mean we run out of time as we are doing
+ * our last maneuvers. We want to have 1-2 seconds after we stop
+ * moving before the end of autonomous, so we have some room for
+ * error.
+ */
+public static final int SLEEP_BETWEEN_TASKS = 500;
 
     enum Task {LOWER, UNLATCH, TURN_TOWARDS_MINERALS, END}
     Task task;

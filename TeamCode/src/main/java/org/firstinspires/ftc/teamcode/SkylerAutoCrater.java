@@ -15,6 +15,16 @@ public class SkylerAutoCrater extends Auto {
 
     public static final double SERVO_DROP_POSITION = 1;
     public static final double SERVO_HOLD_POSITION = 0;
+
+/*  ATTN: JOEY
+ * SLEEP_BETWEEN_TASKS can and should be increased. More time to
+ * stop and wait between each action means more precise maneuvers.
+ * Too much time though can mean we run out of time as we are doing
+ * our last maneuvers. We want to have 1-2 seconds after we stop
+ * moving before the end of autonomous, so we have some room for
+ * error.
+ */
+
     public static final int SLEEP_BETWEEN_TASKS = 500;
 
     Task task = LOWER;
@@ -46,6 +56,8 @@ public class SkylerAutoCrater extends Auto {
     }
 
     void lower() {
+        telemetry.addData("Robot", "Lowering");
+        telemetry.update();
         if (robot.elevator.getDistance() > 1000) {
             robot.elevator.elevate(1);
             telemetry.addData("Distance",robot.elevator.getDistance() - 1000);
@@ -56,6 +68,7 @@ public class SkylerAutoCrater extends Auto {
     }
 
     void unlatch() {
+        telemetry.addData("Robot", "Unlatching");
         telemetry.update();
         robot.omniWheels.goByDriver(0, -0.5, 0);
         sleep(125);
@@ -67,7 +80,8 @@ public class SkylerAutoCrater extends Auto {
 
 
     void turnTowardsMinerals() {
-        telemetry.addData("Robot", "Doing the rest");
+
+        telemetry.addData("Robot", "Maneuvering");
         telemetry.update();
         robot.omniWheels.reset();
 
@@ -123,5 +137,5 @@ public class SkylerAutoCrater extends Auto {
         robot.omniWheels.stop();
 
         task = END;
-            }
+    }
 }
