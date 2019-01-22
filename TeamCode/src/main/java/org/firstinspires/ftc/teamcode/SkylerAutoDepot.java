@@ -22,7 +22,7 @@ public class SkylerAutoDepot extends LinearOpMode {
  * moving before the end of autonomous, so we have some room for
  * error.
  */
-public static final int SLEEP_BETWEEN_TASKS = 500;
+public static final int SLEEP_BETWEEN_TASKS = 700;
 
     enum Task {LOWER, UNLATCH, TURN_TOWARDS_MINERALS, END}
     Task task;
@@ -91,7 +91,7 @@ public static final int SLEEP_BETWEEN_TASKS = 500;
 
         //drop team piece
         robot.sweeper.setPower(.5);
-        sleep(SLEEP_BETWEEN_TASKS);
+        sleep(1000);
         robot.sweeper.setPower(0);
 
         //turn so back faces
