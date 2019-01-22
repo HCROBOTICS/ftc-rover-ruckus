@@ -13,11 +13,27 @@ import static org.firstinspires.ftc.teamcode.autonomous.Task.*;
 public class SkylerAutoCrater extends Auto {
     SkylerHardware robot = new SkylerHardware();
 
+    public static final double SERVO_DROP_POSITION = 1;
+    public static final double SERVO_HOLD_POSITION = 0;
+
+/*  ATTN: JOEY
+ * SLEEP_BETWEEN_TASKS can and should be increased. More time to
+ * stop and wait between each action means more precise maneuvers.
+ * Too much time though can mean we run out of time as we are doing
+ * our last maneuvers. We want to have 1-2 seconds after we stop
+ * moving before the end of autonomous, so we have some room for
+ * error.
+ */
+
+    public static final int SLEEP_BETWEEN_TASKS = 500;
+
     Task task = LOWER;
 
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
+
+        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
 
         telemetry.addData("Robot", "Ready");
         telemetry.update();
@@ -40,6 +56,8 @@ public class SkylerAutoCrater extends Auto {
     }
 
     void lower() {
+        telemetry.addData("Robot", "Lowering");
+        telemetry.update();
         if (robot.elevator.getDistance() > 1000) {
             robot.elevator.elevate(1);
             telemetry.addData("Distance",robot.elevator.getDistance() - 1000);
@@ -50,71 +68,72 @@ public class SkylerAutoCrater extends Auto {
     }
 
     void unlatch() {
+        telemetry.addData("Robot", "Unlatching");
         telemetry.update();
-        waitForAPress();
         robot.omniWheels.goByDriver(0, -0.5, 0);
         sleep(125);
-
         robot.omniWheels.stop();
-         sleep(500);
-        waitForAPress();
+        sleep(SLEEP_BETWEEN_TASKS);
         task = TURN_TOWARDS_MINERALS;
     }
 
-    void waitForAPress() {
-        while (!gamepad1.a);
-    }
+
 
     void turnTowardsMinerals() {
-        telemetry.addData("Robot", "Doing the rest");
+
+        telemetry.addData("Robot", "Maneuvering");
         telemetry.update();
         robot.omniWheels.reset();
-        waitForAPress();
+
         //turn once unlatched
         while (robot.lf.getCurrentPosition() < 2200) {robot.omniWheels.rotate(-0.25);}
         robot.omniWheels.stop();
-        sleep(500);
-        waitForAPress();
+        sleep(SLEEP_BETWEEN_TASKS);
+
         //drive forward
         robot.omniWheels.goByDriver(0,-0.5,0);
         sleep(700);
         robot.omniWheels.stop();
-        sleep(500);
-        waitForAPress();
+        sleep(SLEEP_BETWEEN_TASKS);
+
         //drive back
         robot.omniWheels.goByDriver(0,.5,0);
         sleep(300);
         robot.omniWheels.stop();
-        sleep(500);
-        waitForAPress();
+        sleep(SLEEP_BETWEEN_TASKS);
+
         //left turn #1
         robot.omniWheels.goByDriver(0,0,0.5);
-        sleep(600);
-        robot.omniWheels.stop();
         sleep(500);
-        waitForAPress();
+        robot.omniWheels.stop();
+        sleep(SLEEP_BETWEEN_TASKS);
+
         //drive forward a bit
-        robot.omniWheels.goByDriver(0,-0.5,0);
-        sleep(700);
-        robot.omniWheels.stop();
-        sleep(500);
-        waitForAPress();
-        //left turn #2
-        robot.omniWheels.goByDriver(0,0,0.5);
-        sleep(150);
-        robot.omniWheels.stop();
-        sleep(500);
-        waitForAPress();
-        //drive forward to depot
         robot.omniWheels.goByDriver(0,-0.5,0);
         sleep(1000);
         robot.omniWheels.stop();
-        sleep (500);
-        waitForAPress();
-        //Drop Team Piece Code Goes Here
+        sleep(SLEEP_BETWEEN_TASKS);
+
+        //left turn #2
+        robot.omniWheels.goByDriver(0,0,0.5);
+        sleep(500);
+        robot.omniWheels.stop();
+        sleep(SLEEP_BETWEEN_TASKS);
+
+        //drive forward to depot
+        robot.omniWheels.goByDriver(0,-0.5,0);
+        sleep(1500);
+        robot.omniWheels.stop();
+        sleep (SLEEP_BETWEEN_TASKS);
+
+        //drop team piece
+        robot.sweeper.setPower(.5);
+        sleep(SLEEP_BETWEEN_TASKS);
+        robot.sweeper.setPower(0);
+
         //drive backwards to crater
         robot.omniWheels.goByDriver(0,0.5,0);
-        sleep (1700);
+        sleep (2000);
         robot.omniWheels.stop();
 
         task = END;

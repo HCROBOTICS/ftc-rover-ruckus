@@ -11,8 +11,8 @@ import static org.firstinspires.ftc.teamcode.NateAutoCrater.Task.*;
 public class NateAutoCrater extends LinearOpMode {
     NateHardware robot = new NateHardware();
 
-    public static final double SERVO_DROP_POSITION = 0;
-    public static final double SERVO_HOLD_POSITION = 1;
+    public static final double SERVO_DROP_POSITION = .7;
+    public static final double SERVO_HOLD_POSITION = 0;
     public static final int SLEEP_BETWEEN_TASKS = 500;
 
     enum Task {LOWER, UNLATCH, TURN_TOWARDS_MINERALS, END}
@@ -22,7 +22,7 @@ public class NateAutoCrater extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
         task = LOWER;
-
+        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
         telemetry.addData("Robot", "Ready");
         telemetry.update();
         waitForStart();
@@ -88,12 +88,12 @@ public class NateAutoCrater extends LinearOpMode {
         sleep(SLEEP_BETWEEN_TASKS);
         //drive forward a bit
         robot.omniWheels.goByDriver(0,-0.5,0);
-        sleep(700);
+        sleep(900);
         robot.omniWheels.stop();
         sleep(SLEEP_BETWEEN_TASKS);
         //left turn #2
         robot.omniWheels.goByDriver(0,0,-0.5);
-        sleep(150);
+        sleep(400);
         robot.omniWheels.stop();
         sleep(SLEEP_BETWEEN_TASKS);
         //drive forward to depot
@@ -102,8 +102,7 @@ public class NateAutoCrater extends LinearOpMode {
         robot.omniWheels.stop();
         //drop team piece
         robot.teamPiece.setPosition(SERVO_DROP_POSITION);
-        sleep(1000);
-        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
+        sleep(SLEEP_BETWEEN_TASKS);
         //drive backwards to crater
         robot.omniWheels.goByDriver(0,0.5,0);
         sleep (1700);
