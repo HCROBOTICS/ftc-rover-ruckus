@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.hardware.SkylerHardware;
 
@@ -67,6 +68,8 @@ public class SkylerTeleOp extends OpMode {
         telemetry.addData("Robot", "Ready.");
         telemetry.addData("Driver", "Please select a drive mode. Defaulting to STRAFE.");
         robot.omniWheels.setMode(OmniWheels.DriveMode.STRAFE);
+        telemetry.addData("Driver", "Please select a brake mode. Defaulting to FLOAT.");
+        robot.omniWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
 
     /* Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY */
@@ -81,6 +84,14 @@ public class SkylerTeleOp extends OpMode {
         } else if (gamepad1.b) {
             robot.omniWheels.mode = OmniWheels.DriveMode.JOHN;
             telemetry.addData("Drive Mode", "JOHN");
+        }
+
+        if (gamepad1.x) {
+            robot.omniWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            telemetry.addData("Brake Mode", "FLOAT");
+        } else if (gamepad1.y) {
+            robot.omniWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            telemetry.addData("Brake Mode", "BRAKE");
         }
 
         robot.elevator.setModeDebug(true);

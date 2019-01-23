@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.hardware.NateHardware;
 
@@ -54,6 +55,8 @@ public class NateTeleOp extends OpMode {
         telemetry.addData("Say", "Ready.");
         telemetry.addData("Driver", "Please select a drive mode. Defaulting to STRAFE.");
         robot.omniWheels.setMode(OmniWheels.DriveMode.STRAFE);
+        telemetry.addData("Driver", "Please select a brake mode. Defaulting to BRAKE.");
+        robot.omniWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     /* Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY */
@@ -67,6 +70,13 @@ public class NateTeleOp extends OpMode {
             telemetry.addData("Drive Mode", "JOHN");
         }
 
+        if (gamepad1.x) {
+            robot.omniWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            telemetry.addData("Brake Mode", "FLOAT");
+        } else if (gamepad1.y) {
+            robot.omniWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            telemetry.addData("Brake Mode", "BRAKE");
+        }
 
         robot.elevator.setModeDebug(true);
         robot.elevator.elevate(-gamepad1.right_stick_y);
@@ -86,24 +96,22 @@ public class NateTeleOp extends OpMode {
     public void loop() {
 
         robot.omniWheels.goByDriver(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
-        robot.elevator.elevate(gamepad1.right_stick_y);
-/*
-        may switch to this for elevator
+        //robot.elevator.elevate(gamepad1.right_stick_y);
 
+        //may switch to this for elevator
+        /*
         if (gamepad1.right_trigger > 0) {
                robot.elevator.elevate(gamepad1.right_trigger);
         } else if (gamepad1.left_trigger > 0) {
                 robot.elevator.elevate(-gamepad1.left_trigger);
-        } else {
-                telemetry.addData(hey john what r u doing its like 10:30pm)
         }
+        */
 
-        or something like this that actually makes the triggers control the elevator
+        //or something like this that actually makes the triggers control the elevator
 
-        like:
+        //like:
 
-        robot.elevator.setPower(gamepad1.right_trigger - gamepad1.left_trigger);
-         */
+        robot.elevator.elevate(gamepad1.right_trigger - gamepad1.left_trigger);
 
         telemetry.addData("Elevator Pos", robot.elevator.getElevatorPosition());
         telemetry.addData("Desired Pos", robot.elevator.getDesiredPosition());

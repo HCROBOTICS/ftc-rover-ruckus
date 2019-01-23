@@ -43,6 +43,13 @@ public class OmniWheels {
     public void setMode(DriveMode mode) {
         this.mode = mode;
     }
+
+    public void setZeroPowerBehavior(DcMotor.ZeroPowerBehavior mode) {
+        lf.setZeroPowerBehavior(mode);
+        rf.setZeroPowerBehavior(mode);
+        lb.setZeroPowerBehavior(mode);
+        rb.setZeroPowerBehavior(mode);
+    }
     
     // Do some dumb maths.
     public void goByDriver(double left_stick_x, double left_stick_y, double right_stick_x) {
