@@ -67,22 +67,27 @@ public class NateAutoDepot extends LinearOpMode {
         telemetry.addData("Robot", "Turning towards the Minerals");
         telemetry.update();
         robot.omniWheels.reset();
+
         //turn once unlatched
         while (robot.lf.getCurrentPosition() < 1100) {robot.omniWheels.rotate(-0.25);}
         robot.omniWheels.stop();
         sleep(SLEEP_BETWEEN_TASKS);
+
         //drive forward
         robot.omniWheels.goByDriver(0,-0.5,0);
         sleep(1200);
         robot.omniWheels.stop();
+
         //drop team piece
         robot.teamPiece.setPosition(SERVO_DROP_POSITION);
         sleep(SLEEP_BETWEEN_TASKS);
+
         //turn so back faces
         robot.omniWheels.goByDriver(0,0,0.5);
         sleep(350);
         robot.omniWheels.stop();
         sleep(SLEEP_BETWEEN_TASKS);
+
         //drive backward
         robot.omniWheels.goByDriver(0,0.5,0);
         sleep(2300);
