@@ -105,7 +105,9 @@ public class SkylerTeleOp extends OpMode {
     }
 
     @Override
-    public void start() { robot.elevator.setModeDebug(false); }
+    public void start() {
+        robot.elevator.setModeDebug(false);
+    }
 
     /* Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP */
     @Override
@@ -130,15 +132,18 @@ public class SkylerTeleOp extends OpMode {
             isBPressed = false;
         }
 
-        robot.slideLift.setPower(0.5 * (gamepad1.right_trigger - gamepad1.left_trigger));
+        robot.slideLift.setPower(0.8 * (gamepad1.right_trigger - gamepad1.left_trigger));
 
         telemetry.addData("Elevator Pos", robot.elevator.getElevatorPosition());
         telemetry.addData("Desired Pos", robot.elevator.getDesiredPosition());
         telemetry.addData("Distance", robot.elevator.getDistance());
         telemetry.update();
     }
-    
+
     /* Code to run ONCE after the driver hits STOP */
     @Override
-    public void stop() { robot.stop(); }
+    public void stop() {
+        robot.stop();
+    }
+
 }
