@@ -132,6 +132,8 @@ public class SkylerTeleOp extends OpMode {
             isBPressed = false;
         }
 
+        robot.slide.setPower((gamepad1.right_bumper? 1 : 0) - (gamepad1.left_bumper? 1 : 0));
+
         robot.slideLift.setPower(0.8 * (gamepad1.right_trigger - gamepad1.left_trigger));
 
         telemetry.addData("Elevator Pos", robot.elevator.getElevatorPosition());
@@ -145,5 +147,4 @@ public class SkylerTeleOp extends OpMode {
     public void stop() {
         robot.stop();
     }
-
 }
