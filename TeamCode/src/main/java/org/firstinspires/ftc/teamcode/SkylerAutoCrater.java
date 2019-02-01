@@ -13,18 +13,13 @@ import static org.firstinspires.ftc.teamcode.autonomous.Task.*;
 public class SkylerAutoCrater extends Auto {
     SkylerHardware robot = new SkylerHardware();
 
-    public static final double SERVO_DROP_POSITION = 1;
-    public static final double SERVO_HOLD_POSITION = 0;
-
-    public static final int SLEEP_BETWEEN_TASKS = 500;
+    static final int SLEEP_BETWEEN_TASKS = 500;
 
     Task task = LOWER;
 
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
-
-        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
 
         telemetry.addData("Robot", "Ready");
         telemetry.update();
@@ -79,6 +74,7 @@ public class SkylerAutoCrater extends Auto {
         //turn once unlatched
         while (robot.lf.getCurrentPosition() < 2200) {robot.omniWheels.rotate(-0.25);}
         robot.omniWheels.stop();
+        robot.omniWheels.reset();
         sleep(SLEEP_BETWEEN_TASKS);
 
         //drive forward
@@ -94,20 +90,20 @@ public class SkylerAutoCrater extends Auto {
         sleep(SLEEP_BETWEEN_TASKS);
 
         //left turn #1
-        robot.omniWheels.goByDriver(0,0,0.5);
-        sleep(500);
+        robot.omniWheels.reset();
+        while (robot.lf.getCurrentPosition() < 1100) {robot.omniWheels.rotate(-0.25);}
         robot.omniWheels.stop();
         sleep(SLEEP_BETWEEN_TASKS);
 
         //drive forward a bit
         robot.omniWheels.goByDriver(0,-0.5,0);
-        sleep(1000);
+        sleep(1200);
         robot.omniWheels.stop();
         sleep(SLEEP_BETWEEN_TASKS);
 
         //left turn #2
-        robot.omniWheels.goByDriver(0,0,0.5);
-        sleep(500);
+        robot.omniWheels.reset();
+        while (robot.lf.getCurrentPosition() < 1100) {robot.omniWheels.rotate(-0.25);}
         robot.omniWheels.stop();
         sleep(SLEEP_BETWEEN_TASKS);
 

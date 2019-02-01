@@ -1,3 +1,9 @@
+
+/*
+    This class is nearly identical to NateAutoCrater. The only difference is that this class uses
+    time to run motorElevator, while NateAutoCrater uses an encoder and the class LinearActuator.
+ */
+
 package org.firstinspires.ftc.teamcode;
 
         import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -47,6 +53,19 @@ public class EmergencyAutoNateC extends LinearOpMode {
         telemetry.update();
         robot.omniWheels.reset();
 
+
+        //elevator
+        robot.motorElevator.setPower(1);
+        sleep(13000);
+        robot.motorElevator.setPower(0);
+        sleep(SLEEP_BETWEEN_TASKS);
+
+        //turn once unlatched
+        while (robot.lf.getCurrentPosition() < 1100) {robot.omniWheels.rotate(-0.25);}
+        robot.omniWheels.stop();
+        sleep(SLEEP_BETWEEN_TASKS);
+
+
         //drive forward
         robot.omniWheels.goByDriver(0,-0.5,0);
         sleep(500);
@@ -90,7 +109,6 @@ public class EmergencyAutoNateC extends LinearOpMode {
         robot.omniWheels.goByDriver(0,0.5,0);
         sleep (1700);
         robot.omniWheels.stop();
-
 
         task = END;
     }

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.autonomous.Task;
 import org.firstinspires.ftc.teamcode.hardware.NateHardware;
 
 import static org.firstinspires.ftc.teamcode.NateAutoCrater.Task.*;
@@ -44,13 +45,15 @@ public class NateAutoCrater extends LinearOpMode {
     }
 
     void lower() {
-        while (robot.elevator.getDistance() > 1000) {
+        telemetry.addData("Robot", "Lowering");
+        telemetry.update();
+        if (robot.elevator.getDistance() > 1000) {
             robot.elevator.elevate(1);
-            telemetry.addData("Robot","Lowering");
             telemetry.addData("Distance",robot.elevator.getDistance() - 1000);
+        } else {
+            robot.elevator.elevate(0);
+            task = UNLATCH;
         }
-        robot.elevator.elevate(0);
-        task = Task.TURN_TOWARDS_MINERALS;
     }
 
     void unlatch() {

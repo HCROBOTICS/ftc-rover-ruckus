@@ -42,7 +42,6 @@ import org.firstinspires.ftc.teamcode.OmniWheels;
 
 public class SkylerHardware extends Hardware {
 
-    public static final double SERVO_HOLD_POSITION = 1;
 
     public DcMotor lf = null; // Left Front wheel
     public DcMotor rf = null; // Right Front wheel
@@ -82,7 +81,6 @@ public class SkylerHardware extends Hardware {
         lb.setDirection(DcMotor.Direction.REVERSE);
         rb.setDirection(DcMotor.Direction.FORWARD);
         motorElevator.setDirection(DcMotor.Direction.REVERSE);
-        teamPiece.setPosition(SERVO_HOLD_POSITION);
 
         // Make the motors stop abruptly when joystick is released
         //lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

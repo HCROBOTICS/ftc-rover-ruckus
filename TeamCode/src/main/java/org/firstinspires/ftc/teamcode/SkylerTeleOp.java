@@ -39,9 +39,6 @@ import org.firstinspires.ftc.teamcode.hardware.SkylerHardware;
 public class SkylerTeleOp extends OpMode {
     SkylerHardware robot = new SkylerHardware();
 
-    public static final double SERVO_DROP_POSITION = 1;
-    public static final double SERVO_HOLD_POSITION = 0;
-
     private boolean isSweeperRunning;
     private boolean isAPressed;
     private boolean isBPressed;
@@ -76,7 +73,6 @@ public class SkylerTeleOp extends OpMode {
     @Override
     public void init_loop() {
 
-        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
 
         if (gamepad1.a) {
             robot.omniWheels.mode = OmniWheels.DriveMode.STRAFE;
@@ -112,9 +108,6 @@ public class SkylerTeleOp extends OpMode {
     /* Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP */
     @Override
     public void loop() {
-
-        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
-
         robot.omniWheels.goByDriver(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
         robot.elevator.elevate(gamepad1.right_stick_y);
         if (gamepad1.a) {
@@ -132,7 +125,7 @@ public class SkylerTeleOp extends OpMode {
             isBPressed = false;
         }
 
-        robot.slide.setPower((gamepad1.right_bumper? 1 : 0) - (gamepad1.left_bumper? 1 : 0));
+        robot.slide.setPower((gamepad1.right_bumper? 1:0) - (gamepad1.left_bumper? 1:0));
 
         robot.slideLift.setPower(0.8 * (gamepad1.right_trigger - gamepad1.left_trigger));
 

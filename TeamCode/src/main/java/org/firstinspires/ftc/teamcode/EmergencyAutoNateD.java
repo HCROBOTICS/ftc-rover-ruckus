@@ -1,3 +1,7 @@
+
+
+
+
 package org.firstinspires.ftc.teamcode;
 
         import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -47,9 +51,18 @@ public class EmergencyAutoNateD extends LinearOpMode {
         telemetry.update();
         robot.omniWheels.reset();
 
+        //elevator
+        robot.motorElevator.setPower(1);
+        sleep(13000);
+        robot.motorElevator.setPower(0);
+        sleep(SLEEP_BETWEEN_TASKS);
 
+         //turn once unlatched
+         while (robot.lf.getCurrentPosition() < 1100) {robot.omniWheels.rotate(-0.25);}
+         robot.omniWheels.stop();
+         sleep(SLEEP_BETWEEN_TASKS);
 
-        //drive forward
+         //drive forward
         robot.omniWheels.goByDriver(0,-0.5,0);
         sleep(1200);
         robot.omniWheels.stop();
