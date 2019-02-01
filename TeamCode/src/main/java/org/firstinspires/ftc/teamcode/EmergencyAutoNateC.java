@@ -1,17 +1,11 @@
-
-/*
-    This class is nearly identical to NateAutoCrater. The only difference is that this class uses
-    time to run motorElevator, while NateAutoCrater uses an encoder and the class LinearActuator.
- */
-
 package org.firstinspires.ftc.teamcode;
 
-        import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-        import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-        import org.firstinspires.ftc.teamcode.hardware.NateHardware;
+import org.firstinspires.ftc.teamcode.hardware.NateHardware;
 
-        import static org.firstinspires.ftc.teamcode.EmergencyAutoNateC.Task.*;
+import static org.firstinspires.ftc.teamcode.EmergencyAutoNateC.Task.*;
 
 @Autonomous(name="EmergencyAutoNateC", group ="Nate")
 public class EmergencyAutoNateC extends LinearOpMode {
