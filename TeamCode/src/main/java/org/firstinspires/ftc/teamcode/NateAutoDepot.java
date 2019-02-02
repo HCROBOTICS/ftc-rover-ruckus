@@ -44,13 +44,14 @@ public class NateAutoDepot extends LinearOpMode {
     }
 
     void lower() {
-        while (robot.elevator.getDistance() > 1000) {
+        if (robot.elevator.getDistance() > 1000) {
             robot.elevator.elevate(1);
             telemetry.addData("Robot","Lowering");
             telemetry.addData("Distance",robot.elevator.getDistance() - 1000);
+        } else {
+            robot.elevator.elevate(0);
+            task = Task.TURN_TOWARDS_MINERALS;
         }
-        robot.elevator.elevate(0);
-        task = Task.TURN_TOWARDS_MINERALS;
     }
 
     void unlatch() {
