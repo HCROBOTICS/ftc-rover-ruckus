@@ -21,32 +21,25 @@ public class NateTensorAutoCrater extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
+    private static final String VUFORIA_KEY = "AfypGhD/////AAABmfthsllptEbKpJLWTp1613szVUTl5xQJQBKWoaUbDyLjOgOEF38/3fUHjGFD6pAlPmSTrW/ipYTOHpA48kfCl8o6PTWjR8X3220E5rDaANVOtluML1xOfvSl5fwbXrAtj4kv8fpf2oFyu/ZYNOE5UCFaNzldW4BkJJ9w9YG5kNz4K0So/SrzZhqxPW+XbT0eTTjyx3Uox7VqRwM/DFFAbh5kGzx8gGE+jQOAh9fVzy3rDLgQ/HQNszX7Iqwnnh/w836FuXrBbajfDun3qUQkCQKEJuaFyUEwEyZPZ+cRDym2WJigiXsw724H0pv050q0N67W+No/keaLi2mZVMuySZijkNjnsnhKrBCerryW9MJQ";
+    private VuforiaLocalizer vuforia;
+    private TFObjectDetector tfod;
+    private static final int SLEEP_BETWEEN_TASKS = 500;
+    private static final double SERVO_DROP_POSITION = 0.7;
+    private static final double SERVO_HOLD_POSITION = 0.0;
+
+    enum Task {Lower, Unlatch, ManeuverRight, ManeuverLeft, ManeuverCenter, ManeuverDepot, ManeuverCrater, End}
+    Task task;
 
     /*
-     * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
-     * 'parameters.vuforiaLicenseKey' is initialized is for illustration only, and will not function.
-     * A Vuforia 'Development' license key, can be obtained free of charge from the Vuforia developer
-     * web site at https://developer.vuforia.com/license-manager.
-     *
-     * Vuforia license keys are always 380 characters long, and look as if they contain mostly
-     * random data. As an example, here is a example of a fragment of a valid key:
-     *      ... yIgIzTqZ4mWjk9wd3cZO9T1axEqzuhxoGlfOOI2dRzKS4T0hQ8kT ...
-     * Once you've obtained a license key, copy the string from the Vuforia web site
-     * and paste it in to your code on the next line, between the double quotes.
+    lower- lower the robot
+    unlatch- turn to face the minerals and clear hook of latch
+    maneuverright- maneuver when the block is in the right position
+    maneuverleft- maneuver when the block is in the left posititon
+    maneuvercenter- maneuver when the block is in the center position
+    maneuverdepot- drive to the depot and deposit team marker
+    maneuvercrater- drive to the crater and park
      */
-    private static final String VUFORIA_KEY = "AfypGhD/////AAABmfthsllptEbKpJLWTp1613szVUTl5xQJQBKWoaUbDyLjOgOEF38/3fUHjGFD6pAlPmSTrW/ipYTOHpA48kfCl8o6PTWjR8X3220E5rDaANVOtluML1xOfvSl5fwbXrAtj4kv8fpf2oFyu/ZYNOE5UCFaNzldW4BkJJ9w9YG5kNz4K0So/SrzZhqxPW+XbT0eTTjyx3Uox7VqRwM/DFFAbh5kGzx8gGE+jQOAh9fVzy3rDLgQ/HQNszX7Iqwnnh/w836FuXrBbajfDun3qUQkCQKEJuaFyUEwEyZPZ+cRDym2WJigiXsw724H0pv050q0N67W+No/keaLi2mZVMuySZijkNjnsnhKrBCerryW9MJQ";
-
-    /**
-     * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
-     * localization engine.
-     */
-    private VuforiaLocalizer vuforia;
-
-    /**
-     * {@link #tfod} is the variable we will use to store our instance of the Tensor Flow Object
-     * Detection engine.
-     */
-    private TFObjectDetector tfod;
 
     @Override
     public void runOpMode() {
@@ -95,12 +88,16 @@ public class NateTensorAutoCrater extends LinearOpMode {
                                 if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
                                     telemetry.addData("Gold Mineral Position", "Left");
                                     //path goes here
+                                    //task = maneuverLeft
                                 } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
                                     telemetry.addData("Gold Mineral Position", "Right");
                                     //path goes here
+                                    //task = maneuverRight
                                 } else {
                                     telemetry.addData("Gold Mineral Position", "Center");
                                     //path goes here
+                                    //task = maneuverCenter
+                                    //after each maneuver[l,r,c] task = doTheRest
                                 }
                             }
                         }
