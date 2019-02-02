@@ -45,23 +45,27 @@ public class NateTeleOp extends OpMode {
 
     @Override
     public void init() {
+
         /*
          * Initialize the hardware variables.
          * The init() method of the hardware class does all the work here.
          */
+
         robot.init(hardwareMap);
         robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Ready.");
-        telemetry.addData("Driver", "Please select a drive mode. Defaulting to STRAFE.");
+        /* telemetry.addData("Driver", "Please select a drive mode. Defaulting to STRAFE.");
         robot.omniWheels.setMode(OmniWheels.DriveMode.STRAFE);
         telemetry.addData("Driver", "Please select a brake mode. Defaulting to BRAKE.");
-        robot.omniWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.omniWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); */
     }
 
     /* Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY */
     @Override
     public void init_loop() {
+
+        /*
         if (gamepad1.a) {
             robot.omniWheels.mode = OmniWheels.DriveMode.STRAFE;
             telemetry.addData("Drive Mode", "STRAFE");
@@ -77,13 +81,17 @@ public class NateTeleOp extends OpMode {
             robot.omniWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             telemetry.addData("Brake Mode", "BRAKE");
         }
+        */
 
         robot.elevator.setModeDebug(true);
         robot.elevator.elevate(-gamepad1.right_stick_y);
         telemetry.addData("Elevator Pos", robot.elevator.getElevatorPosition());
         telemetry.addData("Desired Pos", robot.elevator.getDesiredPosition());
         telemetry.addData("Distance", robot.elevator.getDistance());
-        if (gamepad1.start) robot.elevator.zero();
+
+        if (gamepad1.start) {
+            robot.elevator.zero();
+        }
 
         telemetry.update();
     }
@@ -96,6 +104,7 @@ public class NateTeleOp extends OpMode {
     public void loop() {
 
         robot.omniWheels.goByDriver(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
+
         //robot.elevator.elevate(gamepad1.right_stick_y);
 
         //may switch to this for elevator
