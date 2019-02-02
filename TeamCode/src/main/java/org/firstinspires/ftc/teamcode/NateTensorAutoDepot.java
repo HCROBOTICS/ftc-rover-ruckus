@@ -1,5 +1,5 @@
 /*
- This is a test class for programming team 11357's autonomous mode on the crater side. It may or
+ This is a test class for programming team 11357's autonomous mode on the depot side. It may or
  may not be used during competitions.
  */
 
@@ -18,11 +18,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.hardware.NateHardware;
-import static org.firstinspires.ftc.teamcode.NateTensorAutoCrater.Task.*;
+import static org.firstinspires.ftc.teamcode.NateTensorAutoDepot.Task.*;
 
 import java.util.List;
 
-public class NateTensorAutoCrater extends LinearOpMode {
+public class NateTensorAutoDepot extends LinearOpMode {
     NateHardware robot = new NateHardware();
 
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
@@ -216,7 +216,7 @@ public class NateTensorAutoCrater extends LinearOpMode {
     }
 
 
-     // Initialize the Tensor Flow Object Detection engine.
+    // Initialize the Tensor Flow Object Detection engine.
 
     private void initTfod() {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
