@@ -4,8 +4,8 @@
  */
 
 /*
- Make sure to add SLEEP_BETWEEN_MANEUVERS, to add predictability. SLEEP_BETWEEN_MANEUVERS should be
- as large as possible, while allowing ample time for the robot to finish the autonomous.
+ Make sure to add SLEEP_BETWEEN_MOVEMENTS, to add predictability. SLEEP_BETWEEN_MOVEMENTS should be
+ as large as possible, while still allowing ample time for the robot to finish the autonomous.
  */
 
 package org.firstinspires.ftc.teamcode;
