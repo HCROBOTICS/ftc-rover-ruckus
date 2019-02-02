@@ -12,6 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.hardware.NateHardware;
+import static org.firstinspires.ftc.teamcode.NateTensorAutoCrater.Task.*;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class NateTensorAutoCrater extends LinearOpMode {
     Unlatch- turn to face the minerals and clear hook of latch
     LookAtMinerals- use tensor to look at mineral positions
     ManeuverRight- maneuver when the block is in the right position
-    ManeuverLeft- maneuver when the block is in the left posititon
+    ManeuverLeft- maneuver when the block is in the left position
     ManeuverCenter- maneuver when the block is in the center position
     ManeuverDepot- drive to the depot and deposit team marker
     ManeuverCrater- drive to the crater and park
@@ -57,13 +58,13 @@ public class NateTensorAutoCrater extends LinearOpMode {
             telemetry.addData("Sorry!", "This device is not compatible with TFOD");
         }
 
-        /** Wait for the game to begin */
-        telemetry.addData(">", "Press Play to start tracking");
+        // Wait for the game to begin
+        telemetry.addData("", "Press Play to start tracking");
         telemetry.update();
         waitForStart();
 
         if (opModeIsActive()) {
-            /** Activate Tensor Flow Object Detection. */
+            // Activate Tensor Flow Object Detection.
             if (tfod != null) {
                 tfod.activate();
             }
@@ -75,6 +76,7 @@ public class NateTensorAutoCrater extends LinearOpMode {
                     // getUpdatedRecognitions() will return null if no new information is available since
                     // the last time that call was made.
                     List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+
                     if (updatedRecognitions != null) {
                         telemetry.addData("# Object Detected", updatedRecognitions.size());
                         if (updatedRecognitions.size() == 3) {
@@ -93,27 +95,20 @@ public class NateTensorAutoCrater extends LinearOpMode {
                             if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
                                 if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
                                     telemetry.addData("Gold Mineral Position", "Left");
-                                    //path goes here
                                     //task = maneuverLeft
                                 } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
                                     telemetry.addData("Gold Mineral Position", "Right");
-                                    //path goes here
                                     //task = maneuverRight
-                                } else if (goldMineralX < silverMineral2X && goldMineralX > silverMineral1X){
-                                    telemetry.addData("Gold Mineral Position", "Center");
-                                    //path goes here
-                                    //task = maneuverCenter
-                                    //after each maneuver[l,r,c] task = doTheRest
                                 } else {
-                                    telemetry.addData("Sorry!", "Mineral Position was not Detected");
+                                    telemetry.addData("Gold Mineral Position", "Center");
+                                    //task = maneuverCenter
+                                    //after Maneuver[l,r,c]: task = ManeuverDepot (robot will go to the depot and place marker)
                                 }
                             }
                         }
                         telemetry.update();
                     }
                 }
-
-
             }
         }
 
