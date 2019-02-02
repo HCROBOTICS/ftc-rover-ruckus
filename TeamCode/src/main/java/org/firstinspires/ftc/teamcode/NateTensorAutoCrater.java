@@ -37,8 +37,10 @@ public class NateTensorAutoCrater extends LinearOpMode {
     private static final double SERVO_DROP_POSITION = 0.7;
     private static final double SERVO_HOLD_POSITION = 0.0;
 
-    enum Task {Lower, Rotate, LookAtMinerals, ManeuverRight, ManeuverLeft, ManeuverCenter, ManeuverDepot, ManeuverCrater, End}
+    enum Task {Lower, Rotate, LookAtMinerals, ManeuverRight, ManeuverLeft, ManeuverCenter,
+        ManeuverDepot, ManeuverCrater, End}
     Task task;
+
     /*
     Lower- lower the robot
     Rotate- turn to face the minerals and clear hook of latch
@@ -57,7 +59,6 @@ public class NateTensorAutoCrater extends LinearOpMode {
 
         robot.init(hardwareMap);
         task = Lower;
-        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         initVuforia();
@@ -194,7 +195,10 @@ public class NateTensorAutoCrater extends LinearOpMode {
         task = Task.End;
     }
 
-
+/*
+    i'm not quite sure where the stuff below goes, or what to do with it. This issue should be
+    resolved before the code is compiled to the phones.
+ */
 
     //Initialize the Vuforia localization engine.
 
