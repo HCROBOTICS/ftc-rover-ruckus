@@ -1,5 +1,7 @@
-
-//This is a test class for programming team 11357's autonomous mode on the crater side.
+/*
+ This is a test class for programming team 11357's autonomous mode on the crater side. It may or
+ may not be used during competitions.
+ */
 
 package org.firstinspires.ftc.teamcode;
 
