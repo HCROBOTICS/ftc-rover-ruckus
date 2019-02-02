@@ -1,3 +1,6 @@
+
+//this class runs the elevator motor based on time instead of encoder ticks
+
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -7,7 +10,7 @@ import org.firstinspires.ftc.teamcode.hardware.NateHardware;
 
 import static org.firstinspires.ftc.teamcode.EmergencyAutoNateD.Task.*;
 
-@Autonomous(name="EmergencyAutoNateD", group ="Nate")
+@Autonomous(name="Nate Autonomous Time Depot", group ="Nate")
 public class EmergencyAutoNateD extends LinearOpMode {
     NateHardware robot = new NateHardware();
 
