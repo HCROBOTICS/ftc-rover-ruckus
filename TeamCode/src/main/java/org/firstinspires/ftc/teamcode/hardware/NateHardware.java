@@ -99,7 +99,7 @@ public class NateHardware {
         // Initialize the omni-wheels "driver".
         omniWheels = new OmniWheels(lf, rf, lb, rb);
         omniWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        elevator = new LinearActuator(motorElevator, -385000, 0);
+        elevator = new LinearActuator(motorElevator, -38500, 0);
         elevator.init();
     }
 
