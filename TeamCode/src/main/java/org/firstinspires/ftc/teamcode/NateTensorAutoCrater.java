@@ -28,21 +28,25 @@ public class NateTensorAutoCrater extends LinearOpMode {
     private static final double SERVO_DROP_POSITION = 0.7;
     private static final double SERVO_HOLD_POSITION = 0.0;
 
-    enum Task {Lower, Unlatch, ManeuverRight, ManeuverLeft, ManeuverCenter, ManeuverDepot, ManeuverCrater, End}
+    enum Task {Lower, Unlatch, LookAtMinerals, ManeuverRight, ManeuverLeft, ManeuverCenter, ManeuverDepot, ManeuverCrater, End}
     Task task;
 
     /*
-    lower- lower the robot
-    unlatch- turn to face the minerals and clear hook of latch
-    maneuverright- maneuver when the block is in the right position
-    maneuverleft- maneuver when the block is in the left posititon
-    maneuvercenter- maneuver when the block is in the center position
-    maneuverdepot- drive to the depot and deposit team marker
-    maneuvercrater- drive to the crater and park
+    Lower- lower the robot
+    Unlatch- turn to face the minerals and clear hook of latch
+    LookAtMinerals- use tensor to look at mineral positions
+    ManeuverRight- maneuver when the block is in the right position
+    ManeuverLeft- maneuver when the block is in the left posititon
+    ManeuverCenter- maneuver when the block is in the center position
+    ManeuverDepot- drive to the depot and deposit team marker
+    ManeuverCrater- drive to the crater and park
      */
 
     @Override
     public void runOpMode() {
+
+
+
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         initVuforia();
@@ -65,6 +69,8 @@ public class NateTensorAutoCrater extends LinearOpMode {
             }
 
             while (opModeIsActive()) {
+
+
                 if (tfod != null) {
                     // getUpdatedRecognitions() will return null if no new information is available since
                     // the last time that call was made.
@@ -93,17 +99,21 @@ public class NateTensorAutoCrater extends LinearOpMode {
                                     telemetry.addData("Gold Mineral Position", "Right");
                                     //path goes here
                                     //task = maneuverRight
-                                } else {
+                                } else if (goldMineralX < silverMineral2X && goldMineralX > silverMineral1X){
                                     telemetry.addData("Gold Mineral Position", "Center");
                                     //path goes here
                                     //task = maneuverCenter
                                     //after each maneuver[l,r,c] task = doTheRest
+                                } else {
+                                    telemetry.addData("Sorry!", "Mineral Position was not Detected");
                                 }
                             }
                         }
                         telemetry.update();
                     }
                 }
+
+
             }
         }
 
