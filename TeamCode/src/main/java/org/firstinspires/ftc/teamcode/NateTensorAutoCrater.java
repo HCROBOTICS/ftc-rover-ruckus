@@ -1,11 +1,11 @@
 /*
- This is a test class for programming team 11357's autonomous mode on the crater side. It may or
+ This is a test class for programming team 11357's autonomous mode on the depot side. It may or
  may not be used during competitions.
- */
 
-/*
  Make sure to add SLEEP_BETWEEN_MOVEMENTS, to add predictability. SLEEP_BETWEEN_MOVEMENTS should be
  as large as possible, while still allowing ample time for the robot to finish the autonomous.
+
+ Also, use 100% encoders- not time. Time is dependant on a bunch of things and not reliable
  */
 
 package org.firstinspires.ftc.teamcode;

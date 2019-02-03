@@ -22,6 +22,8 @@ public class OmniWheels {
      * The two drivemodes can be used to configure the way you control the driving of the robot. STRAFE is the default.
      * JOHN is a custom one made for John's use, because he is smart and used science to determine the optimal control
      * map for certain maneuvers.
+     *
+     * JOHN has since been removed
      */
     enum DriveMode {STRAFE, JOHN}
 

@@ -1,12 +1,13 @@
 /*
  This is a test class for programming team 11357's autonomous mode on the depot side. It may or
  may not be used during competitions.
- */
 
-/*
  Make sure to add SLEEP_BETWEEN_MOVEMENTS, to add predictability. SLEEP_BETWEEN_MOVEMENTS should be
  as large as possible, while still allowing ample time for the robot to finish the autonomous.
+
+ Also, use 100% encoders- not time. Time is dependant on a bunch of things and not reliable
  */
+
 
 package org.firstinspires.ftc.teamcode;
 
@@ -73,13 +74,14 @@ public class NateTensorAutoDepot extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
+
             // Activate Tensor Flow Object Detection.
             if (tfod != null) {
                 tfod.activate();
             }
 
+            // list tasks and names
             while (opModeIsActive()) {
-
                 switch (task) {
                     case Lower: lower(); break;
                     case Rotate: rotate(); break;
@@ -92,7 +94,6 @@ public class NateTensorAutoDepot extends LinearOpMode {
                     default: break;
                 }
                 telemetry.update();
-
             }
         }
     }
@@ -111,9 +112,12 @@ public class NateTensorAutoDepot extends LinearOpMode {
     void rotate() {
         telemetry.addData("Currently:", "Rotating");
         telemetry.update();
-        robot.omniWheels.goByDriver(0, -0.5, 0);
-        sleep(125);
-        robot.omniWheels.stop();
+
+        //is this how it's done?
+        while (robot.lf.getCurrentPosition() < 1100) {
+            robot.omniWheels.rotate(-0.5);
+        }
+
         task = Task.LookAtMinerals;
     }
 
