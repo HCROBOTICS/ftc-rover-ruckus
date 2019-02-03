@@ -11,7 +11,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -39,16 +38,15 @@ public class NateTensorAutoCrater extends LinearOpMode {
     private static final double SERVO_DROP_POSITION = 0.7;
     private static final double SERVO_HOLD_POSITION = 0.0;
 
-
     //these next values are used later to average the encoder readings
-    private final double RF_POSITION = robot.rf.getCurrentPosition();
-    private final double LF_POSITION = robot.lf.getCurrentPosition();
-    private final double RB_POSITION = robot.rb.getCurrentPosition();
-    private final double LB_POSITION = robot.lb.getCurrentPosition();
+    double getLfPosition() {return robot.lf.getCurrentPosition();}
+    double getRfPosition() {return robot.rf.getCurrentPosition();}
+    double getLbPosition() {return robot.lb.getCurrentPosition();}
+    double getRbPosition() {return robot.rb.getCurrentPosition();}
     //the averages are used to get better turns and movements
-    private final double ENCODER_AVERAGE_RIGHT = (Math.abs((RF_POSITION + RB_POSITION) / 2));
-    private final double ENCODER_AVERAGE_LEFT = (Math.abs((LF_POSITION + LB_POSITION) / 2));
-    private final double ENCODER_AVERAGE_ALL = (Math.abs((ENCODER_AVERAGE_RIGHT + ENCODER_AVERAGE_LEFT) / 2));
+    double getEncoderAverageLeft() {return Math.abs((getLfPosition() + getLfPosition()) / 2);}
+    double getEncoderAverageRight() {return Math.abs((getRfPosition() + getRbPosition()) / 2);}
+    double getEncoderAverageAll() {return Math.abs((getEncoderAverageLeft() + getEncoderAverageRight()) / 2);}
 
 
     enum Task {Lower, Rotate, LookAtMinerals, ManeuverRight, ManeuverLeft, ManeuverCenter,
@@ -131,7 +129,7 @@ public class NateTensorAutoCrater extends LinearOpMode {
         telemetry.addData("Currently:", "Rotating");
         telemetry.update();
 
-        while (ENCODER_AVERAGE_ALL < 1000) {
+        while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           task = LookAtMinerals;
@@ -187,22 +185,22 @@ public class NateTensorAutoCrater extends LinearOpMode {
         telemetry.addData("Currently:", "Moving Left Mineral");
         telemetry.update();
 
-        while (ENCODER_AVERAGE_ALL < 1000) {
+        while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
         sleep (SLEEP_BETWEEN_MOVEMENTS);
 
-        while (ENCODER_AVERAGE_ALL < 1000) {
+        while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (ENCODER_AVERAGE_ALL < 1000) {
+        while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (ENCODER_AVERAGE_ALL < 1000) {
+        while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.rotate(ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
 
@@ -213,22 +211,22 @@ public class NateTensorAutoCrater extends LinearOpMode {
         robot.omniWheels.stop_and_reset();
         telemetry.addData("Currently:", "Moving Right Mineral");
         telemetry.update();
-        while (ENCODER_AVERAGE_ALL < 1000) {
+        while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.rotate(ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
         sleep (SLEEP_BETWEEN_MOVEMENTS);
 
-        while (ENCODER_AVERAGE_ALL < 1000) {
+        while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (ENCODER_AVERAGE_ALL < 1000) {
+        while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (ENCODER_AVERAGE_ALL < 1000) {
+        while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
 
@@ -240,12 +238,12 @@ public class NateTensorAutoCrater extends LinearOpMode {
         telemetry.addData("Currently:", "Moving Center Mineral");
         telemetry.update();
 
-        while (ENCODER_AVERAGE_ALL < 1000) {
+        while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (ENCODER_AVERAGE_ALL < 1000) {
+        while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED,-ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
