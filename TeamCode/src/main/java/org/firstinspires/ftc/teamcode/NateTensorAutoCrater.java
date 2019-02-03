@@ -31,9 +31,25 @@ public class NateTensorAutoCrater extends LinearOpMode {
     private static final String VUFORIA_KEY = "AfypGhD/////AAABmfthsllptEbKpJLWTp1613szVUTl5xQJQBKWoaUbDyLjOgOEF38/3fUHjGFD6pAlPmSTrW/ipYTOHpA48kfCl8o6PTWjR8X3220E5rDaANVOtluML1xOfvSl5fwbXrAtj4kv8fpf2oFyu/ZYNOE5UCFaNzldW4BkJJ9w9YG5kNz4K0So/SrzZhqxPW+XbT0eTTjyx3Uox7VqRwM/DFFAbh5kGzx8gGE+jQOAh9fVzy3rDLgQ/HQNszX7Iqwnnh/w836FuXrBbajfDun3qUQkCQKEJuaFyUEwEyZPZ+cRDym2WJigiXsw724H0pv050q0N67W+No/keaLi2mZVMuySZijkNjnsnhKrBCerryW9MJQ";
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
+    //ROBOT_SPEED changes the speed at which the robot moves (rotations and forward/back movement)
+    private static final double ROBOT_SPEED = 0.5;
+    //SLEEP_BETWEEN_MOVEMENTS is how long the robot waits between maneuvers
     private static final int SLEEP_BETWEEN_MOVEMENTS = 500;
+    //the next two are the teamPiece servo's potitions
     private static final double SERVO_DROP_POSITION = 0.7;
     private static final double SERVO_HOLD_POSITION = 0.0;
+
+
+    //these next values are used later to average the encoder readings
+    private final double RF_POSITION = robot.rf.getCurrentPosition();
+    private final double LF_POSITION = robot.lf.getCurrentPosition();
+    private final double RB_POSITION = robot.rb.getCurrentPosition();
+    private final double LB_POSITION = robot.lb.getCurrentPosition();
+    //the averages are used to get better turns and movements
+    private final double ENCODER_AVERAGE_RIGHT = ((RF_POSITION + RB_POSITION) / 2);
+    private final double ENCODER_AVERAGE_LEFT = ((LF_POSITION + LB_POSITION) / 2);
+    private final double ENCODER_AVERAGE_ALL = ((ENCODER_AVERAGE_RIGHT + ENCODER_AVERAGE_LEFT) / 2);
+
 
     enum Task {Lower, Rotate, LookAtMinerals, ManeuverRight, ManeuverLeft, ManeuverCenter,
         ManeuverDepot, ManeuverCrater, End}
@@ -56,7 +72,7 @@ public class NateTensorAutoCrater extends LinearOpMode {
     public void runOpMode() {
 
         robot.init(hardwareMap);
-        task = Lower;
+
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         initVuforia();
@@ -91,33 +107,38 @@ public class NateTensorAutoCrater extends LinearOpMode {
                     case ManeuverCrater: maneuverCrater(); break;
                     default: break;
                 }
-                telemetry.update();
+
 
             }
         }
+        telemetry.update();
+        task = Lower;
     }
 
     void lower() {
+        robot.omniWheels.reset();
         telemetry.addData("Currently:","Lowering");
         telemetry.addData("Distance",robot.elevator.getDistance() - 1000);
-        if (robot.elevator.getDistance() > 1000) {
+
+        while (robot.elevator.getDistance() > 1000) {
             robot.elevator.elevate(1);
-        } else {
-            robot.elevator.elevate(0);
-            task = Task.Rotate;
-        }
+        } robot.elevator.elevate(0);
+          task = Task.Rotate;
     }
 
     void rotate() {
+        robot.omniWheels.reset();
         telemetry.addData("Currently:", "Rotating");
         telemetry.update();
-        robot.omniWheels.goByDriver(0, -0.5, 0);
-        sleep(125);
-        robot.omniWheels.stop();
-        task = Task.LookAtMinerals;
+
+        while (ENCODER_AVERAGE_ALL < 1000) {
+            robot.omniWheels.rotate(-ROBOT_SPEED);
+        } robot.omniWheels.stop();
+          task = Task.LookAtMinerals;
     }
 
     void lookAtMinerals() {
+        //there is no movement in this task.
         telemetry.addData("Currently:", "Looking at Minerals");
         telemetry.update();
 
@@ -143,54 +164,66 @@ public class NateTensorAutoCrater extends LinearOpMode {
                     if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
                         if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
                             telemetry.addData("Gold Mineral Position:", "Left");
-                            task = Task.ManeuverLeft;
+                            task = ManeuverLeft;
                         } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
                             telemetry.addData("Gold Mineral Position:", "Right");
-                            task = Task.ManeuverRight;
+                            task = ManeuverRight;
                         } else {
                             telemetry.addData("Gold Mineral Position:", "Center");
-                            task = Task.ManeuverCenter;
+                            task = ManeuverCenter;
                         }
                     }
                 }
                 telemetry.update();
             }
         }
+        telemetry.update();
     }
 
     void maneuverLeft() {
+        robot.omniWheels.reset();
         telemetry.addData("Currently:", "Moving Left Mineral");
         telemetry.update();
-        // do some movements to move the object on the left
-        task = Task.ManeuverDepot;
+
+        while (robot.lf.getCurrentPosition() < 1000) {
+            robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
+        } robot.omniWheels.reset();
+
+        while (robot.lf.getCurrentPosition() < 1000) {
+            robot.omniWheels.rotate(-ROBOT_SPEED);
+        }
+
+
+        task = ManeuverDepot;
     }
 
     void maneuverRight() {
+        robot.omniWheels.reset();
         telemetry.addData("Currently:", "Moving Right Mineral");
         telemetry.update();
         // do some movements to move the object on the right
-        task = Task.ManeuverDepot;
+        task = ManeuverDepot;
     }
 
     void maneuverCenter() {
         telemetry.addData("Currently:", "Moving Center Mineral");
         telemetry.update();
         // do some movements to move the object in the center
-        task = Task.ManeuverDepot;
+        task = ManeuverDepot;
     }
 
     void maneuverDepot() {
         telemetry.addData("Currently:", "Driving to Depot");
         telemetry.update();
         // do some movements to move to the depot and drop the team marker
-        task = Task.ManeuverCrater;
+        task = ManeuverCrater;
     }
 
     void maneuverCrater() {
         telemetry.addData("Currently:", "Driving to Crater");
         telemetry.update();
         // do some movements to drive to the crater and park on the edge
-        task = Task.End;
+        task = End;
     }
 
 /*

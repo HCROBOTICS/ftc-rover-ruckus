@@ -32,6 +32,7 @@ public class NateTensorAutoDepot extends LinearOpMode {
     private static final String VUFORIA_KEY = "AfypGhD/////AAABmfthsllptEbKpJLWTp1613szVUTl5xQJQBKWoaUbDyLjOgOEF38/3fUHjGFD6pAlPmSTrW/ipYTOHpA48kfCl8o6PTWjR8X3220E5rDaANVOtluML1xOfvSl5fwbXrAtj4kv8fpf2oFyu/ZYNOE5UCFaNzldW4BkJJ9w9YG5kNz4K0So/SrzZhqxPW+XbT0eTTjyx3Uox7VqRwM/DFFAbh5kGzx8gGE+jQOAh9fVzy3rDLgQ/HQNszX7Iqwnnh/w836FuXrBbajfDun3qUQkCQKEJuaFyUEwEyZPZ+cRDym2WJigiXsw724H0pv050q0N67W+No/keaLi2mZVMuySZijkNjnsnhKrBCerryW9MJQ";
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
+    private static final double ROBOT_SPEED = 0.5;
     private static final int SLEEP_BETWEEN_MOVEMENTS = 500;
     private static final double SERVO_DROP_POSITION = 0.7;
     private static final double SERVO_HOLD_POSITION = 0.0;
@@ -101,12 +102,11 @@ public class NateTensorAutoDepot extends LinearOpMode {
     void lower() {
         telemetry.addData("Currently:","Lowering");
         telemetry.addData("Distance",robot.elevator.getDistance() - 1000);
-        if (robot.elevator.getDistance() > 1000) {
+
+        while (robot.elevator.getDistance() > 1000) {
             robot.elevator.elevate(1);
-        } else {
-            robot.elevator.elevate(0);
-            task = Task.Rotate;
-        }
+        } robot.elevator.elevate(0);
+          task = Task.Rotate;
     }
 
     void rotate() {
