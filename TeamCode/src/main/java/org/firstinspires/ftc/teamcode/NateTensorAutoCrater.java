@@ -46,9 +46,9 @@ public class NateTensorAutoCrater extends LinearOpMode {
     private final double RB_POSITION = robot.rb.getCurrentPosition();
     private final double LB_POSITION = robot.lb.getCurrentPosition();
     //the averages are used to get better turns and movements
-    private final double ENCODER_AVERAGE_RIGHT = ((RF_POSITION + RB_POSITION) / 2);
-    private final double ENCODER_AVERAGE_LEFT = ((LF_POSITION + LB_POSITION) / 2);
-    private final double ENCODER_AVERAGE_ALL = ((ENCODER_AVERAGE_RIGHT + ENCODER_AVERAGE_LEFT) / 2);
+    private final double ENCODER_AVERAGE_RIGHT = (Math.abs((RF_POSITION + RB_POSITION) / 2));
+    private final double ENCODER_AVERAGE_LEFT = (Math.abs((LF_POSITION + LB_POSITION) / 2));
+    private final double ENCODER_AVERAGE_ALL = (Math.abs((ENCODER_AVERAGE_RIGHT + ENCODER_AVERAGE_LEFT) / 2));
 
 
     enum Task {Lower, Rotate, LookAtMinerals, ManeuverRight, ManeuverLeft, ManeuverCenter,
@@ -123,18 +123,18 @@ public class NateTensorAutoCrater extends LinearOpMode {
         while (robot.elevator.getDistance() > 1000) {
             robot.elevator.elevate(1);
         } robot.elevator.elevate(0);
-          task = Task.Rotate;
+          task = Rotate;
+          robot.omniWheels.stop_and_reset();
     }
 
     void rotate() {
-        robot.omniWheels.reset();
         telemetry.addData("Currently:", "Rotating");
         telemetry.update();
 
         while (ENCODER_AVERAGE_ALL < 1000) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
-        } robot.omniWheels.stop();
-          task = Task.LookAtMinerals;
+        } robot.omniWheels.stop_and_reset();
+          task = LookAtMinerals;
     }
 
     void lookAtMinerals() {
@@ -181,34 +181,75 @@ public class NateTensorAutoCrater extends LinearOpMode {
     }
 
     void maneuverLeft() {
+        //the robot should return to the the exact same postition and orientation as when it
+        //started this task
         robot.omniWheels.reset();
         telemetry.addData("Currently:", "Moving Left Mineral");
         telemetry.update();
 
-        while (robot.lf.getCurrentPosition() < 1000) {
-            robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
-        } robot.omniWheels.reset();
-
-        while (robot.lf.getCurrentPosition() < 1000) {
+        while (ENCODER_AVERAGE_ALL < 1000) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
-        }
+        } robot.omniWheels.stop_and_reset();
+        sleep (SLEEP_BETWEEN_MOVEMENTS);
 
+        while (ENCODER_AVERAGE_ALL < 1000) {
+            robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
+        } robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
+
+        while (ENCODER_AVERAGE_ALL < 1000) {
+            robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
+        } robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
+
+        while (ENCODER_AVERAGE_ALL < 1000) {
+            robot.omniWheels.rotate(ROBOT_SPEED);
+        } robot.omniWheels.stop_and_reset();
 
         task = ManeuverDepot;
     }
 
     void maneuverRight() {
-        robot.omniWheels.reset();
+        robot.omniWheels.stop_and_reset();
         telemetry.addData("Currently:", "Moving Right Mineral");
         telemetry.update();
-        // do some movements to move the object on the right
+        while (ENCODER_AVERAGE_ALL < 1000) {
+            robot.omniWheels.rotate(ROBOT_SPEED);
+        } robot.omniWheels.stop_and_reset();
+        sleep (SLEEP_BETWEEN_MOVEMENTS);
+
+        while (ENCODER_AVERAGE_ALL < 1000) {
+            robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
+        } robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
+
+        while (ENCODER_AVERAGE_ALL < 1000) {
+            robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
+        } robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
+
+        while (ENCODER_AVERAGE_ALL < 1000) {
+            robot.omniWheels.rotate(-ROBOT_SPEED);
+        } robot.omniWheels.stop_and_reset();
+
         task = ManeuverDepot;
     }
 
     void maneuverCenter() {
+        robot.omniWheels.stop_and_reset();
         telemetry.addData("Currently:", "Moving Center Mineral");
         telemetry.update();
-        // do some movements to move the object in the center
+
+        while (ENCODER_AVERAGE_ALL < 1000) {
+            robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
+        } robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
+
+        while (ENCODER_AVERAGE_ALL < 1000) {
+            robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED,-ROBOT_SPEED);
+        } robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
+
         task = ManeuverDepot;
     }
 
