@@ -61,21 +61,28 @@ public class NateTensorAutoDepot extends LinearOpMode {
     double getEncoderAverageRight() {return Math.abs((getRfPosition() + getRbPosition()) / 2);}
     double getEncoderAverageAll() {return Math.abs((getEncoderAverageLeft() + getEncoderAverageRight()) / 2);}
 
+    /*
+    TURN_COEFFICIENT is used to change how much the robot turns without having to go through each line and
+    change numbers. It assumes that 1000 encoder ticks is a 90 degree turn. This number should be
+    changed to reflect the actual ratio: TURN_COEFFICIENT = (actual number of ticks) / (1000)
+    */
+    private static final double TURN_COEFFICIENT = 1;
+
     enum Task {Lower, Rotate, LookAtMinerals, ManeuverRight, ManeuverLeft, ManeuverCenter,
         ManeuverDepot, ManeuverCrater, End}
     Task task;
 
     /*
-    Lower- lower the robot
-    Rotate- turn to face the minerals and clear hook of latch
-    LookAtMinerals- use tensor to look at mineral positions
-    ManeuverRight- maneuver when the block is in the right position
-    ManeuverLeft- maneuver when the block is in the left position
-    ManeuverCenter- maneuver when the block is in the center position
-    //Maneuver[R,L,C] will return the robot to the same position, regardless of which spot the gold is in.
-    ManeuverDepot- drive to the depot and deposit team marker
-    ManeuverCrater- drive to the crater and park
-    End- ends the program
+    * Lower- lower the robot
+    * Rotate- turn to face the minerals and clear hook of latch
+    * LookAtMinerals- use tensor to look at mineral positions
+    * ManeuverRight- maneuver when the block is in the right position
+    * ManeuverLeft- maneuver when the block is in the left position
+    * ManeuverCenter- maneuver when the block is in the center position
+    * Maneuver[R,L,C] will return the robot to the same position, regardless of which spot the gold is in.
+    * ManeuverDepot- drive to the depot and deposit team marker
+    * ManeuverCrater- drive to the crater and park
+    * End- ends the program
      */
 
     @Override
@@ -142,7 +149,7 @@ public class NateTensorAutoDepot extends LinearOpMode {
         telemetry.addData("Currently:", "Rotating");
         telemetry.update();
 
-        while (getEncoderAverageAll() < 1000) {
+        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 1000) {
             robot.omniWheels.rotate(ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           task = LookAtMinerals;
@@ -198,7 +205,7 @@ public class NateTensorAutoDepot extends LinearOpMode {
         telemetry.addData("Currently:", "Moving Left Mineral");
         telemetry.update();
 
-        while (getEncoderAverageAll() < 1000) {
+        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           sleep (SLEEP_BETWEEN_MOVEMENTS);
@@ -208,7 +215,7 @@ public class NateTensorAutoDepot extends LinearOpMode {
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < 1000) {
+        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
@@ -223,7 +230,7 @@ public class NateTensorAutoDepot extends LinearOpMode {
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < 1000) {
+        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
@@ -233,7 +240,7 @@ public class NateTensorAutoDepot extends LinearOpMode {
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < 1000) {
+        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
@@ -245,7 +252,8 @@ public class NateTensorAutoDepot extends LinearOpMode {
         robot.omniWheels.stop_and_reset();
         telemetry.addData("Currently:", "Moving Right Mineral");
         telemetry.update();
-        while (getEncoderAverageAll() < 1000) {
+
+        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           sleep (SLEEP_BETWEEN_MOVEMENTS);
@@ -255,7 +263,7 @@ public class NateTensorAutoDepot extends LinearOpMode {
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < 1000) {
+        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
@@ -270,7 +278,7 @@ public class NateTensorAutoDepot extends LinearOpMode {
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < 1000) {
+        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
@@ -280,7 +288,7 @@ public class NateTensorAutoDepot extends LinearOpMode {
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < 1000) {
+        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
@@ -311,7 +319,7 @@ public class NateTensorAutoDepot extends LinearOpMode {
         telemetry.addData("Currently:", "Driving to Depot");
         telemetry.update();
 
-        while (getEncoderAverageAll() < 1000) {
+        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
@@ -321,7 +329,7 @@ public class NateTensorAutoDepot extends LinearOpMode {
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < 1500) {
+        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);

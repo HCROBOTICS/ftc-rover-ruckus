@@ -59,6 +59,12 @@ public class NateTensorAutoCrater extends LinearOpMode {
     double getEncoderAverageRight() {return Math.abs((getRfPosition() + getRbPosition()) / 2);}
     double getEncoderAverageAll() {return Math.abs((getEncoderAverageLeft() + getEncoderAverageRight()) / 2);}
 
+    /*
+    this is used to change how much the robot turns without having to go through each line and
+    change numbers. It assumes that 1000 encoder ticks is a 90 degree turn. This number should be
+    changed to reflect the actual ratio: (current number) * ((actual number of ticks) / (1000)).
+    */
+    private static final double TURN_COEFFICIENT = 1;
 
     enum Task {Lower, Rotate, LookAtMinerals, ManeuverRight, ManeuverLeft, ManeuverCenter,
         ManeuverDepot, ManeuverCrater, End}
@@ -142,7 +148,7 @@ public class NateTensorAutoCrater extends LinearOpMode {
         telemetry.addData("Currently:", "Rotating");
         telemetry.update();
 
-        while (getEncoderAverageAll() < 1000) {
+        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 1000) {
             robot.omniWheels.rotate(ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           task = LookAtMinerals;
@@ -198,7 +204,7 @@ public class NateTensorAutoCrater extends LinearOpMode {
         telemetry.addData("Currently:", "Moving Left Mineral");
         telemetry.update();
 
-        while (getEncoderAverageAll() < 1000) {
+        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           sleep (SLEEP_BETWEEN_MOVEMENTS);
@@ -208,7 +214,7 @@ public class NateTensorAutoCrater extends LinearOpMode {
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < 1000) {
+        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
@@ -223,7 +229,7 @@ public class NateTensorAutoCrater extends LinearOpMode {
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < 1000) {
+        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
@@ -233,7 +239,7 @@ public class NateTensorAutoCrater extends LinearOpMode {
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < 1000) {
+        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
@@ -245,7 +251,8 @@ public class NateTensorAutoCrater extends LinearOpMode {
         robot.omniWheels.stop_and_reset();
         telemetry.addData("Currently:", "Moving Right Mineral");
         telemetry.update();
-        while (getEncoderAverageAll() < 1000) {
+
+        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           sleep (SLEEP_BETWEEN_MOVEMENTS);
@@ -255,7 +262,7 @@ public class NateTensorAutoCrater extends LinearOpMode {
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < 1000) {
+        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
@@ -270,7 +277,7 @@ public class NateTensorAutoCrater extends LinearOpMode {
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < 1000) {
+        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
@@ -280,7 +287,7 @@ public class NateTensorAutoCrater extends LinearOpMode {
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < 1000) {
+        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
@@ -310,12 +317,14 @@ public class NateTensorAutoCrater extends LinearOpMode {
         telemetry.addData("Currently:", "Driving to Depot");
         telemetry.update();
 
+        /*
         while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
+        */
 
-        while (getEncoderAverageAll() < 500) {
+        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
@@ -326,7 +335,17 @@ public class NateTensorAutoCrater extends LinearOpMode {
           sleep(SLEEP_BETWEEN_MOVEMENTS);
 
 
-        while (getEncoderAverageAll() < 500) {
+        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 250) {
+            robot.omniWheels.rotate(-ROBOT_SPEED);
+        } robot.omniWheels.stop_and_reset();
+          sleep(SLEEP_BETWEEN_MOVEMENTS);
+
+        while (getEncoderAverageAll() < 1000) {
+            robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
+        } robot.omniWheels.stop_and_reset();
+          sleep(SLEEP_BETWEEN_MOVEMENTS);
+
+        while (((getEncoderAverageAll() * TURN_COEFFICIENT) < 250)) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
