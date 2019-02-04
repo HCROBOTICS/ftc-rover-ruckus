@@ -64,7 +64,7 @@ public class NateTensorAutoCrater extends LinearOpMode {
     change numbers. It assumes that 1000 encoder ticks is a 90 degree turn. This number should be
     changed to reflect the actual ratio: (current number) * ((actual number of ticks) / (1000)).
     */
-    private static final double TURN_COEFFICIENT = 1;
+    public static final double TURN_COEFFICIENT = 1;
 
     enum Task {Lower, Rotate, LookAtMinerals, ManeuverRight, ManeuverLeft, ManeuverCenter,
         ManeuverDepot, ManeuverCrater, End}
