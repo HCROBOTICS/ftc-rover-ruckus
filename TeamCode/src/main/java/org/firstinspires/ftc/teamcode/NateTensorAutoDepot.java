@@ -11,6 +11,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.ftccommon.internal.RunOnBoot;
@@ -25,6 +26,7 @@ import static org.firstinspires.ftc.teamcode.NateTensorAutoDepot.Task.*;
 
 import java.util.List;
 
+@Autonomous(name = "Nate Tensor Auto Depot", group = "Nate")
 public class NateTensorAutoDepot extends LinearOpMode {
     NateHardware robot = new NateHardware();
 

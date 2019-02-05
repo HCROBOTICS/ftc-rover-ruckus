@@ -11,6 +11,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.ftccommon.internal.RunOnBoot;
@@ -23,6 +24,7 @@ import static org.firstinspires.ftc.teamcode.NateTensorAutoCrater.Task.*;
 
 import java.util.List;
 
+@Autonomous (name = "Nate Tensor Auto Crater", group = "Nate")
 public class NateTensorAutoCrater extends LinearOpMode {
     NateHardware robot = new NateHardware();
 
