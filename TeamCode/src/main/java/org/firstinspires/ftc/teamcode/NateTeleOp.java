@@ -102,19 +102,16 @@ public class NateTeleOp extends OpMode {
     /* Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP */
     @Override
     public void loop() {
-
         robot.omniWheels.goByDriver(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
 
         telemetry.addData("Elevator Pos", robot.elevator.getElevatorPosition());
         telemetry.addData("Desired Pos", robot.elevator.getDesiredPosition());
         telemetry.addData("Distance", robot.elevator.getDistance());
+        telemetry.addData("Encoder Average", robot.omniWheels.getEncoderAverage());
         telemetry.update();
 
-        if (gamepad1.y) {
-            robot.teamPiece.setPosition(SERVO_DROP_POSITION);
-        } else {
-            robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
-        }
+        if (gamepad1.y) robot.teamPiece.setPosition(SERVO_DROP_POSITION);
+        else robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
 
         robot.elevator.elevate(gamepad1.right_trigger - gamepad1.left_trigger);
 

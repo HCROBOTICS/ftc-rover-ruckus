@@ -42,9 +42,18 @@ public class OmniWheels {
         this.rb = rb;
     }
 
-    public void setMode(DriveMode mode) {
-        this.mode = mode;
-    }
+    //these next values are used later to average the encoder readings
+    double getLfPosition() { return lf.getCurrentPosition(); }
+    double getRfPosition() { return rf.getCurrentPosition(); }
+    double getLbPosition() { return lb.getCurrentPosition(); }
+    double getRbPosition() { return rb.getCurrentPosition(); }
+    //the averages are used to get better turns and movements
+    double getEncoderAverageLeft() { return Math.abs((getLfPosition() + getLbPosition()) / 2); }
+    double getEncoderAverageRight() { return Math.abs((getRfPosition() + getRbPosition()) / 2); }
+
+    public double getEncoderAverage() { return Math.abs((getEncoderAverageLeft() + getEncoderAverageRight()) / 2); }
+
+    public void setMode(DriveMode mode) { this.mode = mode; }
 
     public void setZeroPowerBehavior(DcMotor.ZeroPowerBehavior mode) {
         lf.setZeroPowerBehavior(mode);
@@ -106,14 +115,6 @@ public class OmniWheels {
         rf.setPower(0);
         lb.setPower(0);
         rb.setPower(0);
-        lf.setMode(STOP_AND_RESET_ENCODER);
-        rf.setMode(STOP_AND_RESET_ENCODER);
-        lb.setMode(STOP_AND_RESET_ENCODER);
-        rb.setMode(STOP_AND_RESET_ENCODER);
-        lf.setMode(RUN_USING_ENCODER);
-        rf.setMode(RUN_USING_ENCODER);
-        lb.setMode(RUN_USING_ENCODER);
-        rb.setMode(RUN_USING_ENCODER);
+        reset();
     }
-
 }
