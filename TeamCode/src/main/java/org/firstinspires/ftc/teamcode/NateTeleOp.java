@@ -105,23 +105,6 @@ public class NateTeleOp extends OpMode {
 
         robot.omniWheels.goByDriver(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
 
-        //robot.elevator.elevate(gamepad1.right_stick_y);
-
-        //may switch to this for elevator
-        /*
-        if (gamepad1.right_trigger > 0) {
-               robot.elevator.elevate(gamepad1.right_trigger);
-        } else if (gamepad1.left_trigger > 0) {
-                robot.elevator.elevate(-gamepad1.left_trigger);
-        }
-        */
-
-        //or something like this that actually makes the triggers control the elevator
-
-        //like:
-
-        robot.elevator.elevate(gamepad1.right_trigger - gamepad1.left_trigger);
-
         telemetry.addData("Elevator Pos", robot.elevator.getElevatorPosition());
         telemetry.addData("Desired Pos", robot.elevator.getDesiredPosition());
         telemetry.addData("Distance", robot.elevator.getDistance());
@@ -132,6 +115,28 @@ public class NateTeleOp extends OpMode {
         } else {
             robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
         }
+
+        robot.elevator.elevate(gamepad1.right_trigger - gamepad1.left_trigger);
+
+        /*
+        When the arm gets mounted to our robot, the following code will be implemented.
+
+        robot.SlideLift.setPower(gamepad1.right_trigger - gamepad1.left_trigger);
+        robot.Slide.setPower((gamepad1.right_bumper? 1:0) - (gamepad1.left_bumper? 1:0));
+
+        elevator will be switched to
+
+        if (gamepad1.y) {
+            robot.elevator.elevate(1);
+        } else if (gamepad1.a) {
+            robot.elevator.elevate(-1);
+        } else {
+            robot.elevator.elevate(0);
+        }
+
+        */
+
+        telemetry.update();
     }
 
     /* Code to run ONCE after the driver hits STOP */

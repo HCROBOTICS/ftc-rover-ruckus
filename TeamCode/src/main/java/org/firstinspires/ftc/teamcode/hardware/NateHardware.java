@@ -48,6 +48,8 @@ public class NateHardware {
     public DcMotor rb = null; // Right Rear wheel
     public OmniWheels omniWheels = null;
     public Servo teamPiece = null;
+    public DcMotor Slide = null;
+    public DcMotor SlideLift = null;
 
     public DcMotor motorElevator = null;
     public LinearActuator elevator = null;
@@ -68,12 +70,26 @@ public class NateHardware {
         motorElevator = hwMap.dcMotor.get("elevator");
         teamPiece = hwMap.servo.get("teamPiece");
 
+        /*
+        When the arm gets mounted to our robot, the following code will be implemented.
+
+        Slide = hwMap.dcMotor.get("slide");
+        SlideLift = hwMap.dcMotor.get("slideLift");
+        */
+
         lf.setDirection(DcMotor.Direction.REVERSE);
         rf.setDirection(DcMotor.Direction.FORWARD);
         lb.setDirection(DcMotor.Direction.REVERSE);
         rb.setDirection(DcMotor.Direction.FORWARD);
         motorElevator.setDirection(DcMotor.Direction.FORWARD);
         teamPiece.setPosition(SERVO_HOLD_POSITION);
+
+        /*
+        When the arm gets mounted to our robot, the following code will be implemented.
+
+        Slide.setDirection(DcMotor.Direction.FORWARD);
+        SlideLift.setDirection(DcMotor.Direction.FORWARD);
+         */
 
         // make the motors stop abruptly when joystick is released
         //lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
