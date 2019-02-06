@@ -1,19 +1,7 @@
-/*
- This is a test class for programming team 11357's autonomous mode on the depot side. It may or
- may not be used during competitions.
-
- Make sure to add SLEEP_BETWEEN_MOVEMENTS, to add predictability. SLEEP_BETWEEN_MOVEMENTS should be
- as large as possible, while still allowing ample time for the robot to finish the autonomous.
-
-
- robot.OmniWheels.rotate (negative) = left turn
- */
-
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import org.firstinspires.ftc.ftccommon.internal.RunOnBoot;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -21,7 +9,6 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.hardware.NateHardware;
 import static org.firstinspires.ftc.teamcode.NateTensorAutoCrater.Task.*;
-
 import java.util.List;
 
 @Autonomous (name = "Nate Tensor Auto Crater", group = "Nate")
@@ -41,7 +28,7 @@ public class NateTensorAutoCrater extends LinearOpMode {
     private TFObjectDetector tfod;
 
     //ROBOT_SPEED changes the speed at which the robot moves (rotations and forward/back movement)
-    private static final double ROBOT_SPEED = 0.5;
+    private static final double ROBOT_SPEED = NateTensorAutoDepot.ROBOT_SPEED;
 
     //SLEEP_BETWEEN_MOVEMENTS is how long the robot waits between maneuvers
     private static final int SLEEP_BETWEEN_MOVEMENTS = 500;
@@ -51,47 +38,27 @@ public class NateTensorAutoCrater extends LinearOpMode {
     private static final double SERVO_HOLD_POSITION = 0.0;
 
     //these next values are used later to average the encoder readings
-    double getLfPosition() {
-        return robot.lf.getCurrentPosition();
-    }
-
-    double getRfPosition() {
-        return robot.rf.getCurrentPosition();
-    }
-
-    double getLbPosition() {
-        return robot.lb.getCurrentPosition();
-    }
-
-    double getRbPosition() {
-        return robot.rb.getCurrentPosition();
-    }
+    double getLfPosition() {return robot.lf.getCurrentPosition();}
+    double getRfPosition() {return robot.rf.getCurrentPosition();}
+    double getLbPosition() {return robot.lb.getCurrentPosition();}
+    double getRbPosition() {return robot.rb.getCurrentPosition();}
 
     //the averages are used to get better turns and movements
-    double getEncoderAverageLeft() {
-        return Math.abs((getLfPosition() + getLbPosition()) / 2);
-    }
-
-    double getEncoderAverageRight() {
-        return Math.abs((getRfPosition() + getRbPosition()) / 2);
-    }
-
-    double getEncoderAverageAll() {
-        return Math.abs((getEncoderAverageLeft() + getEncoderAverageRight()) / 2);
-    }
+    double getEncoderAverageLeft() {return Math.abs((getLfPosition() + getLbPosition()) / 2);}
+    double getEncoderAverageRight() {return Math.abs((getRfPosition() + getRbPosition()) / 2);}
+    double getEncoderAverageAll() {return Math.abs((getEncoderAverageLeft() + getEncoderAverageRight()) / 2);}
 
     /*
-    this is used to change how much the robot turns without having to go through each line and
-    change numbers. It assumes that 1000 encoder ticks is a 90 degree turn. This number should be
-    changed to reflect the actual ratio: (current number) * ((actual number of ticks) / (1000)).
-    */
-    public static final double TURN_COEFFICIENT = -1;
+    TURN_COEFFICIENT is used to change how much the robot turns without having to go through each
+    line and change numbers. It assumes that 1000 encoder ticks is a 90 degree turn. This number
+    should be changed to reflect the actual ratio:
+    TURN_COEFFICIENT = (actual number of ticks) / (1000)
+   */
+    public static final double TURN_COEFFICIENT = NateTensorAutoDepot.TURN_COEFFICIENT;
 
     enum Task {
         Lower, Rotate, LookAtMinerals, ManeuverRight, ManeuverLeft, ManeuverCenter,
-        ManeuverDepot, ManeuverCrater, End
-    }
-
+        ManeuverDepot, ManeuverCrater, End}
     Task task;
 
     /*
@@ -136,35 +103,17 @@ public class NateTensorAutoCrater extends LinearOpMode {
             while (opModeIsActive()) {
 
                 switch (task) {
-                    case Lower:
-                        lower();
-                        break;
-                    case Rotate:
-                        rotate();
-                        break;
-                    case LookAtMinerals:
-                        lookAtMinerals();
-                        break;
-                    case ManeuverRight:
-                        maneuverRight();
-                        break;
-                    case ManeuverLeft:
-                        maneuverLeft();
-                        break;
-                    case ManeuverCenter:
-                        maneuverCenter();
-                        break;
-                    case ManeuverDepot:
-                        maneuverDepot();
-                        break;
-                    case ManeuverCrater:
-                        maneuverCrater();
-                        break;
-                    default:
-                        break;
+                    case Lower: lower(); break;
+                    case Rotate: rotate(); break;
+                    case LookAtMinerals: lookAtMinerals(); break;
+                    case ManeuverRight: maneuverRight(); break;
+                    case ManeuverLeft: maneuverLeft(); break;
+                    case ManeuverCenter: maneuverCenter(); break;
+                    case ManeuverDepot: maneuverDepot(); break;
+                    case ManeuverCrater: maneuverCrater(); break;
+                    default: break;
                 }
                 telemetry.update();
-
             }
         }
         telemetry.update();
@@ -188,7 +137,6 @@ public class NateTensorAutoCrater extends LinearOpMode {
     }
 
     // Initialize the Tensor Flow Object Detection engine.
-
     private void initTfod() {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -198,33 +146,37 @@ public class NateTensorAutoCrater extends LinearOpMode {
     }
 
     void lower() {
-        robot.omniWheels.reset();
-        telemetry.addData("Currently:", "Lowering");
-        telemetry.addData("Distance", robot.elevator.getDistance() - 1000);
+        robot.omniWheels.stop_and_reset();
+        telemetry.addData("Currently:","Lowering");
+        telemetry.addData("Distance",robot.elevator.getDistance() - 1000);
 
-        //this is the only time the encoder will count down
         while (robot.elevator.getDistance() > 1000) {
             robot.elevator.elevate(1);
-        }
-        robot.elevator.elevate(0);
+        } robot.elevator.elevate(0);
+          sleep(SLEEP_BETWEEN_MOVEMENTS);
+
         task = Rotate;
-        robot.omniWheels.stop_and_reset();
-        sleep(SLEEP_BETWEEN_MOVEMENTS);
     }
 
     void rotate() {
+        robot.omniWheels.stop_and_reset();
         telemetry.addData("Currently:", "Rotating");
         telemetry.update();
 
-        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 1000) {
+        while (getEncoderAverageAll() < (1000 * TURN_COEFFICIENT)) {
             robot.omniWheels.rotate(ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
+        } robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
+
+        while (getEncoderAverageAll() < 100); {
+            robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
+        } robot.omniWheels.stop_and_reset();
+          sleep(SLEEP_BETWEEN_MOVEMENTS);
+
         task = LookAtMinerals;
     }
 
     void lookAtMinerals() {
-        //there is no movement in this task.
         telemetry.addData("Currently:", "Looking at Minerals");
         telemetry.update();
 
@@ -233,6 +185,7 @@ public class NateTensorAutoCrater extends LinearOpMode {
             // the last time that call was made.
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
             if (updatedRecognitions != null) {
+
                 telemetry.addData("# Object Detected", updatedRecognitions.size());
                 if (updatedRecognitions.size() == 3) {
                     int goldMineralX = -1;
@@ -247,15 +200,19 @@ public class NateTensorAutoCrater extends LinearOpMode {
                             silverMineral2X = (int) recognition.getLeft();
                         }
                     }
+
                     if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
                         if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
                             telemetry.addData("Gold Mineral Position:", "Left");
+                            telemetry.update();
                             task = ManeuverLeft;
                         } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
                             telemetry.addData("Gold Mineral Position:", "Right");
+                            telemetry.update();
                             task = ManeuverRight;
                         } else {
                             telemetry.addData("Gold Mineral Position:", "Center");
+                            telemetry.update();
                             task = ManeuverCenter;
                         }
                     }
@@ -263,63 +220,53 @@ public class NateTensorAutoCrater extends LinearOpMode {
                 telemetry.update();
             }
         }
-        telemetry.update();
+        sleep((SLEEP_BETWEEN_MOVEMENTS / 2));
     }
 
     void maneuverLeft() {
-        //the robot should return to the the exact same postition and orientation as when it
-        //started this task
-        robot.omniWheels.reset();
+        robot.omniWheels.stop_and_reset();
         telemetry.addData("Currently:", "Moving Left Mineral");
         telemetry.update();
 
-        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
+        while (getEncoderAverageAll() < (500 * TURN_COEFFICIENT)) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
-        sleep(SLEEP_BETWEEN_MOVEMENTS);
+        } robot.omniWheels.stop_and_reset();
+          sleep (SLEEP_BETWEEN_MOVEMENTS);
 
         while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
-        sleep(SLEEP_BETWEEN_MOVEMENTS);
+        } robot.omniWheels.stop_and_reset();
+          sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
+        while (getEncoderAverageAll() < (500 * TURN_COEFFICIENT)) {
             robot.omniWheels.rotate(ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
-        sleep(SLEEP_BETWEEN_MOVEMENTS);
+        } robot.omniWheels.stop_and_reset();
+          sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < 1000) {
+        while (getEncoderAverageAll() < 500) {
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
-        sleep(SLEEP_BETWEEN_MOVEMENTS);
+        } robot.omniWheels.stop_and_reset();
+          sleep(SLEEP_BETWEEN_MOVEMENTS);
+
+        while (getEncoderAverageAll() < 500) {
+            robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
+        } robot.omniWheels.stop_and_reset();
+          sleep(SLEEP_BETWEEN_MOVEMENTS);
+
+        while (getEncoderAverageAll() < (500 * TURN_COEFFICIENT)) {
+            robot.omniWheels.rotate(-ROBOT_SPEED);
+        } robot.omniWheels.stop_and_reset();
+          sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
-        sleep(SLEEP_BETWEEN_MOVEMENTS);
+        } robot.omniWheels.stop_and_reset();
+          sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
-            robot.omniWheels.rotate(-ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
-        sleep(SLEEP_BETWEEN_MOVEMENTS);
-
-        while (getEncoderAverageAll() < 1000) {
-            robot.omniWheels.go(-ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
-        sleep(SLEEP_BETWEEN_MOVEMENTS);
-
-        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
+        while (getEncoderAverageAll() < (500 * TURN_COEFFICIENT)) {
             robot.omniWheels.rotate(ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
-        sleep(SLEEP_BETWEEN_MOVEMENTS);
+        } robot.omniWheels.stop_and_reset();
+          sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         task = ManeuverDepot;
     }
@@ -329,52 +276,44 @@ public class NateTensorAutoCrater extends LinearOpMode {
         telemetry.addData("Currently:", "Moving Right Mineral");
         telemetry.update();
 
-        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
+        while (getEncoderAverageAll() < (500 * TURN_COEFFICIENT)) {
             robot.omniWheels.rotate(ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
-        sleep(SLEEP_BETWEEN_MOVEMENTS);
+        } robot.omniWheels.stop_and_reset();
+        sleep (SLEEP_BETWEEN_MOVEMENTS);
 
         while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
+        } robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
+        while (getEncoderAverageAll() < (500* TURN_COEFFICIENT)) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
+        } robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < 1000) {
+        while (getEncoderAverageAll() < 500) {
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
+        } robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
+        } robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
+        while (getEncoderAverageAll()< (500 * TURN_COEFFICIENT)) {
             robot.omniWheels.rotate(ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
+        } robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < 1000) {
+        while (getEncoderAverageAll() < 500) {
             robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
+        } robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
+        while (getEncoderAverageAll() < (500 * TURN_COEFFICIENT)) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
+        } robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         task = ManeuverDepot;
@@ -385,68 +324,54 @@ public class NateTensorAutoCrater extends LinearOpMode {
         telemetry.addData("Currently:", "Moving Center Mineral");
         telemetry.update();
 
-        while (getEncoderAverageAll() < 1000) {
+        while (getEncoderAverageAll() < 500) {
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
-        sleep(SLEEP_BETWEEN_MOVEMENTS);
+        } robot.omniWheels.stop_and_reset();
+          sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < 1000) {
+        while (getEncoderAverageAll() < 500) {
             robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
-        sleep(SLEEP_BETWEEN_MOVEMENTS);
+        } robot.omniWheels.stop_and_reset();
+          sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         task = ManeuverDepot;
     }
 
     void maneuverDepot() {
+        robot.omniWheels.reset();
         telemetry.addData("Currently:", "Driving to Depot");
         telemetry.update();
 
-        /*
+        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
+            robot.omniWheels.rotate(-ROBOT_SPEED);
+        } robot.omniWheels.stop_and_reset();
+          sleep(SLEEP_BETWEEN_MOVEMENTS);
+
         while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
-        */
-
-        while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
-            robot.omniWheels.rotate(-ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
-        sleep(SLEEP_BETWEEN_MOVEMENTS);
-
-        while (getEncoderAverageAll() < 1000) {
-            robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
-        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
 
         while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 250) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
-        sleep(SLEEP_BETWEEN_MOVEMENTS);
+        } robot.omniWheels.stop_and_reset();
+          sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
-        sleep(SLEEP_BETWEEN_MOVEMENTS);
+        } robot.omniWheels.stop_and_reset();
+          sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while (((getEncoderAverageAll() * TURN_COEFFICIENT) < 250)) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
-        sleep(SLEEP_BETWEEN_MOVEMENTS);
+        } robot.omniWheels.stop_and_reset();
+          sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
-        sleep(SLEEP_BETWEEN_MOVEMENTS);
+        } robot.omniWheels.stop_and_reset();
+          sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         robot.teamPiece.setPosition(SERVO_DROP_POSITION);
         sleep(SLEEP_BETWEEN_MOVEMENTS);
@@ -457,16 +382,14 @@ public class NateTensorAutoCrater extends LinearOpMode {
     }
 
     void maneuverCrater() {
+        robot.omniWheels.stop_and_reset();
         telemetry.addData("Currently:", "Driving to Crater");
         telemetry.update();
 
         while (getEncoderAverageAll() < 2000) {
             robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
-        }
-        robot.omniWheels.stop_and_reset();
-        sleep(SLEEP_BETWEEN_MOVEMENTS);
+        } robot.omniWheels.stop_and_reset();
 
         task = End;
     }
-
 }
