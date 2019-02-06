@@ -55,7 +55,7 @@ public class NateTensorAutoCrater extends LinearOpMode {
     should be changed to reflect the actual ratio:
     TURN_COEFFICIENT = (actual number of ticks) / (1000)
    */
-    public static final double TURN_COEFFICIENT = NateTensorAutoDepot.TURN_COEFFICIENT;
+    public static final double TURN_COEFFICIENT = 1.1;
 
     enum Task {Lower, Rotate, LookAtMinerals, ManeuverRight, ManeuverLeft, ManeuverCenter,
         ManeuverDepot, ManeuverCrater, End}

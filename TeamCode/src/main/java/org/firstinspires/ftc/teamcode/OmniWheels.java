@@ -115,6 +115,13 @@ public class OmniWheels {
         rf.setPower(0);
         lb.setPower(0);
         rb.setPower(0);
-        reset();
+        lf.setMode(STOP_AND_RESET_ENCODER);
+        rf.setMode(STOP_AND_RESET_ENCODER);
+        lb.setMode(STOP_AND_RESET_ENCODER);
+        rb.setMode(STOP_AND_RESET_ENCODER);
+        lf.setMode(RUN_USING_ENCODER);
+        rf.setMode(RUN_USING_ENCODER);
+        lb.setMode(RUN_USING_ENCODER);
+        rb.setMode(RUN_USING_ENCODER);
     }
 }
