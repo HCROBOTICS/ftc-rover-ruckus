@@ -62,21 +62,20 @@ public class NateTensorAutoDepot extends LinearOpMode {
     Task task;
 
     /*
-    * Lower- lower the robot
-    * Rotate- turn to face the minerals and clear hook of latch
-    * LookAtMinerals- use tensor to look at mineral positions
-    * ManeuverRight- maneuver when the block is in the right position
-    * ManeuverLeft- maneuver when the block is in the left position
-    * ManeuverCenter- maneuver when the block is in the center position
-    * Maneuver[R,L,C] will return the robot to the same position, regardless of which spot the gold is in.
-    * ManeuverDepot- drive to the depot and deposit team marker
-    * ManeuverCrater- drive to the crater and park
-    * End- ends the program
+     * Lower- lower the robot
+     * Rotate- turn to face the minerals and clear hook of latch
+     * LookAtMinerals- use tensor to look at mineral positions
+     * ManeuverRight- maneuver when the block is in the right position
+     * ManeuverLeft- maneuver when the block is in the left position
+     * ManeuverCenter- maneuver when the block is in the center position
+     * Maneuver[R,L,C] will return the robot to the same position, regardless of which spot the gold is in.
+     * ManeuverDepot- drive to the depot and deposit team marker
+     * ManeuverCrater- drive to the crater and park
+     * End- ends the program
      */
 
     @Override
     public void runOpMode() {
-
         robot.init(hardwareMap);
 
         //for some reason the below line of code was not commented out. it worked fine withour it,
@@ -99,7 +98,6 @@ public class NateTensorAutoDepot extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-
             // Activate Tensor Flow Object Detection.
             if (tfod != null) {
                 tfod.activate();

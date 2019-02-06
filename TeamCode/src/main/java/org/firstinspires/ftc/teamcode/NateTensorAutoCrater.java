@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.hardware.NateHardware;
 import static org.firstinspires.ftc.teamcode.NateTensorAutoCrater.Task.*;
 import java.util.List;
 
-@Autonomous (name = "Nate Tensor Auto Crater", group = "Nate")
+@Autonomous(name = "Nate Tensor Auto Crater", group = "Nate")
 public class NateTensorAutoCrater extends LinearOpMode {
     NateHardware robot = new NateHardware();
 
@@ -28,7 +28,8 @@ public class NateTensorAutoCrater extends LinearOpMode {
     private TFObjectDetector tfod;
 
     //ROBOT_SPEED changes the speed at which the robot moves (rotations and forward/back movement)
-    private static final double ROBOT_SPEED = NateTensorAutoDepot.ROBOT_SPEED;
+    //ROBOT_SPEED is negative to make positive ROBOT_SPEED = forwards and right turns
+    public static final double ROBOT_SPEED = NateTensorAutoDepot.ROBOT_SPEED;
 
     //SLEEP_BETWEEN_MOVEMENTS is how long the robot waits between maneuvers
     private static final int SLEEP_BETWEEN_MOVEMENTS = 500;
@@ -56,28 +57,30 @@ public class NateTensorAutoCrater extends LinearOpMode {
    */
     public static final double TURN_COEFFICIENT = NateTensorAutoDepot.TURN_COEFFICIENT;
 
-    enum Task {
-        Lower, Rotate, LookAtMinerals, ManeuverRight, ManeuverLeft, ManeuverCenter,
+    enum Task {Lower, Rotate, LookAtMinerals, ManeuverRight, ManeuverLeft, ManeuverCenter,
         ManeuverDepot, ManeuverCrater, End}
     Task task;
 
     /*
-    Lower- lower the robot
-    Rotate- turn to face the minerals and clear hook of latch
-    LookAtMinerals- use tensor to look at mineral positions
-    ManeuverRight- maneuver when the block is in the right position
-    ManeuverLeft- maneuver when the block is in the left position
-    ManeuverCenter- maneuver when the block is in the center position
-    //Maneuver[R,L,C] will return the robot to the same position, regardless of which spot the gold is in.
-    ManeuverDepot- drive to the depot and deposit team marker
-    ManeuverCrater- drive to the crater and park
-    End- ends the program
+     * Lower- lower the robot
+     * Rotate- turn to face the minerals and clear hook of latch
+     * LookAtMinerals- use tensor to look at mineral positions
+     * ManeuverRight- maneuver when the block is in the right position
+     * ManeuverLeft- maneuver when the block is in the left position
+     * ManeuverCenter- maneuver when the block is in the center position
+     * Maneuver[R,L,C] will return the robot to the same position, regardless of which spot the gold is in.
+     * ManeuverDepot- drive to the depot and deposit team marker
+     * ManeuverCrater- drive to the crater and park
+     * End- ends the program
      */
 
     @Override
     public void runOpMode() {
-
         robot.init(hardwareMap);
+
+        //for some reason the below line of code was not commented out. it worked fine withour it,
+        //but i don't want it there if we don't need it there
+        //task = Lower;
 
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
