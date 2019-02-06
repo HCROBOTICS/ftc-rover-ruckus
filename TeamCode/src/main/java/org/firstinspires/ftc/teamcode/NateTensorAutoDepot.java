@@ -68,7 +68,7 @@ public class NateTensorAutoDepot extends LinearOpMode {
     change numbers. It assumes that 1000 encoder ticks is a 90 degree turn. This number should be
     changed to reflect the actual ratio: TURN_COEFFICIENT = (actual number of ticks) / (1000)
     */
-    private static final double TURN_COEFFICIENT = 1.33;
+    private static final double TURN_COEFFICIENT = 1.15;
 
     enum Task {Lower, Rotate, LookAtMinerals, ManeuverRight, ManeuverLeft, ManeuverCenter,
         ManeuverDepot, ManeuverCrater, End}
@@ -197,6 +197,10 @@ public class NateTensorAutoDepot extends LinearOpMode {
             // the last time that call was made.
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
             if (updatedRecognitions != null) {
+
+                telemetry.addData("We Got To This Point", "Yay!");
+                telemetry.update();
+
                 telemetry.addData("# Object Detected", updatedRecognitions.size());
                 if (updatedRecognitions.size() == 3) {
                     int goldMineralX = -1;
