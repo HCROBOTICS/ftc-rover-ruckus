@@ -68,7 +68,7 @@ public class NateTensorAutoDepot extends LinearOpMode {
     change numbers. It assumes that 1000 encoder ticks is a 90 degree turn. This number should be
     changed to reflect the actual ratio: TURN_COEFFICIENT = (actual number of ticks) / (1000)
     */
-    private static final double TURN_COEFFICIENT = NateTensorAutoCrater.TURN_COEFFICIENT;
+    private static final double TURN_COEFFICIENT = -1;
 
     enum Task {Lower, Rotate, LookAtMinerals, ManeuverRight, ManeuverLeft, ManeuverCenter,
         ManeuverDepot, ManeuverCrater, End}
@@ -130,10 +130,41 @@ public class NateTensorAutoDepot extends LinearOpMode {
                 telemetry.update();
             }
         }
+
+
+
         telemetry.update();
         task = Lower;
 
     }
+
+    //Initialize the Vuforia localization engine.
+    private void initVuforia() {
+
+        //Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
+
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+
+        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+
+        //  Instantiate the Vuforia engine
+        vuforia = ClassFactory.getInstance().createVuforia(parameters);
+
+        // Loading trackables is not necessary for the Tensor Flow Object Detection engine.
+    }
+
+    // Initialize the Tensor Flow Object Detection engine.
+
+    private void initTfod() {
+        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
+    }
+
+
 
     void lower() {
         telemetry.addData("Currently:","Lowering");
@@ -356,36 +387,6 @@ public class NateTensorAutoDepot extends LinearOpMode {
         task = End;
     }
 
-/*
-    i'm not quite sure where the stuff below goes, or what to do with it. This issue should be
-    resolved before the code is compiled to the phones.
- */
-
-    //Initialize the Vuforia localization engine.
-
-    private void initVuforia() {
-
-        //Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
-
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
-
-        parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
-
-        //  Instantiate the Vuforia engine
-        vuforia = ClassFactory.getInstance().createVuforia(parameters);
-
-        // Loading trackables is not necessary for the Tensor Flow Object Detection engine.
-    }
 
 
-    // Initialize the Tensor Flow Object Detection engine.
-
-    private void initTfod() {
-        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
-    }
 }

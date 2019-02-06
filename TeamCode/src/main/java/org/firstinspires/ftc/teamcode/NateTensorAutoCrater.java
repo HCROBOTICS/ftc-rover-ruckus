@@ -51,25 +51,47 @@ public class NateTensorAutoCrater extends LinearOpMode {
     private static final double SERVO_HOLD_POSITION = 0.0;
 
     //these next values are used later to average the encoder readings
-    double getLfPosition() {return robot.lf.getCurrentPosition();}
-    double getRfPosition() {return robot.rf.getCurrentPosition();}
-    double getLbPosition() {return robot.lb.getCurrentPosition();}
-    double getRbPosition() {return robot.rb.getCurrentPosition();}
+    double getLfPosition() {
+        return robot.lf.getCurrentPosition();
+    }
+
+    double getRfPosition() {
+        return robot.rf.getCurrentPosition();
+    }
+
+    double getLbPosition() {
+        return robot.lb.getCurrentPosition();
+    }
+
+    double getRbPosition() {
+        return robot.rb.getCurrentPosition();
+    }
 
     //the averages are used to get better turns and movements
-    double getEncoderAverageLeft() {return Math.abs((getLfPosition() + getLbPosition()) / 2);}
-    double getEncoderAverageRight() {return Math.abs((getRfPosition() + getRbPosition()) / 2);}
-    double getEncoderAverageAll() {return Math.abs((getEncoderAverageLeft() + getEncoderAverageRight()) / 2);}
+    double getEncoderAverageLeft() {
+        return Math.abs((getLfPosition() + getLbPosition()) / 2);
+    }
+
+    double getEncoderAverageRight() {
+        return Math.abs((getRfPosition() + getRbPosition()) / 2);
+    }
+
+    double getEncoderAverageAll() {
+        return Math.abs((getEncoderAverageLeft() + getEncoderAverageRight()) / 2);
+    }
 
     /*
     this is used to change how much the robot turns without having to go through each line and
     change numbers. It assumes that 1000 encoder ticks is a 90 degree turn. This number should be
     changed to reflect the actual ratio: (current number) * ((actual number of ticks) / (1000)).
     */
-    public static final double TURN_COEFFICIENT = 1;
+    public static final double TURN_COEFFICIENT = -1;
 
-    enum Task {Lower, Rotate, LookAtMinerals, ManeuverRight, ManeuverLeft, ManeuverCenter,
-        ManeuverDepot, ManeuverCrater, End}
+    enum Task {
+        Lower, Rotate, LookAtMinerals, ManeuverRight, ManeuverLeft, ManeuverCenter,
+        ManeuverDepot, ManeuverCrater, End
+    }
+
     Task task;
 
     /*
@@ -114,15 +136,32 @@ public class NateTensorAutoCrater extends LinearOpMode {
             while (opModeIsActive()) {
 
                 switch (task) {
-                    case Lower: lower(); break;
-                    case Rotate: rotate(); break;
-                    case LookAtMinerals: lookAtMinerals(); break;
-                    case ManeuverRight: maneuverRight(); break;
-                    case ManeuverLeft: maneuverLeft(); break;
-                    case ManeuverCenter: maneuverCenter(); break;
-                    case ManeuverDepot: maneuverDepot(); break;
-                    case ManeuverCrater: maneuverCrater(); break;
-                    default: break;
+                    case Lower:
+                        lower();
+                        break;
+                    case Rotate:
+                        rotate();
+                        break;
+                    case LookAtMinerals:
+                        lookAtMinerals();
+                        break;
+                    case ManeuverRight:
+                        maneuverRight();
+                        break;
+                    case ManeuverLeft:
+                        maneuverLeft();
+                        break;
+                    case ManeuverCenter:
+                        maneuverCenter();
+                        break;
+                    case ManeuverDepot:
+                        maneuverDepot();
+                        break;
+                    case ManeuverCrater:
+                        maneuverCrater();
+                        break;
+                    default:
+                        break;
                 }
                 telemetry.update();
 
@@ -132,18 +171,45 @@ public class NateTensorAutoCrater extends LinearOpMode {
         task = Lower;
     }
 
+    //Initialize the Vuforia localization engine.
+    private void initVuforia() {
+
+        //Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
+
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+
+        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+
+        //  Instantiate the Vuforia engine
+        vuforia = ClassFactory.getInstance().createVuforia(parameters);
+
+        // Loading trackables is not necessary for the Tensor Flow Object Detection engine.
+    }
+
+    // Initialize the Tensor Flow Object Detection engine.
+
+    private void initTfod() {
+        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
+    }
+
     void lower() {
         robot.omniWheels.reset();
-        telemetry.addData("Currently:","Lowering");
-        telemetry.addData("Distance",robot.elevator.getDistance() - 1000);
+        telemetry.addData("Currently:", "Lowering");
+        telemetry.addData("Distance", robot.elevator.getDistance() - 1000);
 
         //this is the only time the encoder will count down
         while (robot.elevator.getDistance() > 1000) {
             robot.elevator.elevate(1);
-        } robot.elevator.elevate(0);
-          task = Rotate;
-          robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.elevator.elevate(0);
+        task = Rotate;
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
     }
 
     void rotate() {
@@ -152,8 +218,9 @@ public class NateTensorAutoCrater extends LinearOpMode {
 
         while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 1000) {
             robot.omniWheels.rotate(ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          task = LookAtMinerals;
+        }
+        robot.omniWheels.stop_and_reset();
+        task = LookAtMinerals;
     }
 
     void lookAtMinerals() {
@@ -208,43 +275,51 @@ public class NateTensorAutoCrater extends LinearOpMode {
 
         while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep (SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(-ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         task = ManeuverDepot;
     }
@@ -256,43 +331,51 @@ public class NateTensorAutoCrater extends LinearOpMode {
 
         while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep (SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         task = ManeuverDepot;
     }
@@ -304,13 +387,15 @@ public class NateTensorAutoCrater extends LinearOpMode {
 
         while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while (getEncoderAverageAll() < 1000) {
-            robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED,-ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+            robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         task = ManeuverDepot;
     }
@@ -328,34 +413,40 @@ public class NateTensorAutoCrater extends LinearOpMode {
 
         while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 500) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
 
         while ((getEncoderAverageAll() * TURN_COEFFICIENT) < 250) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while (((getEncoderAverageAll() * TURN_COEFFICIENT) < 250)) {
             robot.omniWheels.rotate(-ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while (getEncoderAverageAll() < 1000) {
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         robot.teamPiece.setPosition(SERVO_DROP_POSITION);
         sleep(SLEEP_BETWEEN_MOVEMENTS);
@@ -371,42 +462,11 @@ public class NateTensorAutoCrater extends LinearOpMode {
 
         while (getEncoderAverageAll() < 2000) {
             robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        }
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         task = End;
     }
 
-/*
-    i'm not quite sure where the stuff below goes, or what to do with it. This issue should be
-    resolved before the code is compiled to the phones.
- */
-
-    //Initialize the Vuforia localization engine.
-
-    private void initVuforia() {
-
-        //Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
-
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
-
-        parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
-
-        //  Instantiate the Vuforia engine
-        vuforia = ClassFactory.getInstance().createVuforia(parameters);
-
-        // Loading trackables is not necessary for the Tensor Flow Object Detection engine.
-    }
-
-
-     // Initialize the Tensor Flow Object Detection engine.
-
-    private void initTfod() {
-        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
-    }
 }
