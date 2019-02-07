@@ -77,7 +77,6 @@ public class OmniWheels {
         }
     }
 
-    // negative = rotate left
     public void rotate(double speed) {
         lf.setPower(speed);
         rf.setPower(-speed);

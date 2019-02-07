@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.hardware.NateHardware;
 import static org.firstinspires.ftc.teamcode.NateTensorAutoDepot.Task.*;
 import java.util.List;
 
-@Autonomous(name = "Nate Tensor Auto Depot", group = "Nate")
+@Autonomous(name = "Nate Tensor Depot", group = "Nate")
 public class NateTensorAutoDepot extends LinearOpMode {
     NateHardware robot = new NateHardware();
 
@@ -76,7 +76,7 @@ public class NateTensorAutoDepot extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
-        robot.teamPiece.setPosition(SERVO_DROP_POSITION);
+        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
         task = Lower;
 
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that

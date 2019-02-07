@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.hardware.NateHardware;
 
 import static org.firstinspires.ftc.teamcode.NateAutoCrater.Task.*;
 
-@Autonomous(name="Nate Autonomous Crater", group ="Nate")
+@Autonomous(name="Nate Non-Tensor Crater", group ="Nate")
 public class NateAutoCrater extends LinearOpMode {
     NateHardware robot = new NateHardware();
 

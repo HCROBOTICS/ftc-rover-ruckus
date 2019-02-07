@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.hardware.NateHardware;
 
 import static org.firstinspires.ftc.teamcode.NateAutoDepot.Task.*;
 
-@Autonomous(name="Nate Autonomous Depot", group ="Nate")
+@Autonomous(name="Nate Non-Tensor Depot", group ="Nate")
 public class NateAutoDepot extends LinearOpMode {
     NateHardware robot = new NateHardware();
 

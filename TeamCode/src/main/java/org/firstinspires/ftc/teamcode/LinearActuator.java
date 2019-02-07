@@ -5,7 +5,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class LinearActuator {
     private DcMotor motor;
     private int desiredPosition = 0;
-    private int distance = 1001; // We initialize this to 1001 so that the autonomous will not think that it's at position before it actually is.
+    private int distance = 1001; // We initialize this to 1001 so that the autonomous will not think
+    // that it's at position before it actually is.
 
     private boolean modeDebug;
 

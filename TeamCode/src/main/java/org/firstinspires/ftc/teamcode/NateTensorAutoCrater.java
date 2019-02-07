@@ -9,9 +9,10 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.hardware.NateHardware;
 import static org.firstinspires.ftc.teamcode.NateTensorAutoCrater.Task.*;
+
 import java.util.List;
 
-@Autonomous(name = "Nate Tensor Auto Crater", group = "Nate")
+@Autonomous(name = "Nate Tensor Crater", group = "Nate")
 public class NateTensorAutoCrater extends LinearOpMode {
     NateHardware robot = new NateHardware();
 
@@ -77,6 +78,8 @@ public class NateTensorAutoCrater extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
+        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
+        task = Lower;
 
         //for some reason the below line of code was not commented out. it worked fine withour it,
         //but i don't want it there if we don't need it there
