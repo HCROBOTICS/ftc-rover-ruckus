@@ -40,7 +40,7 @@ import org.firstinspires.ftc.teamcode.OmniWheels;
 
 public class NateHardware {
 
-    public static final double SERVO_HOLD_POSITION = 1;
+    public static final double SERVO_HOLD_POSITION = 0.0;
 
     public DcMotor lf = null; // Left Front wheel
     public DcMotor rf = null; // Right Front wheel
