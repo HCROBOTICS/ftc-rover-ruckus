@@ -55,7 +55,7 @@ public class NateTensorAutoCrater extends LinearOpMode {
     should be changed to reflect the actual ratio:
     TURN_COEFFICIENT = (actual number of ticks) / (1000)
    */
-    public static final double TURN_COEFFICIENT = 1.1;
+    public static final double TURN_COEFFICIENT = 1.2;
 
     enum Task {Lower, Rotate, LookAtMinerals, ManeuverRight, ManeuverLeft, ManeuverCenter,
         ManeuverDepot, ManeuverCrater, End}
@@ -166,15 +166,13 @@ public class NateTensorAutoCrater extends LinearOpMode {
         telemetry.addData("Currently:", "Rotating");
         telemetry.update();
 
-        while (getEncoderAverageAll() < (1000 * TURN_COEFFICIENT)) {
+        while (getEncoderAverageAll() < (800 * TURN_COEFFICIENT))
             robot.omniWheels.rotate(ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-        sleep(SLEEP_BETWEEN_MOVEMENTS);
+        robot.omniWheels.stop_and_reset();
 
-        while (getEncoderAverageAll() < 100); {
+        while (getEncoderAverageAll() < 75)
             robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        robot.omniWheels.stop_and_reset();
 
         task = LookAtMinerals;
     }
@@ -231,92 +229,92 @@ public class NateTensorAutoCrater extends LinearOpMode {
         telemetry.addData("Currently:", "Moving Left Mineral");
         telemetry.update();
 
-        while (getEncoderAverageAll() < (500 * TURN_COEFFICIENT)) {
+        while (getEncoderAverageAll() < (500 * TURN_COEFFICIENT))
             robot.omniWheels.rotate(-ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep (SLEEP_BETWEEN_MOVEMENTS);
+        robot.omniWheels.stop_and_reset();
+        sleep (SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < 1000) {
+        while (getEncoderAverageAll() < 1000)
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < (500 * TURN_COEFFICIENT)) {
+        while (getEncoderAverageAll() < (500 * TURN_COEFFICIENT))
             robot.omniWheels.rotate(ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < 500) {
+        while (getEncoderAverageAll() < 500)
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < 500) {
+        while (getEncoderAverageAll() < 500)
             robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < (500 * TURN_COEFFICIENT)) {
+        while (getEncoderAverageAll() < (500 * TURN_COEFFICIENT))
             robot.omniWheels.rotate(-ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < 1000) {
+        while (getEncoderAverageAll() < 1000)
             robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < (500 * TURN_COEFFICIENT)) {
+        while (getEncoderAverageAll() < (500 * TURN_COEFFICIENT))
             robot.omniWheels.rotate(ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         task = ManeuverDepot;
     }
 
     void maneuverRight() {
         robot.omniWheels.stop_and_reset();
-        telemetry.addData("Currently:", "Moving Right Mineral");
+        telemetry.addData("Currently:", "Moving Left Mineral");
         telemetry.update();
 
-        while (getEncoderAverageAll() < (500 * TURN_COEFFICIENT)) {
+        while (getEncoderAverageAll() < (500 * TURN_COEFFICIENT))
             robot.omniWheels.rotate(ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
+        robot.omniWheels.stop_and_reset();
         sleep (SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < 1000) {
-            robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-        sleep(SLEEP_BETWEEN_MOVEMENTS);
-
-        while (getEncoderAverageAll() < (500* TURN_COEFFICIENT)) {
-            robot.omniWheels.rotate(-ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-        sleep(SLEEP_BETWEEN_MOVEMENTS);
-
-        while (getEncoderAverageAll() < 500) {
-            robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-        sleep(SLEEP_BETWEEN_MOVEMENTS);
-
-        while (getEncoderAverageAll() < 1000) {
+        while (getEncoderAverageAll() < 1000)
             robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
+        robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll()< (500 * TURN_COEFFICIENT)) {
+        while (getEncoderAverageAll() < (500 * TURN_COEFFICIENT))
+            robot.omniWheels.rotate(-ROBOT_SPEED);
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
+
+        while (getEncoderAverageAll() < 500)
+            robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
+
+        while (getEncoderAverageAll() < 500)
+            robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
+
+        while (getEncoderAverageAll() < (500 * TURN_COEFFICIENT))
             robot.omniWheels.rotate(ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
+        robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < 500) {
-            robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
+        while (getEncoderAverageAll() < 1000)
+            robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
+        robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < (500 * TURN_COEFFICIENT)) {
+        while (getEncoderAverageAll() < (500 * TURN_COEFFICIENT))
             robot.omniWheels.rotate(-ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
+        robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         task = ManeuverDepot;
@@ -327,15 +325,15 @@ public class NateTensorAutoCrater extends LinearOpMode {
         telemetry.addData("Currently:", "Moving Center Mineral");
         telemetry.update();
 
-        while (getEncoderAverageAll() < 500) {
+        while (getEncoderAverageAll() < 1500)
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (getEncoderAverageAll() < 500) {
+        while (getEncoderAverageAll() < 1500)
             robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
-          sleep(SLEEP_BETWEEN_MOVEMENTS);
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         task = ManeuverDepot;
     }
