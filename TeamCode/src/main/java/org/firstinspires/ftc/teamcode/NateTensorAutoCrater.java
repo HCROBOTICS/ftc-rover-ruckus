@@ -387,9 +387,9 @@ public class NateTensorAutoCrater extends LinearOpMode {
         telemetry.addData("Currently:", "Driving to Crater");
         telemetry.update();
 
-        while (getEncoderAverageAll() < 2000) {
+        while (getEncoderAverageAll() < 5000)
             robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
-        } robot.omniWheels.stop_and_reset();
+        robot.omniWheels.stop_and_reset();
 
         task = End;
     }
