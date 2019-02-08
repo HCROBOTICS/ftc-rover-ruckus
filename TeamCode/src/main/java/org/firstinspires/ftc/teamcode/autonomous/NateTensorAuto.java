@@ -101,7 +101,10 @@ public abstract class NateTensorAuto extends NateAuto {
     }
 
     void lower() {
+        telemetry.addData("Currently:", "Lowering");
         telemetry.addData("Distance", robot.elevator.getDistance() - 1000);
+        telemetry.update();
+        robot.omniWheels.stop_and_reset();
 
         if (robot.elevator.getDistance() > 1000)
             robot.elevator.elevate(1);
@@ -117,8 +120,9 @@ public abstract class NateTensorAuto extends NateAuto {
     }
 
     void rotate() {
-        robot.omniWheels.stop_and_reset();
+        telemetry.addData("Currently:", "Rotating");
         telemetry.update();
+        robot.omniWheels.stop_and_reset();
 
         while (robot.omniWheels.getEncoderAverage() < (800 * TURN_COEFFICIENT))
             robot.omniWheels.rotate(ROBOT_SPEED);
@@ -132,12 +136,15 @@ public abstract class NateTensorAuto extends NateAuto {
     }
 
     void lookAtMinerals() {
+        telemetry.addData("Currently:", "Looking at Minerals");
+        telemetry.update();
         if (tfod != null) {
             // getUpdatedRecognitions() will return null if no new information is available since
             // the last time that call was made.
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
             if (updatedRecognitions != null) {
                 telemetry.addData("Objects Detected", updatedRecognitions.size());
+                telemetry.update();
                 if (updatedRecognitions.size() == 3) {
                     int goldMineralX = -1;
                     int silverMineral1X = -1;
@@ -221,8 +228,9 @@ public abstract class NateTensorAuto extends NateAuto {
     }
 
     void maneuverRight() {
-        robot.omniWheels.stop_and_reset();
+        telemetry.addData("Currently:", "Moving Right Mineral");
         telemetry.update();
+        robot.omniWheels.stop_and_reset();
 
         while (robot.omniWheels.getEncoderAverage() < (500 * TURN_COEFFICIENT))
             robot.omniWheels.rotate(ROBOT_SPEED);
@@ -268,8 +276,9 @@ public abstract class NateTensorAuto extends NateAuto {
     }
 
     void maneuverCenter() {
-        robot.omniWheels.stop_and_reset();
+        telemetry.addData("Currently:", "Moving Center Mineral");
         telemetry.update();
+        robot.omniWheels.stop_and_reset();
 
         while (robot.omniWheels.getEncoderAverage() < 1500)
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
