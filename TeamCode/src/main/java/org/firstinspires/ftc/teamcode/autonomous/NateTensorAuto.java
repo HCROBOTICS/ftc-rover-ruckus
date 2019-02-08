@@ -45,7 +45,7 @@ public abstract class NateTensorAuto extends NateAuto {
         else telemetry.addData("Sorry!", "This device is not compatible with TFOD");
 
         // Wait for the game to begin
-        telemetry.addData("", "Press Play to start tracking");
+        telemetry.addData("", "Ready to Run Autonomous");
         telemetry.update();
         waitForStart();
 
@@ -122,7 +122,7 @@ public abstract class NateTensorAuto extends NateAuto {
         telemetry.update();
         robot.omniWheels.stop_and_reset();
 
-        while (robot.omniWheels.getEncoderAverage() < (800 * TURN_COEFFICIENT))
+        while (robot.omniWheels.getEncoderAverage() < (805 * TURN_COEFFICIENT))
             robot.omniWheels.rotate(ROBOT_SPEED);
         robot.omniWheels.stop_and_reset();
 
@@ -271,7 +271,8 @@ public abstract class NateTensorAuto extends NateAuto {
     }
 
     void maneuverCenter() {
-        telemetry.update();
+        telemetry
+                .update();
         robot.omniWheels.stop_and_reset();
 
         while (robot.omniWheels.getEncoderAverage() < 1500)
