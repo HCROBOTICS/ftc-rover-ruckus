@@ -9,5 +9,4 @@ public abstract class Auto extends LinearOpMode {
     public Hardware robot;
 }
 
-
 //lower. rotate, look at minerals, maneuver{l,c,r}

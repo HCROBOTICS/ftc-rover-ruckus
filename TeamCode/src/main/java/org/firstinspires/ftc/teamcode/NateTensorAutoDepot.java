@@ -31,9 +31,9 @@ public class NateTensorAutoDepot extends LinearOpMode {
     public static final double ROBOT_SPEED = -1;
 
     //SLEEP_BETWEEN_MOVEMENTS is how long the robot waits between maneuvers
-    private static final int SLEEP_BETWEEN_MOVEMENTS = 500;
+    private static final int SLEEP_BETWEEN_MOVEMENTS = 300;
 
-    //teamPiece servo's potition
+    //teamPiece servo's position
     private static final double SERVO_DROP_POSITION = 0.7;
     private static final double SERVO_HOLD_POSITION = 0.0;
 
@@ -278,7 +278,7 @@ public class NateTensorAutoDepot extends LinearOpMode {
         sleep (SLEEP_BETWEEN_MOVEMENTS);
 
         while (getEncoderAverageAll() < 1000)
-            robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
+            robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
         robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
@@ -288,12 +288,12 @@ public class NateTensorAutoDepot extends LinearOpMode {
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while (getEncoderAverageAll() < 500)
-            robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
+            robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
         robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while (getEncoderAverageAll() < 500)
-            robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
+            robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
         robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
@@ -303,7 +303,7 @@ public class NateTensorAutoDepot extends LinearOpMode {
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         while (getEncoderAverageAll() < 1000)
-            robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
+            robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
         robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 

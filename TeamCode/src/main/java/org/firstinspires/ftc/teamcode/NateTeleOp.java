@@ -136,8 +136,11 @@ public class NateTeleOp extends OpMode {
         //this is supposed to make the elevator automatically lift the robot when the "a" button is pressed
         if (gamepad1.a) {
             while (robot.elevator.getDistance() > robot.elevator.getDownPosition()) {
-                robot.elevator.elevate(1);
+                robot.elevator.elevate(-1);
                 telemetry.addData("Elevator Distance", robot.elevator.getDistance());
+                telemetry.addData("Down Position", robot.elevator.getDownPosition());
+                telemetry.addData("Difference", Math.abs(robot.elevator.getDistance() -
+                        robot.elevator.getDownPosition()));
                 telemetry.update();
             } robot.elevator.elevate(0);
         }
