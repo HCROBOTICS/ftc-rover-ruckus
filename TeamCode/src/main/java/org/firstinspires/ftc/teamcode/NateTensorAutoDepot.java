@@ -57,7 +57,8 @@ public class NateTensorAutoDepot extends LinearOpMode {
     private static final double TURN_COEFFICIENT = 1.2;
 
     enum Task {Lower, Rotate, LookAtMinerals, ManeuverRight, ManeuverLeft, ManeuverCenter,
-        ManeuverDepot, ManeuverCrater, End}
+        ManeuverDepot, ManeuverCrater, ManeuverRightDirect, ManeuverLeftDirect, ManeuverCenterDirect,
+        End}
     Task task;
 
     /*
@@ -67,9 +68,10 @@ public class NateTensorAutoDepot extends LinearOpMode {
      * ManeuverRight- maneuver when the block is in the right position
      * ManeuverLeft- maneuver when the block is in the left position
      * ManeuverCenter- maneuver when the block is in the center position
-     * Maneuver[R,L,C] will return the robot to the same position, regardless of which spot the gold is in.
+     * Maneuver[R,L,C] will return the robot to the same position, regardless of which spot the gold is in
      * ManeuverDepot- drive to the depot and deposit team marker
      * ManeuverCrater- drive to the crater and park
+     * Maneuver{Right, Left, Center}Direct- goes directly to the depot rather than to the starting spot
      * End- ends the program
      */
 
@@ -111,6 +113,7 @@ public class NateTensorAutoDepot extends LinearOpMode {
                     case ManeuverCenter: maneuverCenter(); break;
                     case ManeuverDepot: maneuverDepot(); break;
                     case ManeuverCrater: maneuverCrater(); break;
+                    case ManeuverRightDirect: maneuverRightDirect(); break;
                     default: break;
                 }
                 telemetry.update();
@@ -185,6 +188,7 @@ public class NateTensorAutoDepot extends LinearOpMode {
 
                 telemetry.addData("# Object Detected", updatedRecognitions.size());
                 telemetry.update();
+
                 if (updatedRecognitions.size() == 3) {
                     int goldMineralX = -1;
                     int silverMineral1X = -1;
@@ -269,7 +273,7 @@ public class NateTensorAutoDepot extends LinearOpMode {
 
     void maneuverRight() {
         robot.omniWheels.stop_and_reset();
-        telemetry.addData("Currently:", "Moving Left Mineral");
+        telemetry.addData("Currently:", "Moving Right Mineral");
         telemetry.update();
 
         while (getEncoderAverageAll() < (500 * TURN_COEFFICIENT))
@@ -375,4 +379,68 @@ public class NateTensorAutoDepot extends LinearOpMode {
 
         task = End;
     }
+
+    //the following tasks will make the robot drive directly to the depot instead of returning to
+    //the starting position first
+    void maneuverRightDirect() {
+        robot.omniWheels.stop_and_reset();
+        telemetry.addData("Currently:", "Moving Right Mineral",
+                "Going Directly to Depot and Crater");
+        telemetry.update();
+
+        while (getEncoderAverageAll() < (500 * TURN_COEFFICIENT))
+            robot.omniWheels.rotate(ROBOT_SPEED);
+        robot.omniWheels.stop_and_reset();
+        sleep (SLEEP_BETWEEN_MOVEMENTS);
+
+        while (getEncoderAverageAll() < 1000)
+            robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
+
+        while (getEncoderAverageAll() < (500 * TURN_COEFFICIENT))
+            robot.omniWheels.rotate(-ROBOT_SPEED);
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
+
+        while (getEncoderAverageAll() < 800)
+            robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
+
+        while (getEncoderAverageAll() < 300)
+            robot.omniWheels.rotate(-ROBOT_SPEED);
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
+
+        while (getEncoderAverageAll() < 300)
+            robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
+
+        robot.teamPiece.setPosition(SERVO_DROP_POSITION);
+        sleep(500);
+        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
+
+        while (getEncoderAverageAll() < 5000)
+            robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
+        robot.omniWheels.stop_and_reset();
+    }
 }
+     /* the below code will make the robot go directly to the depot from the right side without
+        returning to its original spot. Some previous code will need to be removed, as will
+        "task = ManeuverDepot". The robot will need to drive forward,
+
+        while (getEncoderAverageAll() < 800)
+            robot.omniWheels.rotate(-ROBOT_SPEED);
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
+
+        while (getEncoderAverageAll() < 500)
+            robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
+        robot.omniWheels.stop_and_reset();
+        sleep(SLEEP_BETWEEN_MOVEMENTS);
+
+        task = ManeuverCrater;
+
+      */
