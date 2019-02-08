@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 @Autonomous(name = "Nate Tensor Crater", group = "Nate")
 public class NateTensorAutoCrater extends NateTensorAuto {
+
     void maneuverDepot() {
         robot.omniWheels.reset();
         telemetry.update();

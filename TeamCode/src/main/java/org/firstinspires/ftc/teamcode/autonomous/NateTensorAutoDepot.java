@@ -1,11 +1,10 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import org.firstinspires.ftc.teamcode.autonomous.NateTensorAuto;
-import org.firstinspires.ftc.teamcode.autonomous.Task;
 
 @Autonomous(name = "Nate Tensor Depot", group = "Nate")
 public class NateTensorAutoDepot extends NateTensorAuto {
+
     void maneuverDepot() {
         robot.omniWheels.stop_and_reset();
         telemetry.addData("Currently:", "Driving to Depot");

@@ -101,7 +101,6 @@ public abstract class NateTensorAuto extends NateAuto {
     }
 
     void lower() {
-        telemetry.addData("Currently:", "Lowering");
         telemetry.addData("Distance", robot.elevator.getDistance() - 1000);
         telemetry.update();
         robot.omniWheels.stop_and_reset();
@@ -120,7 +119,6 @@ public abstract class NateTensorAuto extends NateAuto {
     }
 
     void rotate() {
-        telemetry.addData("Currently:", "Rotating");
         telemetry.update();
         robot.omniWheels.stop_and_reset();
 
@@ -136,7 +134,6 @@ public abstract class NateTensorAuto extends NateAuto {
     }
 
     void lookAtMinerals() {
-        telemetry.addData("Currently:", "Looking at Minerals");
         telemetry.update();
         if (tfod != null) {
             // getUpdatedRecognitions() will return null if no new information is available since
@@ -181,7 +178,6 @@ public abstract class NateTensorAuto extends NateAuto {
 
     void maneuverLeft() {
         robot.omniWheels.stop_and_reset();
-        telemetry.addData("Currently:", "Moving Left Mineral");
         telemetry.update();
 
         while (robot.omniWheels.getEncoderAverage() < (500 * TURN_COEFFICIENT))
@@ -228,7 +224,6 @@ public abstract class NateTensorAuto extends NateAuto {
     }
 
     void maneuverRight() {
-        telemetry.addData("Currently:", "Moving Right Mineral");
         telemetry.update();
         robot.omniWheels.stop_and_reset();
 
@@ -276,7 +271,6 @@ public abstract class NateTensorAuto extends NateAuto {
     }
 
     void maneuverCenter() {
-        telemetry.addData("Currently:", "Moving Center Mineral");
         telemetry.update();
         robot.omniWheels.stop_and_reset();
 
