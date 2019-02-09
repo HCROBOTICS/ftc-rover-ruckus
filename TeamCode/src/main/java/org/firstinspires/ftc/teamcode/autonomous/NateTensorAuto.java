@@ -69,6 +69,7 @@ public abstract class NateTensorAuto extends NateAuto {
                     case MANEUVER_CRATER: maneuverCrater(); break;
                     default: break;
                 }
+                if (task == Task.END) break;
                 telemetry.update();
             }
             robot.stop();
@@ -122,11 +123,11 @@ public abstract class NateTensorAuto extends NateAuto {
         telemetry.update();
         robot.omniWheels.stop_and_reset();
 
-        while (robot.omniWheels.getEncoderAverage() < (805 * TURN_COEFFICIENT))
+        while (robot.omniWheels.getEncoderAverage() < (950 * TURN_COEFFICIENT))
             robot.omniWheels.rotate(ROBOT_SPEED);
         robot.omniWheels.stop_and_reset();
 
-        while (robot.omniWheels.getEncoderAverage() < 75)
+        while (robot.omniWheels.getEncoderAverage() < 100 )
             robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
         robot.omniWheels.stop_and_reset();
 
@@ -177,15 +178,15 @@ public abstract class NateTensorAuto extends NateAuto {
     }
 
     void maneuverLeft() {
-        robot.omniWheels.stop_and_reset();
         telemetry.update();
+        robot.omniWheels.stop_and_reset();
 
-        while (robot.omniWheels.getEncoderAverage() < (500 * TURN_COEFFICIENT))
+        while (robot.omniWheels.getEncoderAverage() < (400 * TURN_COEFFICIENT))
             robot.omniWheels.rotate(-ROBOT_SPEED);
         robot.omniWheels.stop_and_reset();
         sleep (SLEEP_BETWEEN_MOVEMENTS);
 
-        while (robot.omniWheels.getEncoderAverage() < 1000)
+        while (robot.omniWheels.getEncoderAverage() < 1100)
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
         robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
@@ -210,12 +211,12 @@ public abstract class NateTensorAuto extends NateAuto {
         robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (robot.omniWheels.getEncoderAverage() < 1000)
+        while (robot.omniWheels.getEncoderAverage() < 1100)
             robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
         robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (robot.omniWheels.getEncoderAverage() < (500 * TURN_COEFFICIENT))
+        while (robot.omniWheels.getEncoderAverage() < (400 * TURN_COEFFICIENT))
             robot.omniWheels.rotate(ROBOT_SPEED);
         robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
@@ -227,12 +228,12 @@ public abstract class NateTensorAuto extends NateAuto {
         telemetry.update();
         robot.omniWheels.stop_and_reset();
 
-        while (robot.omniWheels.getEncoderAverage() < (500 * TURN_COEFFICIENT))
+        while (robot.omniWheels.getEncoderAverage() < (400 * TURN_COEFFICIENT))
             robot.omniWheels.rotate(ROBOT_SPEED);
         robot.omniWheels.stop_and_reset();
         sleep (SLEEP_BETWEEN_MOVEMENTS);
 
-        while (robot.omniWheels.getEncoderAverage() < 1000)
+        while (robot.omniWheels.getEncoderAverage() < 1100)
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
         robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
@@ -257,12 +258,12 @@ public abstract class NateTensorAuto extends NateAuto {
         robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (robot.omniWheels.getEncoderAverage() < 1000)
+        while (robot.omniWheels.getEncoderAverage() < 1100)
             robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
         robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        while (robot.omniWheels.getEncoderAverage() < (500 * TURN_COEFFICIENT))
+        while (robot.omniWheels.getEncoderAverage() < (400 * TURN_COEFFICIENT))
             robot.omniWheels.rotate(-ROBOT_SPEED);
         robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
@@ -288,6 +289,17 @@ public abstract class NateTensorAuto extends NateAuto {
         task = Task.MANEUVER_DEPOT;
     }
 
+    void maneuverCrater() {
+        robot.omniWheels.stop_and_reset();
+        telemetry.addData("Currently:", "Driving to Crater");
+        telemetry.update();
+
+        while (robot.omniWheels.getEncoderAverage() < 4000)
+            robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
+        robot.omniWheels.stop_and_reset();
+
+        task = Task.END;
+    }
+
     abstract void maneuverDepot();
-    abstract void maneuverCrater();
 }

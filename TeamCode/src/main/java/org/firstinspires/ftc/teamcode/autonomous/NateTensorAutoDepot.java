@@ -10,7 +10,7 @@ public class NateTensorAutoDepot extends NateTensorAuto {
         telemetry.addData("Currently:", "Driving to Depot");
         telemetry.update();
 
-        while (robot.omniWheels.getEncoderAverage() < (350 * TURN_COEFFICIENT))
+        while (robot.omniWheels.getEncoderAverage() < (340 * TURN_COEFFICIENT))
             robot.omniWheels.rotate(ROBOT_SPEED);
         robot.omniWheels.stop_and_reset();
         sleep(SLEEP_BETWEEN_MOVEMENTS);
@@ -30,21 +30,9 @@ public class NateTensorAutoDepot extends NateTensorAuto {
         robot.omniWheels.stop_and_reset();
 
         robot.teamPiece.setPosition(SERVO_DROP_POSITION);
-        sleep(SLEEP_BETWEEN_MOVEMENTS);
+        sleep(700);
         robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
 
         task = Task.MANEUVER_CRATER;
-    }
-
-    void maneuverCrater() {
-        robot.omniWheels.stop_and_reset();
-        telemetry.addData("Currently:", "Driving to Crater");
-        telemetry.update();
-
-        while (robot.omniWheels.getEncoderAverage() < 5000)
-            robot.omniWheels.go(-ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED, -ROBOT_SPEED);
-        robot.omniWheels.stop_and_reset();
-
-        task = Task.END;
     }
 }
