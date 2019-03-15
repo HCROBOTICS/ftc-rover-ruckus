@@ -111,12 +111,19 @@ public class SkylerTeleOp extends OpMode {
     public void loop() {
         robot.omniWheels.goByDriver(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
         robot.elevator.elevate(gamepad1.right_stick_y);
-        if (gamepad1.a) {
+
+        /*
+         * This acheives our desired effect with the sweeper:
+         * Press A, and the sweeper rotates.
+         * Press B, and it rotates backwards.
+         * Press either while it's running, and it stops.
+         */
+        if (gamepad2.a) {
             if (!isAPressed) {
                 isAPressed = true;
                 toggleSweeper(0.5);
             }
-        } else if (gamepad1.b) {
+        } else if (gamepad2.b) {
             if (!isBPressed) {
                 isBPressed = true;
                 toggleSweeper(-0.5);
@@ -126,9 +133,9 @@ public class SkylerTeleOp extends OpMode {
             isBPressed = false;
         }
 
-        robot.slide.setPower((gamepad1.right_bumper? 1:0) - (gamepad1.left_bumper? 1:0));
+        robot.slide.setPower((gamepad2.right_bumper? 1:0) - (gamepad2.left_bumper? 1:0));
 
-        robot.slideLift.setPower(0.8 * (gamepad1.right_trigger - gamepad1.left_trigger));
+        robot.slideLift.setPower(0.8 * (gamepad2.right_trigger - gamepad2.left_trigger));
 
         telemetry.addData("Elevator Pos", robot.elevator.getElevatorPosition());
         telemetry.addData("Desired Pos", robot.elevator.getDesiredPosition());

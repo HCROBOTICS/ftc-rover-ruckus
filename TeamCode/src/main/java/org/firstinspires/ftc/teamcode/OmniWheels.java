@@ -23,7 +23,7 @@ public class OmniWheels {
      * JOHN is a custom one made for John's use, because he is smart and used science to determine the optimal control
      * map for certain maneuvers.
      *
-     * JOHN has since been removed
+     * JOHN has since been removed.
      */
     enum DriveMode {STRAFE, JOHN}
 
@@ -32,7 +32,7 @@ public class OmniWheels {
     private DcMotor lb = null;
     private DcMotor rb = null;
 
-    public DriveMode mode = STRAFE;
+    protected DriveMode mode = STRAFE;
 
     // Here's our constructor.
     public OmniWheels(DcMotor lf, DcMotor rf, DcMotor lb, DcMotor rb) {
@@ -62,7 +62,7 @@ public class OmniWheels {
         rb.setZeroPowerBehavior(mode);
     }
     
-    // Do some dumb maths.
+    // Here's the infamous math responsible for allowing our controls to joystick to work.
     public void goByDriver(double left_stick_x, double left_stick_y, double right_stick_x) {
         if (mode == STRAFE) {
             lf.setPower(left_stick_y - right_stick_x - left_stick_x);

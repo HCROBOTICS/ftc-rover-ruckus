@@ -1,13 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.autonomous.Auto;
-import org.firstinspires.ftc.teamcode.autonomous.Task;
 import org.firstinspires.ftc.teamcode.hardware.SkylerHardware;
 
-import static org.firstinspires.ftc.teamcode.autonomous.Task.*;
+import static org.firstinspires.ftc.teamcode.autonomous.Auto.Task.*;
 
 @Autonomous(name="Skyler Autonomous Crater", group ="Skyler")
 public class SkylerAutoCrater extends Auto {
