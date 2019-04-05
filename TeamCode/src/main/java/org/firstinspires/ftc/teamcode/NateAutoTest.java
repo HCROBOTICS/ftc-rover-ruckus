@@ -32,7 +32,7 @@ public class NateAutoTest extends OpMode {
     public void init() {
 
         robot.init(hardwareMap);
-        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
+        //robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Ready.");
 
@@ -63,8 +63,8 @@ public class NateAutoTest extends OpMode {
     public void loop() {
         robot.omniWheels.goByDriver(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x);
 
-        if (gamepad1.y) robot.teamPiece.setPosition(SERVO_DROP_POSITION);
-        else robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
+        //if (gamepad1.y) robot.teamPiece.setPosition(SERVO_DROP_POSITION);
+        //else robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
 
         robot.elevator.elevate(gamepad1.right_trigger - gamepad1.left_trigger);
 

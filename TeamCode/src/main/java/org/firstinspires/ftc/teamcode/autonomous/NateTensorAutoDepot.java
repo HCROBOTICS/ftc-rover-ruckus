@@ -29,9 +29,9 @@ public class NateTensorAutoDepot extends NateTensorAuto {
             robot.omniWheels.go(ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED, ROBOT_SPEED);
         robot.omniWheels.stop_and_reset();
 
-        robot.teamPiece.setPosition(SERVO_DROP_POSITION);
+        //robot.teamPiece.setPosition(SERVO_DROP_POSITION);
         sleep(700);
-        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
+        //robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
 
         task = Task.MANEUVER_CRATER;
     }

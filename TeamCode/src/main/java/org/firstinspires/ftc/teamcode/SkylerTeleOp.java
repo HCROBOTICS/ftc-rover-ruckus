@@ -118,23 +118,20 @@ public class SkylerTeleOp extends OpMode {
          * Press B, and it rotates backwards.
          * Press either while it's running, and it stops.
          */
+
         if (gamepad2.a) {
             if (!isAPressed) {
-                isAPressed = true;
-                toggleSweeper(0.5);
+                toggleSweeper(1);
             }
         } else if (gamepad2.b) {
             if (!isBPressed) {
-                isBPressed = true;
-                toggleSweeper(-0.5);
+                toggleSweeper(-1);
             }
-        } else {
-            isAPressed = false;
-            isBPressed = false;
         }
+        isAPressed = gamepad2.a;
+        isBPressed = gamepad2.b;
 
         robot.slide.setPower((gamepad2.right_bumper? 1:0) - (gamepad2.left_bumper? 1:0));
-
         robot.slideLift.setPower(0.8 * (gamepad2.right_trigger - gamepad2.left_trigger));
 
         telemetry.addData("Elevator Pos", robot.elevator.getElevatorPosition());

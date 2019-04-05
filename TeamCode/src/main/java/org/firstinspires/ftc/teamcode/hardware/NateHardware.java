@@ -38,7 +38,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.LinearActuator;
 import org.firstinspires.ftc.teamcode.OmniWheels;
 
-public class NateHardware {
+public class NateHardware implements Hardware {
 
     public static final double SERVO_HOLD_POSITION = 0.0;
 
@@ -47,9 +47,9 @@ public class NateHardware {
     public DcMotor lb = null; // Left Rear wheel
     public DcMotor rb = null; // Right Rear wheel
     public OmniWheels omniWheels = null;
-    public Servo teamPiece = null;
-    public DcMotor Slide = null;
-    public DcMotor SlideLift = null;
+    //public Servo teamPiece = null;
+    public DcMotor slide = null;
+    public DcMotor slideLift = null;
 
     public DcMotor motorElevator = null;
     public LinearActuator elevator = null;
@@ -68,7 +68,9 @@ public class NateHardware {
         lb = hwMap.dcMotor.get("lb");
         rb = hwMap.dcMotor.get("rb");
         motorElevator = hwMap.dcMotor.get("elevator");
-        teamPiece = hwMap.servo.get("teamPiece");
+        //teamPiece = hwMap.servo.get("teamPiece");
+        slide = hwMap.dcMotor.get("slide");
+        slideLift = hwMap.dcMotor.get("slide lift");
 
         /*
         When the arm gets mounted to our robot, the following code will be implemented.
@@ -77,12 +79,8 @@ public class NateHardware {
         SlideLift = hwMap.dcMotor.get("slideLift");
         */
 
-        lf.setDirection(DcMotor.Direction.REVERSE);
-        rf.setDirection(DcMotor.Direction.FORWARD);
-        lb.setDirection(DcMotor.Direction.REVERSE);
-        rb.setDirection(DcMotor.Direction.FORWARD);
         motorElevator.setDirection(DcMotor.Direction.FORWARD);
-        teamPiece.setPosition(SERVO_HOLD_POSITION);
+        //teamPiece.setPosition(SERVO_HOLD_POSITION);
 
         /*
         When the arm gets mounted to our robot, the following code will be implemented.
@@ -99,22 +97,18 @@ public class NateHardware {
 
 
         // Set all motors to zero power
-        lf.setPower(0);
-        rf.setPower(0);
-        lb.setPower(0);
-        rb.setPower(0);
         motorElevator.setPower(0);
+        slide.setPower(0);
+        slideLift.setPower(0);
 
         // Set all motors to run without encoders.
-        lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorElevator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        slide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Initialize the omni-wheels "driver".
         omniWheels = new OmniWheels(lf, rf, lb, rb);
         omniWheels.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        omniWheels.init();
         elevator = new LinearActuator(motorElevator, -38500, 0);
         elevator.init();
     }

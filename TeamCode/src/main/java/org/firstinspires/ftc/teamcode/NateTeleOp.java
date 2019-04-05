@@ -25,8 +25,8 @@
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
 
+ */
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -52,7 +52,7 @@ public class NateTeleOp extends OpMode {
          */
 
         robot.init(hardwareMap);
-        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
+        //robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Ready.");
         /* telemetry.addData("Driver", "Please select a drive mode. Defaulting to STRAFE.");
@@ -110,28 +110,13 @@ public class NateTeleOp extends OpMode {
         telemetry.addData("Encoder Average", robot.omniWheels.getEncoderAverage());
         telemetry.update();
 
-        if (gamepad1.y) robot.teamPiece.setPosition(SERVO_DROP_POSITION);
-        else robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
+        //if (gamepad1.y) robot.teamPiece.setPosition(SERVO_DROP_POSITION);
+        //else robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
 
-        robot.elevator.elevate(gamepad1.right_trigger - gamepad1.left_trigger);
+        robot.elevator.elevate(-gamepad1.right_stick_y);
 
-        /*
-        When the arm gets mounted to our robot, the following code will be implemented.
-
-        robot.SlideLift.setPower(gamepad1.right_trigger - gamepad1.left_trigger);
-        robot.Slide.setPower((gamepad1.right_bumper? 1:0) - (gamepad1.left_bumper? 1:0));
-
-        elevator will be switched to
-
-        if (gamepad1.y) {
-            robot.elevator.elevate(1);
-        } else if (gamepad1.a) {
-            robot.elevator.elevate(-1);
-        } else {
-            robot.elevator.elevate(0);
-        }
-
-        */
+        robot.slide.setPower(0.5* ((gamepad2.right_bumper? 1:0) - (gamepad2.left_bumper? 1:0)));
+        robot.slideLift.setPower(1 * (gamepad2.right_trigger - gamepad2.left_trigger));
 
         //this is supposed to make the elevator automatically lift the robot when the "a" button is pressed
         /*

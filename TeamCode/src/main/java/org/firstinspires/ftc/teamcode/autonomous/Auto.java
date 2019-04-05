@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 public abstract class Auto extends LinearOpMode {
+    public static boolean debug = true;
     public enum Task {
         /* Since Enums are implicitly final, I have to include every darned possible Task in here... */
         LOWER("Lowering"),
@@ -26,4 +27,9 @@ public abstract class Auto extends LinearOpMode {
     }
 
     public Task task;
+
+    public void changeTask(Task task) {
+        this.task = task;
+        if (debug) while (!gamepad1.a && opModeIsActive());
+    }
 }

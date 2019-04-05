@@ -33,6 +33,7 @@ public abstract class SkylerTensorAuto extends SkylerAuto {
 
     @Override
     public void runOpMode() {
+        debug = true;
         robot.init(hardwareMap);
         robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
         task = Task.LOWER;
@@ -56,7 +57,7 @@ public abstract class SkylerTensorAuto extends SkylerAuto {
             }
 
             // list tasks and names
-            while (opModeIsActive()) {
+            while (opModeIsActive() && !(gamepad1.right_bumper && gamepad1.left_bumper)) {
                 telemetry.addData("Robot", task.status);
                 switch (task) {
                     case LOWER: lower(); break;
@@ -115,7 +116,7 @@ public abstract class SkylerTensorAuto extends SkylerAuto {
             sleep(SLEEP_BETWEEN_MOVEMENTS);
 
             robot.omniWheels.stop_and_reset();
-            task = Task.ROTATE;
+            changeTask(Task.ROTATE);
         }
     }
 
@@ -132,6 +133,7 @@ public abstract class SkylerTensorAuto extends SkylerAuto {
         robot.omniWheels.stop_and_reset();
 
         task = Task.LOOK_AT_MINERALS;
+        while (!gamepad1.a);
     }
 
     void lookAtMinerals() {
@@ -175,6 +177,7 @@ public abstract class SkylerTensorAuto extends SkylerAuto {
                 }
             }
         }
+        while (!gamepad1.a);
     }
 
     void maneuverLeft() {

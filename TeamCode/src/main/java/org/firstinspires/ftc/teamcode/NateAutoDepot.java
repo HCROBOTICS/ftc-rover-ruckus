@@ -22,7 +22,7 @@ public class NateAutoDepot extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap);
         task = LOWER;
-        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
+        //robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
         telemetry.addData("Robot", "Ready");
         telemetry.update();
         waitForStart();
@@ -80,7 +80,7 @@ public class NateAutoDepot extends LinearOpMode {
         robot.omniWheels.stop();
 
         //drop team piece
-        robot.teamPiece.setPosition(SERVO_DROP_POSITION);
+        //robot.teamPiece.setPosition(SERVO_DROP_POSITION);
         sleep(SLEEP_BETWEEN_TASKS);
 
         //turn so back faces

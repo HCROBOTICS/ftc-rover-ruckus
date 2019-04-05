@@ -39,9 +39,9 @@ public class NateTensorAutoCrater extends NateTensorAuto {
         } robot.omniWheels.stop_and_reset();
           sleep(SLEEP_BETWEEN_MOVEMENTS);
 
-        robot.teamPiece.setPosition(SERVO_DROP_POSITION);
+        //robot.teamPiece.setPosition(SERVO_DROP_POSITION);
         sleep(SLEEP_BETWEEN_MOVEMENTS);
-        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
+        //robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
         sleep(SLEEP_BETWEEN_MOVEMENTS);
 
         task = Task.MANEUVER_CRATER;

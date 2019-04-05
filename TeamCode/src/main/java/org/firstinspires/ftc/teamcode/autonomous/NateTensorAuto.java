@@ -34,7 +34,7 @@ public abstract class NateTensorAuto extends NateAuto {
     @Override
     public void runOpMode() {
         robot.init(hardwareMap);
-        robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
+        //robot.teamPiece.setPosition(SERVO_HOLD_POSITION);
         task = Task.LOWER;
 
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that

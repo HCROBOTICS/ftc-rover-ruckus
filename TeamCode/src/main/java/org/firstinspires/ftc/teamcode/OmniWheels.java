@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.hardware.Device;
+
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.*;
 import static org.firstinspires.ftc.teamcode.OmniWheels.DriveMode.*;
 
@@ -17,7 +19,7 @@ import static org.firstinspires.ftc.teamcode.OmniWheels.DriveMode.*;
  * the first controller's joysticks.
  */
 
-public class OmniWheels {
+public class OmniWheels implements Device {
     /*
      * The two drivemodes can be used to configure the way you control the driving of the robot. STRAFE is the default.
      * JOHN is a custom one made for John's use, because he is smart and used science to determine the optimal control
@@ -40,6 +42,23 @@ public class OmniWheels {
         this.lb = lb;
         this.rf = rf;
         this.rb = rb;
+    }
+
+    public void init() {
+        lf.setDirection(DcMotor.Direction.REVERSE);
+        rf.setDirection(DcMotor.Direction.FORWARD);
+        lb.setDirection(DcMotor.Direction.REVERSE);
+        rb.setDirection(DcMotor.Direction.FORWARD);
+        // Stop all motors.
+        lf.setPower(0);
+        rf.setPower(0);
+        lb.setPower(0);
+        rb.setPower(0);
+        // Set all motors to run with/without encoders.
+        lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     //these next values are used later to average the encoder readings

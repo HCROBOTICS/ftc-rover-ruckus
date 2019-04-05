@@ -40,7 +40,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.LinearActuator;
 import org.firstinspires.ftc.teamcode.OmniWheels;
 
-public class SkylerHardware extends Hardware {
+public class SkylerHardware implements Hardware {
 
 
     public DcMotor lf = null; // Left Front wheel
@@ -50,7 +50,7 @@ public class SkylerHardware extends Hardware {
     public DcMotor motorElevator = null; // kind of implemented
     public DcMotor slide = null;
     public DcMotor slideLift = null;
-    public DcMotor sweeper = null;
+    public CRServo sweeper = null;
     public Servo teamPiece = null;
 
     public OmniWheels omniWheels;
@@ -73,14 +73,10 @@ public class SkylerHardware extends Hardware {
         motorElevator = hwMap.dcMotor.get("elevator");
         slide = hwMap.dcMotor.get("slide");
         slideLift = hwMap.dcMotor.get("slide lift");
-        sweeper = hwMap.dcMotor.get("sweeper");
+        sweeper = hwMap.crservo.get("sweeper");
         teamPiece = hwMap.servo.get("team piece");
 
-        lf.setDirection(DcMotor.Direction.REVERSE);
-        rf.setDirection(DcMotor.Direction.FORWARD);
-        lb.setDirection(DcMotor.Direction.REVERSE);
-        rb.setDirection(DcMotor.Direction.FORWARD);
-        motorElevator.setDirection(DcMotor.Direction.REVERSE);
+        motorElevator.setDirection(DcMotor.Direction.FORWARD);
 
         // Make the motors stop abruptly when joystick is released
         //lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -89,23 +85,14 @@ public class SkylerHardware extends Hardware {
         //rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Set all motors to zero power
-        lf.setPower(0);
-        rf.setPower(0);
-        lb.setPower(0);
-        rb.setPower(0);
         motorElevator.setPower(0);
         slide.setPower(0);
         slideLift.setPower(0);
         sweeper.setPower(0);
 
-        // Set all motors to run with/without encoders.
-        lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
         // This initializes the drivers for what I call the "complex devices" of our robot.
         omniWheels = new OmniWheels(lf, rf, lb, rb);
+        omniWheels.init();
         elevator = new LinearActuator(motorElevator, -34000, 0);
         elevator.init();
     }

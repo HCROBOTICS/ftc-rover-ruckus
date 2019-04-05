@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-public class NateArm extends Device {
+public class NateArm implements Device {
     private DcMotor lift, slide;
 
     public NateArm(DcMotor lift, DcMotor slide) {
@@ -10,7 +10,10 @@ public class NateArm extends Device {
         this.slide = slide;
     }
 
-    public void init() {}
+    public void init() {
+        lift.setPower(0);
+        slide.setPower(0);
+    }
 
     public void stop() {
         lift.setPower(0);
