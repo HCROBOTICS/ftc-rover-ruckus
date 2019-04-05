@@ -115,8 +115,8 @@ public class NateTeleOp extends OpMode {
 
         robot.elevator.elevate(-gamepad1.right_stick_y);
 
-        robot.slide.setPower(0.5* ((gamepad2.right_bumper? 1:0) - (gamepad2.left_bumper? 1:0)));
-        robot.slideLift.setPower(1 * (gamepad2.right_trigger - gamepad2.left_trigger));
+        //robot.slide.setPower(0.5* ((gamepad2.right_bumper? 1:0) - (gamepad2.left_bumper? 1:0)));
+        //robot.slideLift.setPower(1 * (gamepad2.right_trigger - gamepad2.left_trigger));
 
         //this is supposed to make the elevator automatically lift the robot when the "a" button is pressed
         /*

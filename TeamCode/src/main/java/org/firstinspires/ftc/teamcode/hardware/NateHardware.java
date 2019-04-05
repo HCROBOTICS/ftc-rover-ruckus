@@ -48,8 +48,8 @@ public class NateHardware implements Hardware {
     public DcMotor rb = null; // Right Rear wheel
     public OmniWheels omniWheels = null;
     //public Servo teamPiece = null;
-    public DcMotor slide = null;
-    public DcMotor slideLift = null;
+    //public DcMotor slide = null;
+    //public DcMotor slideLift = null;
 
     public DcMotor motorElevator = null;
     public LinearActuator elevator = null;
@@ -69,8 +69,8 @@ public class NateHardware implements Hardware {
         rb = hwMap.dcMotor.get("rb");
         motorElevator = hwMap.dcMotor.get("elevator");
         //teamPiece = hwMap.servo.get("teamPiece");
-        slide = hwMap.dcMotor.get("slide");
-        slideLift = hwMap.dcMotor.get("slide lift");
+        //slide = hwMap.dcMotor.get("slide");
+        //slideLift = hwMap.dcMotor.get("slide lift");
 
         /*
         When the arm gets mounted to our robot, the following code will be implemented.
@@ -98,12 +98,12 @@ public class NateHardware implements Hardware {
 
         // Set all motors to zero power
         motorElevator.setPower(0);
-        slide.setPower(0);
-        slideLift.setPower(0);
+        //slide.setPower(0);
+        //slideLift.setPower(0);
 
         // Set all motors to run without encoders.
         motorElevator.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        slide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //slide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Initialize the omni-wheels "driver".
         omniWheels = new OmniWheels(lf, rf, lb, rb);
